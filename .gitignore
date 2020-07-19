@@ -1,0 +1,14 @@
+config/
+logs/
+node_modules/
+public/email/
+public/evaluation/
+public/excel/
+public/images/
+public/kontrole/
+public/krvne_grupe/
+public/nalazi/
+public/racuni/
+public/reports/
+hummus-error.log
+.env
