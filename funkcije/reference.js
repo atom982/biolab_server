@@ -15,10 +15,14 @@ module.exports = {
       case "ogtt":        
         if(dref == "0" && gref == "0"){
           var reference = "/"
+          return [test, rezultat, interpretacija.Standard(rezultat, dref, gref)[0], jedinica, reference, interpretacija.Standard(rezultat, dref, gref)[1], extend];
+        }else if(dref == "0" && gref != "0"){
+          var reference = "< " + gref
+          return [test, rezultat, interpretacija.Less(rezultat, dref, gref)[0], jedinica, reference, interpretacija.Less(rezultat, dref, gref)[1], extend];
         }else{
           var reference = dref + " - " + gref
-        }
-        return [test, rezultat, interpretacija.Standard(rezultat, dref, gref)[0], jedinica, reference, interpretacija.Standard(rezultat, dref, gref)[1], extend];
+          return [test, rezultat, interpretacija.Standard(rezultat, dref, gref)[0], jedinica, reference, interpretacija.Standard(rezultat, dref, gref)[1], extend];
+        }        
         break;
       case "insul":
         if(dref == "0" && gref == "0"){
@@ -29,11 +33,7 @@ module.exports = {
         return [test, rezultat, interpretacija.Standard(rezultat, dref, gref)[0], jedinica, reference, interpretacija.Standard(rezultat, dref, gref)[1], extend];
         break;
       case "less":
-        if(dref === gref){
-          return [test, rezultat, interpretacija.Less(rezultat, dref, gref)[0], jedinica, " < " + gref, interpretacija.Less(rezultat, dref, gref)[1], extend];  
-        }else{
-          return [test, rezultat, interpretacija.Less(rezultat, dref, gref)[0], jedinica, dref + " - " + gref, interpretacija.Less(rezultat, dref, gref)[1], extend];
-        }                
+        return [test, rezultat, interpretacija.Less(rezultat, dref, gref)[0], jedinica, " < " + gref, interpretacija.Less(rezultat, dref, gref)[1], extend];              
         break;
       case "lesseq":
         return [test, rezultat, interpretacija.LessEqual(rezultat, dref, gref)[0], jedinica, " ≤ " + gref, interpretacija.LessEqual(rezultat, dref, gref)[1], extend];             
@@ -119,6 +119,15 @@ module.exports = {
       case "exists":
         return [test, rezultat, interpretacija.Exists(rezultat, dref, gref)[0], jedinica, " ", interpretacija.Exists(rezultat, dref, gref)[1], extend];
         break;
+      case "prisutno":
+        return [test, rezultat, interpretacija.Prisutno(rezultat, dref, gref)[0], jedinica, "0", interpretacija.Prisutno(rezultat, dref, gref)[1], extend];
+        break;
+      case "gljivice":
+        return [test, rezultat, interpretacija.Gljivice(rezultat, dref, gref)[0], jedinica, "0", interpretacija.Gljivice(rezultat, dref, gref)[1], extend];
+        break;
+      case "leuer":
+          return [test, rezultat, interpretacija.LeuEr(rezultat, dref, gref)[0], jedinica, dref + " - " + gref, interpretacija.LeuEr(rezultat, dref, gref)[1], extend];
+          break;
       case "nema":
           return [test, rezultat, interpretacija.Nema(rezultat, dref, gref)[0], jedinica, "nema", interpretacija.Nema(rezultat, dref, gref)[1], extend];
           break;

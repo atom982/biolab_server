@@ -33,46 +33,54 @@ authController.login = function (req, res) {
                 message: err,
               });
             } else {
-              user.comparePassword(req.body.password, (error, matches) => {
-                if (matches && !error) {
-                  const payload = {
-                    user: user.email,
-                  };
-                  const token = jwt.sign(payload, process.env.JWT_SECRET);
-                  const data = {
-                    sidebar: user.sidebar,
-                    localId: user.email,
-                    mikrobioloski: site.mikrobioloski,
-                    idToken: token,
-                    expiresIn: 3600,
-                    site: user.site,
-                    language: user.postavke.language,
-                    customer: user.postavke.customer,
-                    idleTime: user.postavke.idleTime,
-                    pid_bcode: user.postavke.pid_bcode,
-                    access: user.postavke.access,
-                    display: user.postavke.display,
-                    reports: user.postavke.reports,
-                    sites: user.sites,
-                  };
-                  user.token = token;
-                  user.save();
-                  var object = {};
-                  object.user = user.email;
-                  object.login_at = Date.now();
-                  object.token = token;
-                  object.site = user.site;
-                  var audit_log = new Audit(object);
-                  audit_log.save();
-                  res.json({
-                    success: true,
-                    message: "Korisnik uspješno prijavljen.",
-                    data,
-                  });
-                } else {
-                  res.send({ success: false, message: "Pogrešna šifra." });
-                }
-              });
+              if (user.active) {
+                user.comparePassword(req.body.password, (error, matches) => {
+                  if (matches && !error) {
+                    const payload = {
+                      user: user.email,
+                    };
+                    const token = jwt.sign(payload, process.env.JWT_SECRET);
+                    const data = {
+                      sidebar: user.sidebar,
+                      localId: user.email,
+                      mikrobioloski: site.mikrobioloski,
+                      idToken: token,
+                      expiresIn: 3600,
+                      site: user.site,
+                      language: user.postavke.language,
+                      customer: user.postavke.customer,
+                      idleTime: user.postavke.idleTime,
+                      pid_bcode: user.postavke.pid_bcode,
+                      access: user.postavke.access,
+                      display: user.postavke.display,
+                      reports: user.postavke.reports,
+                      sites: user.sites,
+                    };
+                    user.token = token;
+                    user.save();
+                    var object = {};
+                    object.user = user.email;
+                    object.login_at = Date.now();
+                    object.token = token;
+                    object.site = user.site;
+                    var audit_log = new Audit(object);
+                    audit_log.save();
+                    res.json({
+                      success: true,
+                      message: "Korisnik uspješno prijavljen.",
+                      data,
+                    });
+                  } else {
+                    res.send({ success: false, message: "Pogrešna šifra." });
+                  }
+                });
+              } else {
+                console.log("User Account has Expired.");
+                res.send({
+                  success: false,
+                  message: "User Account has Expired.",
+                });
+              }
             }
           }
         );

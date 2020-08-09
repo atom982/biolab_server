@@ -346,6 +346,7 @@ apiUrlController.apiUrlObradaPregled = function (req, res) {
       $lt: new Date(to.setHours(25, 59, 59)),
     },
     site: mongoose.Types.ObjectId(req.query.site),
+    migrated: false,
   };
 
   if (!req.query.filter) {
@@ -2196,17 +2197,20 @@ apiUrlController.apiUrlControlResults = function (req, res) {
               created: Time,
 
               datum:
-                JSON.stringify(
-                  JSON.stringify(Time).substring(1, 11)
-                ).slice(9, 11) +
+                JSON.stringify(JSON.stringify(Time).substring(1, 11)).slice(
+                  9,
+                  11
+                ) +
                 "." +
-                JSON.stringify(
-                  JSON.stringify(Time).substring(1, 11)
-                ).slice(6, 8) +
+                JSON.stringify(JSON.stringify(Time).substring(1, 11)).slice(
+                  6,
+                  8
+                ) +
                 "." +
-                JSON.stringify(
-                  JSON.stringify(Time).substring(1, 11)
-                ).slice(1, 5),
+                JSON.stringify(JSON.stringify(Time).substring(1, 11)).slice(
+                  1,
+                  5
+                ),
               vrijeme: JSON.stringify(Time).substring(12, 17),
             });
           });

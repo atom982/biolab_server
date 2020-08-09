@@ -176,7 +176,8 @@ module.exports = {
                                                                         novirez.status = uzorak.status
                                                                       }
                                                                       novirez.rezultati.forEach(rezu => {
-                                                                        if(rezu.labassay.equals(test.labassay._id)){
+                                                                        // if(rezu.labassay.equals(test.labassay._id)){
+                                                                        if(JSON.stringify(rezu.labassay) === JSON.stringify(test.labassay._id)){
                                                                           rezu.status = "NIJE ODOBREN"
                                                                           rezu.rezultat[0].rezultat_f = '0' // !!!
                                                                         }

@@ -5,6 +5,7 @@ const Schema = mongoose.Schema({
   ime: { type: String, default: "John" },
   prezime: { type: String, default: "Doe" },
   email: { type: String, unique: true, required: true },
+  active: { type: Boolean, default: true },
   password: { type: String, required: true },
   token: { type: String, required: true },
   role: { type: String, required: true },

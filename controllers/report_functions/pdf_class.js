@@ -246,7 +246,7 @@ class PDFDocumentWithTables extends PDFDocument {
 
             this.text(cell.extend, startX + i * columnContainerWidth, startY, {
               width: columnWidth,
-              align: "left"
+              align: "center"
             });
           } else {
             this.fontSize(10);

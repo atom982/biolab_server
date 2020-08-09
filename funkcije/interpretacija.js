@@ -26,10 +26,8 @@ module.exports = {
     // (Interpretacija: "less")
     if (isNaN(rezultat) || rezultat === "") {
       return [" ", "No Class"];
-    } else if (Number(rezultat) > Number(Math.abs(gref))) {
+    } else if (Number(rezultat) >= Number(Math.abs(gref))) {
       return ["H", "Red"];
-    } else if (Number(rezultat) <= Number(Math.abs(gref)) && Number(rezultat) >= Number(Math.abs(dref))) {
-      return [" ", "Yellow"];
     } else {
       return [" ", "Green"];
     }
@@ -112,9 +110,9 @@ module.exports = {
     // (Interpretacija: "neg")
     if (rezultat === "") {
       return [" ", "No Class"];
-    } else if (rezultat.includes("pozitivan")) {
+    } else if (rezultat.includes("pozitivan") || rezultat.includes("pos")) {
       return ["H", "Red"];
-    } else if (rezultat.includes("negativan")) {
+    } else if (rezultat.includes("negativan") || rezultat.includes("neg")) {
       return [" ", "Green"];
     } else if (rezultat.includes("graničan")) {
       return [" ", "Yellow"];
@@ -350,6 +348,48 @@ module.exports = {
       return [" ", "No Class"];
     } else {      
       return ["H", "Red"];
+    }
+  },
+
+  Prisutno: function(result, dref, gref) {
+    var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "") 
+    // (Interpretacija: "prisutno")
+    if (isNaN(rezultat) || rezultat === "") {
+      return [" ", "No Class"];
+    } else if (Number(rezultat) > Number(gref)) {
+      return ["H", "Red"];
+    } else {
+      return [" ", "Green"];
+    }
+  },
+
+  Gljivice: function(result, dref, gref) {
+    var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "") 
+    // (Interpretacija: "gljivice")
+    if (rezultat === "") {
+      return [" ", "No Class"];
+    } else if (Number(rezultat) > Number(gref)) {
+      return ["H", "Red"];
+    } else if (isNaN(rezultat)) {
+      return ["H", "Red"];
+    } else {
+      return [" ", "Green"];
+    }
+  },
+
+  LeuEr: function(result, dref, gref) {
+    var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "") 
+    // (Interpretacija: "leuer")
+    if (rezultat.toUpperCase().includes("DOSTA")) {
+      return ["H", "Red"];
+    } else if (isNaN(rezultat) || rezultat === "") {
+      return [" ", "No Class"];
+    } else if (Number(rezultat) > Number(gref)) {
+      return ["H", "Red"];
+    } else if (Number(rezultat) === Number(gref)) {
+      return [" ", "Yellow"];
+    } else {
+      return [" ", "Green"];
     }
   },
 

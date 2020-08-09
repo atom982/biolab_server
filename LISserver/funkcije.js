@@ -188,95 +188,121 @@ AnaAssays.find({
 
   
 },
-parsaj_rezultat: function(record,io){
 
-      //-------definicija protocola za aparat
-      var Dcell60 = require('./aparati/Dcell60');
-      var ilab650 = require('./aparati/ilab650');
-      var immulite1000= require('./aparati/immulite1000');
-      var urisys1100= require('./aparati/urisys1100');
-      //-------------------------------------
 
-      console.log("Parsam rezultat...");
-      //console.log(record)
-      var header= record[0].split("|");
-      var sender=header[4].split("^");
-      var sn = ""
-      if(sender[1]==="CDRuby"){
-        sn = sender[0].trim()
-      }else{
-        sn=sender[2];
-      }
-      if(record[0].includes('E 1394-97')){
-        sn='251025'
-      }
-      if(record[0].includes('URISYS1100')){
-        sn='251026'
-      }
-      switch(sn){
- 
-        case 'U10714300027':  // Extralab instrumentation laboratory ilab650 biohemija
-                            ilab650.parsaj_rezultat(record,io);
-                            break;          
-        case '27026012':  // Extralab siemens immulite 1000 imunohemija
-                            console.log('parsaj AIA-360')
-                            immulite1000.parsaj_rezultat(record,io);
-                            break; 
-        case '251026':  // D Cell 60 Diagon hematologija
-                            console.log('URISYS1100')
-                            urisys1100.parsaj_rezultat(record,io);
-                            break; 
-                            default:
-                console.log("U LIS -u nije definisan aparat, sa serijskim brojem: "+sn);
-      }
+parsaj_rezultat: function (record, io) {
+  // MedLAB: 5bc71402bf21a379083d6e07
+  // Analysers
+  // Erba ELite 3: "5bc85683048ce379ac50a0d6", Serijski broj: "960855"
+  // Erba XL 200: "5bc8592c048ce379ac50a0f0", Serijski broj: "251025"
+  // TOSOH AIA-360: "5bc859e9048ce379ac50a0f8", Serijski broj: "27026012"
+  // Urilyzer 100 Pro: "5bc85a93048ce379ac50a105", Serijski broj: "6101157"
+  // Erba ECL 105: "5bcb72b2717d866cf6c12f57", Serijski broj: "E0041-11-250716"
 
-},
-parsaj_query: function(record,callback){
-  //-------definicija protocola za aparat ARCHITECT
-  var bcoulterAcT = require('./aparati/bcoulterAcT');
-  var ilab650 = require('./aparati/ilab650');
-  var immulite1000= require('./aparati/immulite1000');
-  //-------------------------------------
-  
-  
-  var header= record[0].split("|");
-  var sender=header[4].split("^");
-  var sn = ""
-  if(sender[1]==="CDRuby"){
-    sn = sender[0].trim()
-  }else{
-    sn=sender[2];
+  var ErbaELite3 = require("./aparati/elite3");
+  var ErbaXL200 = require("./aparati/erbaxl200");
+  var TOSOHAIA360 = require("./aparati/aia360");
+  var Urilyzer100Pro = require("./aparati/urilyzer100pro");
+  var ErbaECL105 = require("./aparati/erbaxl200");
+
+  console.log("Parsanje rezultata...");
+  //console.log(record)
+  var header = record[0].split("|");
+  var sender = header[4].split("^");
+  var _id = "";
+  var sn = "";
+
+  if (sender[1] === "CDRuby") {
+    sn = sender[0].trim();
+  } else {
+    sn = sender[2]; // Erba ELite 3
   }
-  if(record[0].includes('E 1394-97')){
-    sn='251025'
+  if (record[0].includes("E 1394-97")) {
+    sn = "251025"; // Erba XL 200
   }
-  //console.log('functions query fajl')
-  //console.log(sn)
-  switch(sn){
+  if (record[0].includes("XP-300")) {
+    sn = sender[5];
+  }
+  if (record[0].includes("AIA-360")) {
+    sn = "27026012"; // TOSOH AIA-360
+  }
+  if (header[8] === "ECL 10") {
+    sn = "E0041-11-250716"; // Erba ECL 105
+  }
+  if (sender[0] === "URI2P") {
+    sn = sender[1].trim(); // Urilyzer 100 Pro
+  }
 
-    case  'U10714300027'://Extralab instrumentation laboratory ilab650 biohemija
-                        ///console.log('parsanje ILAB650 querija')
-                        var site = '5c69f68c338fe912f99f833b'
-                        ilab650.parsaj_query(record,site,function(poruka){
-                        //console.log("Kreirano: ");
-                        //console.log(poruka);
-                        callback(poruka);
-                        });
-                        break;
-   case  '251027':// Extralab siemens immulite 1000 imunohemija
-                        console.log('parsanje immulite 1000 querija')
-                        immulite1000.parsaj_query(record,function(poruka){
-                        console.log("Kreirano: ");
-                        console.log(poruka);
-                        callback(poruka);
-                        });
-                        break; 
+  switch (sn) {
+    case "251025":
+      console.log("Erba XL 200");
+      erbaxl200.parsaj_rezultat(record, io);
+      break;
+    case "27026012":
+      console.log("TOSOH AIA-360");
+      aia360.parsaj_rezultat(record, io);
+      break;
+    case "960855":
+      console.log("Erba ELite 3");
+      elite3.parsaj_rezultat(record, io);
+      break;
+    case "E0041-11-250716":
+      console.log("Erba ECL 105");
+      _id = "5bcb72b2717d866cf6c12f57";
+      ecl105.parsaj_rezultat(record, io, _id);
+      break;
+    case "6101157":
+      console.log("Urilyzer 100 Pro");
+      urilyzer100pro.parsaj_rezultat(record, io);
+      break;
+
     default:
-            console.log("Ne postoji aparat, sa serijskim brojem: "+sn);
+      console.log("Nije definisan aparat sa serijskim brojem: " + sn);
+  }
+},
+
+parsaj_query: function (record, callback) {
+  // MedLAB: 5bc71402bf21a379083d6e07
+  // Analysers
+  // Erba ELite 3: "5bc85683048ce379ac50a0d6", Serijski broj: "960855"
+  // Erba XL 200: "5bc8592c048ce379ac50a0f0", Serijski broj: "251025"
+  // TOSOH AIA-360: "5bc859e9048ce379ac50a0f8", Serijski broj: "27026012"
+  // Urilyzer 100 Pro: "5bc85a93048ce379ac50a105", Serijski broj: "6101157"
+  // Erba ECL 105: "5bcb72b2717d866cf6c12f57", Serijski broj: "E0041-11-250716"
+
+  var ErbaELite3 = require("./aparati/elite3");
+  var ErbaXL200 = require("./aparati/erbaxl200");
+  var TOSOHAIA360 = require("./aparati/aia360");
+  var Urilyzer100Pro = require("./aparati/urilyzer100pro");
+  var ErbaECL105 = require("./aparati/erbaxl200");
+
+  //console.log(record)
+
+  var header = record[0].split("|");
+  var sender = header[4].split("^");
+  var sn = "";
+
+  if (sender[1] === "CDRuby") {
+    sn = sender[0].trim();
+  } else {
+    sn = sender[2];
+  }
+  if (record[0].includes("E 1394-97")) {
+    sn = "251025"; // Erba XL 200
   }
 
-
+  switch (sn) {
+    case "251025": // Erba XL 200
+      console.log("Query Parsing: Erba XL 200");
+      erbaxl200.parsaj_query(record, function (poruka) {
+        callback(poruka);
+      });
+      break;
+    default:
+      console.log("Nije definisan aparat sa serijskim brojem: " + sn);
+  }
 },
+
 parsaj_hl7: function(record,callback){
 
   //-------definicija protocola za aparat

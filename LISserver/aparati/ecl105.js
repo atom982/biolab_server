@@ -1,6 +1,6 @@
 module.exports = {
 
-    parsaj_rezultat: function (record, io,serijski) {
+    parsaj_rezultat: function (record, io,objectId) {
   
       var mongoose = require("mongoose");
   
@@ -131,7 +131,7 @@ module.exports = {
                         console.log("Uzorak pronađen");
                         if (uzorak.status != "OBRAĐEN") {
                         rezultati.forEach(instance => {
-                          AnaAssays.findOne({ kod: instance.sifra_p,aparat:mongoose.Types.ObjectId(serijski) }).populate('test').lean().exec(function (err, test) {
+                          AnaAssays.findOne({ kod: instance.sifra_p,aparat:mongoose.Types.ObjectId(objectId) }).populate('test').lean().exec(function (err, test) {
                             if (err) {
                               console.log("Greška:", err);
                             }

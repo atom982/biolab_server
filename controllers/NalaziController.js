@@ -12,8 +12,6 @@ var report_template = require('./report_functions/report_template');
 var iskljucen = require('./iskljuci/iskljucen');
 
 var nodemailer = require('nodemailer');
-const { google } = require('googleapis');
-const OAuth2 = google.auth.OAuth2;
 const HummusRecipe = require('hummus-recipe');
 
 var nalazController = {};
@@ -131,33 +129,27 @@ nalazController.Mail = function(req, res) {
 									nalaz.site.telefon
 								);
 
-								const oauth2Client = new OAuth2(
-									process.env.clientId,
-									process.env.clientSecret,
-									process.env.redirectURL
-								);
-
-								oauth2Client.setCredentials({
-									refresh_token: process.env.refreshToken
-								});
-								const accessToken = oauth2Client.getAccessToken();
 
 								var smtpConfig = {
-									service: 'gmail',
-
+									pool: true,
+									host: process.env.MAIL_HOST,
+									port: process.env.MAIL_PORT,
+									secure: true,
 									auth: {
-										type: 'OAuth2',
-										user: process.env.MAIL_USER,
-										clientId: process.env.clientId,
-										clientSecret: process.env.clientSecret,
-										refreshToken: process.env.refreshToken,
-										accessToken: accessToken
+									  user: process.env.MAIL_USER,
+									  pass: process.env.MAIL_PASSWORD
+									},
+									tls: {
+									  rejectUnauthorized: false
 									}
-								};
+								  };
+
+								
 
 								var transporter = nodemailer.createTransport(smtpConfig);
 
-								var cc = process.env.MAIL_USER;
+								// var cc = process.env.MAIL_USER;
+								var cc = nalaz.site.email
 
 								var mailOptions = {
 									from:
@@ -626,7 +618,7 @@ nalazController.Nalaz = function(req, res) {
 
 								if (OGTT) {
 									element.rezultati = element.rezultati.filter(function(item) {
-										return item.labassay._id != '5d6291171bf1521440380704'; // Glukoza
+										return item.labassay._id != '5f180352497404151c106a73'; // Glukoza
 									});
 								}
 

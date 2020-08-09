@@ -1,5 +1,5 @@
 module.exports = {
-  create_report: function (report, config, data, legenda, sekcijeniz, napomena, 
+  create_report: function (report, config, data, legenda, sekcijeniz, napomena,
     res, specificni, type, naziv, lokacija, site, site_data) {
 
     let code = "";
@@ -8,7 +8,7 @@ module.exports = {
 
     code = site_data.sifra;
     adresa_x = 30;
-    adresa = "Nikole Šopa broj 9, 71000 Sarajevo, BiH, tel: +387 (0) 33 871 566, mail:pzusrcesarajeva@yahoo.com, web:www.poliklinikasrcesa.ba";
+    // adresa = "Nikole Šopa broj 9, 71000 Sarajevo, BiH, tel: +387 (0) 33 871 566, mail:pzusrcesarajeva@yahoo.com, web:www.poliklinikasrcesa.ba";
 
     var fs = require("fs");
     PDFDocument = require("pdfkit");
@@ -17,6 +17,8 @@ module.exports = {
 
     var rows = [];
     var temp = [];
+
+    var pid = report.pid
 
     var datRodjenja = data.jmbg.substring(0, 2) + "." + data.jmbg.substring(2, 4) + ".";
 
@@ -47,17 +49,13 @@ module.exports = {
     );
 
     var memo = 0;
-    var nvisina = 90;
+    var nvisina = 100;
     var adjust = nvisina - 70;
     var nalazMemorandum = true;
 
     if (nalazMemorandum) {
       doc.registerFont("PTSansRegular", config.nalaz_ptsansregular);
       doc.registerFont("PTSansBold", config.nalaz_ptsansbold);
-    }
-
-    if (data.telefon === "NEPOZNATO") {
-      data.telefon = "";
     }
 
     doc.registerFont("PTSansRegular", config.nalaz_ptsansregular);
@@ -78,12 +76,22 @@ module.exports = {
 
     doc.font("PTSansRegular").fontSize(12).text("Spol:", 50, nvisina + 32).text(data.spol[0].toUpperCase() + data.spol.slice(1).toLowerCase(), 96 - 17, nvisina + 32).text("Datum: ", 444 + 10, nvisina - 2).text(data.datum, 494 + 10, nvisina - 2);
 
+    if (data.telefon === "NEPOZNATO") {
+      data.telefon = "";
+    } else {
+      doc.font("PTSansRegular").fontSize(12).text("Kontakt:", 50, nvisina + 48).text(data.telefon, 150 - 54, nvisina + 48);
+    }
+
     var uzorkovan = JSON.stringify(report.uzorkovano).substring(1, 11).split("-");
 
     doc.font("PTSansRegular").text("Vrijeme:", 445 + 10, nvisina + 14).text(data.vrijeme, 506.5 + 10, nvisina + 14);
     doc.font("PTSansBold", config.nalaz_ptsansbold).fontSize(8).text("Datum i vrijeme uzorkovanja:", 444.5 + 10, nvisina + 32);
     doc.font("PTSansBold", config.nalaz_ptsansbold).fontSize(8).text(uzorkovan[2] + "." + uzorkovan[1] + "." + uzorkovan[0] + " " + data.uzorkovano_t, 444.5 + 10, nvisina + 42);
-    doc.font("PTSansBold").fontSize(12).text(rowsno, 50, nvisina + 60);
+    doc.font("PTSansRegular", config.nalaz_ptsansbold).fontSize(10).text("Redni broj pacijenta: ", 444.5 + 10, nvisina + 55);
+    doc.font("PTSansBold", config.nalaz_ptsansbold).fontSize(10).text(pid, 534 + 10, nvisina + 55);
+    doc.font("PTSansBold").fontSize(12).text(rowsno, 50, nvisina + 70);
+    doc.moveDown(1);
+
     doc.moveDown(1);
 
     var i = 0;
@@ -92,7 +100,7 @@ module.exports = {
     var reset = 0;
 
     sekcijeniz.forEach(element => {
-      if(!element[0].mikrobiologija){
+      if (!element[0].mikrobiologija) {
         i++;
         analit = true;
         rows = [];
@@ -142,11 +150,11 @@ module.exports = {
         }
       }
     });
-  
+
     // Mikrobiologija
 
     sekcijeniz.forEach(element => {
-      if(element[0].mikrobiologija){
+      if (element[0].mikrobiologija) {
         i++;
         analit = true;
         rows = [];
@@ -171,10 +179,10 @@ module.exports = {
             var ant = []
             var Bakterije = []
             const bheader = ["Antibiotik", "Rezultat", ""]
-            let bnaslov = "Antibiogram za bakteriju: "  
+            let bnaslov = "Antibiogram za bakteriju: "
 
             test.data.forEach(bactery => {
-              if(bactery.bakterija){
+              if (bactery.bakterija) {
                 obj.bakterija_naziv = bactery.naziv;
                 obj.bakterija_opis = bactery.opis;
                 obj.antibiogram_naziv = bactery.antibiogram.naziv;
@@ -182,50 +190,50 @@ module.exports = {
                 obj.antibiotici = []
 
                 bactery.antibiogram.antibiotici.forEach(antibiotik => {
-                  if(antibiotik.rezultat != ""){
+                  if (antibiotik.rezultat != "") {
 
                     ant.push(antibiotik.opis)
-                    
+
                     ant.naziv = antibiotik.naziv;
                     ant.opis = antibiotik.opis;
                     switch (antibiotik.rezultat) {
                       case "S":
                         ant.push({
-                          rezultat: 'Senzitivan', 
+                          rezultat: 'Senzitivan',
                           kontrola: 'No Class'
                         })
                         break;
 
                       case "I":
                         ant.push({
-                          rezultat: 'Intermedijaran', 
+                          rezultat: 'Intermedijaran',
                           kontrola: 'No Class'
                         })
                         break;
                       case "R":
                         ant.push({
-                          rezultat: 'Rezistentan', 
+                          rezultat: 'Rezistentan',
                           kontrola: 'No Class'
                         })
                         break;
-                    
+
                       default:
                         break;
                     }
 
                     ant.push("")
-                    ant.push({ 
-                      reference: '/', 
-                      extend: '' 
+                    ant.push({
+                      reference: '/',
+                      extend: ''
                     })
-                    
+
                     obj.antibiotici.push(ant)
                   }
                   ant = []
                 });
                 Bakterije.push(obj)
                 obj = {}
-              }  
+              }
             });
 
             Bakterije.forEach(Bakt => {
@@ -241,7 +249,7 @@ module.exports = {
                 ] */
               });
             });
-          } 
+          }
         });
 
         if (analit || rows.length) {
@@ -258,8 +266,8 @@ module.exports = {
             doc.moveDown(0.5);
           });
           multi = [];
-        } 
-        
+        }
+
         /* if (multi.length) {
           multi.forEach(mul => {
             if (doc.y > 650) {
@@ -269,7 +277,7 @@ module.exports = {
             doc.table_antibiotici({ headers: mul.headers, rows: mul.rows }, { prepareHeader: () => doc.fontSize(8), prepareRow: (row, i) => doc.fontSize(10) });
           });
         } */
-      }  
+      }
     });
 
     var leg = "";
@@ -348,7 +356,7 @@ module.exports = {
     }
     memo = doc.y;
 
-    doc.font("PTSansRegular").fontSize(10).text("_______________________________", 390).text("        Nalaz verifikovao");
+    doc.font("PTSansRegular").fontSize(10).text("_______________________________", 390).text("       Voditelj laboratorija");
 
     const range = doc.bufferedPageRange();
 

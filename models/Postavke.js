@@ -208,8 +208,8 @@ var SchemaPatients = mongoose.Schema({
   site: { type: mongoose.Schema.ObjectId, ref: "Site" },
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: null },
-  created_by: { type: String, default: "" },
-  updated_by: { type: String, default: "" }
+  created_by: { type: String, default: null },
+  updated_by: { type: String, default: null }
 });
 
 var SchemaSamples = mongoose.Schema({
