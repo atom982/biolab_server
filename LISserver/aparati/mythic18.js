@@ -117,7 +117,12 @@ module.exports = {
                                                     console.log('CHECKPOINT FIRST')
                                                     rez.rezultat[0].vrijeme_prijenosa = Date.now()
                                                     rez.rezultat[0].vrijeme_rezultata = vrijeme_rezultata
-                                                    rez.rezultat[0].rezultat_f = niz.analit_rez
+                                                    if(niz.analit === 'HGB'|| niz.analit === 'MCHC' ){
+                                                        rez.rezultat[0].rezultat_f = (parseFloat(niz.analit_rez)*10).toFixed(2).toString()
+                                                        
+                                                      } else{
+                                                        rez.rezultat[0].rezultat_f= niz.analit_rez
+                                                      }
                                                     rez.rezultat[0].rezultat_i = niz.analit_status
                                                     k++                                                   
                                                   }else{
@@ -132,6 +137,12 @@ module.exports = {
                                                         temp.module_sn = rez.rezultat[0].module_sn
                                                         temp.reagens_lot=rez.rezultat[0].reagens_lot
                                                         temp.reagens_sn=rez.rezultat[0].reagens_sn
+                                                        if(niz.analit === 'HGB'|| niz.analit === 'MCHC' ){
+                                                            rez.rezultat[0].rezultat_f = (parseFloat(niz.analit_rez)*10).toFixed(2).toString()
+                                                            
+                                                          } else{
+                                                            rez.rezultat[0].rezultat_f= niz.analit_rez
+                                                          }
                                                         temp.rezultat_f = niz.analit_rez
                                                         temp.jedinice_f = rez.rezultat[0].jedinice_f
                                                         temp.rezultat_p = rez.rezultat[0].rezultat_p
