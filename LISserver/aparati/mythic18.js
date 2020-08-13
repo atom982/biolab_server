@@ -51,6 +51,9 @@ module.exports = {
                                     vrijeme_rezultata=datum.split('/')[2]+datum.split('/')[1]+datum.split('/')[0]+vrijeme.split(':').join('')
                                     console.log('vrijeme: '+vrijeme_rezultata)
                                     console.log(sid)
+                                    if(sid ==="00001"){
+                                        sid = "K001B00813"
+                                    }
                                     break;
 
                           case 'R':
