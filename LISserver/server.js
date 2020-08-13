@@ -171,8 +171,8 @@ class lisServer {
           var crc = emerald.slice(i+8,emerald.length-1).toString()
           if(parseInt(crc) === parseInt(crc16modbus(emerald.slice(0, i - 3).toString()))){
             var ulaz = emerald.slice(0, i - 3).toString()
-            var he= 'H||||'+ulaz.slice(0,ulaz.search('\rRESULT')+1).toString()
-            var re='R|'+ulaz.slice(ulaz.search('\rRESULT')+8,ulaz.length).toString()
+            var he= 'H||||'+ulaz.slice(0,ulaz.search('RESULT\r')+1).toString()
+            var re='R|'+ulaz.slice(ulaz.search('RESULT\r')+8,ulaz.length).toString()
             var temp_rec = []
             he=he.split(';').join('^');
             temp_rec.push(he)
@@ -182,7 +182,7 @@ class lisServer {
             funkcija.parsaj_rezultat(temp_rec, io);
             temp_rec = [];
           }else{
-            var he= 'H||||'+emerald.slice(0,emerald.search('\rRESULT')+1).toString()
+            var he= 'H||||'+emerald.slice(0,emerald.search('RESULT\r')+1).toString()
             var niz = he.split(';')
             console.log('CRC provjera nije OK za aparat EMERALD SN:',niz[0] )
           }
