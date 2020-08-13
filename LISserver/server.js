@@ -172,15 +172,16 @@ class lisServer {
           if(parseInt(crc) === parseInt(crc16modbus(emerald.slice(0, i - 3).toString()))){
             
             var ulaz = emerald.slice(0, i - 3).toString()
-            console.log(ulaz.split("\r"))
-            var he= 'H||||'+ulaz.slice(0,ulaz.search('RESULT\r')+1).toString()
-            var re='R|'+ulaz.slice(ulaz.search('RESULT\r')+8,ulaz.length).toString()
+            var niz = ulaz.split("\r")
             var temp_rec = []
-            he=he.split(';').join('^');
+            
+            var he= 'H||||'+niz[0]
             temp_rec.push(he)
-            temp_rec.push(re)
+            for (let index = 12; index < 29; index++) {
+              temp_rec.push('R|'+niz[index])    
+            }
             temp_rec.push('L|1')
-            var niz  =ulaz.split(";")
+            console.log( temp_rec)
             funkcija.parsaj_rezultat(temp_rec, io);
             temp_rec = [];
           }else{
