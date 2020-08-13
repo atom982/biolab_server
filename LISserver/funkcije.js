@@ -294,7 +294,7 @@ parsaj_query: function (record, callback) {
   switch (sn) {
     case "251025": // Erba XL 200
       console.log("Query Parsing: Erba XL 200");
-      erbaxl200.parsaj_query(record, function (poruka) {
+      ErbaXL200.parsaj_query(record, function (poruka) {
         callback(poruka);
       });
       break;
