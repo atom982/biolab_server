@@ -175,6 +175,7 @@ class lisServer {
             var re='R|'+ulaz.slice(ulaz.search('RESULT\r')+8,ulaz.length).toString()
             var temp_rec = []
             he=he.split(';').join('^');
+            console.log(re.split(";"))
             temp_rec.push(he)
             temp_rec.push(re)
             temp_rec.push('L|1')
