@@ -238,9 +238,9 @@ console.log(sn)
       console.log("Erba XL 200");
       ErbaXL200.parsaj_rezultat(record, io);
       break;
-    case "960855":
-      console.log("Erba ELite 3");
-      elite3.parsaj_rezultat(record, io);
+    case "MYTHIC 1":
+      console.log("MYTHIC 18");
+      mythic18.parsaj_rezultat(record, io);
       break;
     case "27026012":
         console.log("TOSOH AIA-360");

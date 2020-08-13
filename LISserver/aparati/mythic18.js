@@ -42,11 +42,9 @@ module.exports = {
                                     console.log("header");
                                     var header= element.split("|");
                                     var sender=header[4].split("^");
-                                    if(sender[1]==="CDRuby"){
-                                      sn = sender[0].trim()
-                                    }else{
-                                      sn=sender[2];
-                                    }
+                                    if (sender[0] === "MYTHIC 1") {
+                                        sn = sender[0].trim();
+                                      }
                                     break;
 
                           case 'R':
