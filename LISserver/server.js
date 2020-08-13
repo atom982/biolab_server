@@ -146,21 +146,53 @@ class lisServer {
           }
         }
         // HL7
-        if (JSON.stringify(data).includes('MYTHIC')) {
-          emerald += data
-          if(JSON.stringify(data).includes('CONNECT')){
-            socket.write('ACK_CONNECT;7\r'); 
-            emerald = ''
-            console.log('Konekcija prihvaćena')
+   //----------------------Emerald blok
+   if (JSON.stringify(data).includes('MYTHIC')) {
+    emerald += data
+    if(JSON.stringify(data).includes('CONNECT')){
+      socket.write('ACK_CONNECT;7\r'); 
+      emerald = ''
+      console.log('Konekcija prihvaćena')
+    }
+    if(JSON.stringify(data).includes('RESULT_READY')){
+      var niz = JSON.stringify(emerald).split(";");
+      console.log('Aparat serijskog broja:'+niz[1]+" šalje zahtjev za prihvat rezultata.")
+      socket.write('ACK_RESULT_READY\r'); 
+      emerald = ''
+      console.log('Zahtjev prihvaćen. Čekam rezultat ....')
+    }  
+  }
+  if (JSON.stringify(data).includes('END_RESULT')) {
+    emerald += data
+    socket.write('ACK_RESULT;OK\r');  
+    for (i = 0; i < emerald.length; i++) {
+      if (emerald.charCodeAt(i) === 95) {
+        if (emerald.charCodeAt(i - 1) === 68) {
+          var crc = emerald.slice(i+8,emerald.length-1).toString()
+          if(parseInt(crc) === parseInt(crc16modbus(emerald.slice(0, i - 3).toString()))){
+            var ulaz = emerald.slice(0, i - 3).toString()
+            var he= 'H||||'+ulaz.slice(0,ulaz.search('\rRESULT')+1).toString()
+            var re='R|'+ulaz.slice(ulaz.search('\rRESULT')+8,ulaz.length).toString()
+            var temp_rec = []
+            he=he.split(';').join('^');
+            temp_rec.push(he)
+            temp_rec.push(re)
+            temp_rec.push('L|1')
+            var niz  =ulaz.split(";")
+            funkcija.parsaj_rezultat(temp_rec, io);
+            temp_rec = [];
+          }else{
+            var he= 'H||||'+emerald.slice(0,emerald.search('\rRESULT')+1).toString()
+            var niz = he.split(';')
+            console.log('CRC provjera nije OK za aparat EMERALD SN:',niz[2] )
           }
-          if(JSON.stringify(data).includes('RESULT')){
-            var niz = JSON.stringify(emerald).split(";");
-            console.log('Aparat Mythic serijskog broja:'+niz[2]+" šalje zahtjev za prihvat rezultata.")
-            socket.write('ACK_RESULT_READY\r'); 
-            emerald = ''
-            console.log('Zahtjev prihvaćen. Čekam rezultat ....')
-          }  
         }
+      }
+    }
+    emerald = ''
+  }
+//------------- End of Emerald blok
+
         if (data.charCodeAt(data.length - 1) !== 10) { //podaci od aparata
           frame += data; //dodaj u buffer \u001a
 
