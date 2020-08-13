@@ -138,12 +138,12 @@ module.exports = {
                                                         temp.reagens_lot=rez.rezultat[0].reagens_lot
                                                         temp.reagens_sn=rez.rezultat[0].reagens_sn
                                                         if(niz.analit === 'HGB'|| niz.analit === 'MCHC' ){
-                                                            rez.rezultat[0].rezultat_f = (parseFloat(niz.analit_rez)*10).toFixed(2).toString()
+                                                            rez.rezultat[0].rezultat_f = (parseFloat(niz.analit_rez)*10).toFixed(1).toString()
                                                             
                                                           } else{
                                                             rez.rezultat[0].rezultat_f= niz.analit_rez
                                                           }
-                                                        temp.rezultat_f = niz.analit_rez
+                                                        
                                                         temp.jedinice_f = rez.rezultat[0].jedinice_f
                                                         temp.rezultat_p = rez.rezultat[0].rezultat_p
                                                         temp.jedinice_p = rez.rezultat[0].jedinice_p
