@@ -218,7 +218,7 @@ parsaj_rezultat: function (record, io) {
     sn = sender[2]; // Erba ELite 3
   }
   if (record[0].includes("E 1394-97")) {
-    sn = "251025"; // Erba XL 200
+    sn = "251714"; // Erba XL 200
   }
   if (record[0].includes("XP-300")) {
     sn = sender[5];
@@ -234,9 +234,9 @@ parsaj_rezultat: function (record, io) {
   }
 
   switch (sn) {
-    case "251025":
+    case "251714":
       console.log("Erba XL 200");
-      erbaxl200.parsaj_rezultat(record, io);
+      ErbaXL200.parsaj_rezultat(record, io);
       break;
     case "27026012":
       console.log("TOSOH AIA-360");
