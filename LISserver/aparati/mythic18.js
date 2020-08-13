@@ -49,38 +49,44 @@ module.exports = {
 
                           case 'R':
                                     console.log("rezultat");
-                                    var result = element.split("\r");
-                                    var datum = result[0].split(';')[1]
-                                    var vrijeme = result[1].split(';')[1]
-                                    vrijeme_rezultata=datum.split('/')[2]+datum.split('/')[1]+datum.split('/')[0]+vrijeme.split(':').join('')
-                                    console.log('vrijeme: '+vrijeme_rezultata)
-
-                                    mode = result[2].split(';')[1]
-                                    console.log('mode: '+mode)
-                                    unit_type = result[3].split(';')[1] // 1. USA STANDARD  2. SI 3. SI MOD
-                                    console.log('unit type: '+unit_type)
-                                    sid = result[5].split(';')[1]
-                                    console.log('SID: '+sid)
-                                    sifra_p=result[9].split(';')[1]
-                                    console.log('sifra testa pro:'+sifra_p)
+                                   
                                     var temps = result.slice(11,27)
-                                    temps.forEach(element => {
+                                     
                                      rezultati.push({
                                       analit:element.split(';')[0],
                                       analit_rez:element.split(';')[1],
                                       analit_status:element.split(';')[2]
                                     })    
-                                    });
+                                                                  
+                                    // var result = element.split("\r");
+                                    // var datum = result[0].split(';')[1]
+                                    // var vrijeme = result[1].split(';')[1]
+                                    // vrijeme_rezultata=datum.split('/')[2]+datum.split('/')[1]+datum.split('/')[0]+vrijeme.split(':').join('')
+                                    // console.log('vrijeme: '+vrijeme_rezultata)
+
+                                    // mode = result[2].split(';')[1]
+                                    // console.log('mode: '+mode)
+                                    // unit_type = result[3].split(';')[1] // 1. USA STANDARD  2. SI 3. SI MOD
+                                    // console.log('unit type: '+unit_type)
+                                    // sid = result[5].split(';')[1]
+                                    // console.log('SID: '+sid)
+                                    // sifra_p=result[9].split(';')[1]
+                                    // console.log('sifra testa pro:'+sifra_p)
+                                    // var temps = result.slice(11,27)
+                                    // temps.forEach(element => {
+                                    //  rezultati.push({
+                                    //   analit:element.split(';')[0],
+                                    //   analit_rez:element.split(';')[1],
+                                    //   analit_status:element.split(';')[2]
+                                    // })    
+                                    // });
 
                                     
-                                    console.log(rezultati)
-                                    break;
-                          case 'C':
-                                    console.log("komentar");
+                                    
                                     break;
                           case 'L':
                                     console.log("terminator"); 
-                                    //console.log(rezultati)  
+                                    console.log(rezultati)  
                                     Results.findOne({id:sid}).populate('aparat').exec(function (err, rezultat) {
                                       if (err) {
                                         console.log("Greška:", err);
