@@ -156,7 +156,7 @@ class lisServer {
     }
     if(JSON.stringify(data).includes('RESULT_READY')){
       var niz = JSON.stringify(emerald).split(";");
-      console.log('Aparat serijskog broja:'+niz[1]+" šalje zahtjev za prihvat rezultata.")
+      console.log('Aparat serijskog broja:'+niz[0]+" šalje zahtjev za prihvat rezultata.")
       socket.write('ACK_RESULT_READY\r'); 
       emerald = ''
       console.log('Zahtjev prihvaćen. Čekam rezultat ....')
@@ -184,7 +184,7 @@ class lisServer {
           }else{
             var he= 'H||||'+emerald.slice(0,emerald.search('\rRESULT')+1).toString()
             var niz = he.split(';')
-            console.log('CRC provjera nije OK za aparat EMERALD SN:',niz[2] )
+            console.log('CRC provjera nije OK za aparat EMERALD SN:',niz[0] )
           }
         }
       }
