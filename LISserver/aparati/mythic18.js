@@ -182,13 +182,14 @@ module.exports = {
                                                         uzorak.tests.forEach(test => {
                                                           i++
 
-                                                          AnaAssays.findOne({test:test.labassay,aparat:mongoose.Types.ObjectId(serijski)}).populate('test aparat').exec(function (err, anatest) {
+                                                          AnaAssays.findOne({test:test.labassay}).populate('test aparat').exec(function (err, anatest) {
                                                             if (err) {
                                                               console.log("Greška:", err);
                                                             }
                                                             else {
                                                                   if(anatest){
-                                                                    
+                                                                    test.status_t = 'REALIZOVAN'
+                                                                    console.log(anatest.aparat.sn)
                                                                    if(anatest.aparat.sn === sn){
                                                                     test.status_t = 'REALIZOVAN'
 
