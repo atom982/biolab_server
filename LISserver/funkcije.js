@@ -199,7 +199,7 @@ parsaj_rezultat: function (record, io) {
   // Urilyzer 100 Pro: "5bc85a93048ce379ac50a105", Serijski broj: "6101157"
   // Erba ECL 105: "5bcb72b2717d866cf6c12f57", Serijski broj: "E0041-11-250716"
 
-  var ErbaELite3 = require("./aparati/elite3");
+  var mythic18 = require("./aparati/mythic18");
   var ErbaXL200 = require("./aparati/erbaxl200");
   var TOSOHAIA360 = require("./aparati/aia360");
   var Urilyzer100Pro = require("./aparati/urilyzer100pro");
@@ -238,14 +238,14 @@ parsaj_rezultat: function (record, io) {
       console.log("Erba XL 200");
       ErbaXL200.parsaj_rezultat(record, io);
       break;
-    case "27026012":
-      console.log("TOSOH AIA-360");
-      aia360.parsaj_rezultat(record, io);
-      break;
     case "960855":
       console.log("Erba ELite 3");
       elite3.parsaj_rezultat(record, io);
       break;
+    case "27026012":
+        console.log("TOSOH AIA-360");
+        aia360.parsaj_rezultat(record, io);
+        break;
     case "E0041-11-250716":
       console.log("Erba ECL 105");
       _id = "5bcb72b2717d866cf6c12f57";

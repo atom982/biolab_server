@@ -61,7 +61,10 @@ app.set("socketio", io);
 // Starting our server
 
 lisserver.start(io,9531,"Biolab Erba XL-200");//
-lisserver.start(io,9532,"Biolab aparat 2");//
+lisserver.start(io,9532,"Biolab mythic 18");//
+lisserver.start(io,9533,"Biolab Access 2");//
+lisserver.start(io,9534,"Biolab Erba ECL 105");//
+lisserver.start(io,9535,"Biolab Erba Lyte Plus");//
 //lisserver.start(io,50020,"Alinity Receiver Channel");//Alinity receiverr
 // loggerserver.start(io)
 /*
