@@ -50,7 +50,7 @@ module.exports = {
                           case 'R':
                                     console.log("rezultat");
                                    
-                                    var temps = result.slice(11,27)
+                                
                                      
                                      rezultati.push({
                                       analit:element.split(';')[0],
