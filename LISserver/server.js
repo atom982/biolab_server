@@ -146,6 +146,21 @@ class lisServer {
           }
         }
         // HL7
+        if (JSON.stringify(data).includes('MYTHIC')) {
+          emerald += data
+          if(JSON.stringify(data).includes('CONNECT')){
+            socket.write('ACK_CONNECT;7\r'); 
+            emerald = ''
+            console.log('Konekcija prihvaćena')
+          }
+          if(JSON.stringify(data).includes('RESULT')){
+            var niz = JSON.stringify(emerald).split(";");
+            console.log('Aparat Mythic serijskog broja:'+niz[2]+" šalje zahtjev za prihvat rezultata.")
+            socket.write('ACK_RESULT_READY\r'); 
+            emerald = ''
+            console.log('Zahtjev prihvaćen. Čekam rezultat ....')
+          }  
+        }
         if (data.charCodeAt(data.length - 1) !== 10) { //podaci od aparata
           frame += data; //dodaj u buffer \u001a
 
