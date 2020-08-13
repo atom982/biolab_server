@@ -97,7 +97,7 @@ module.exports = {
                                                     }else{
                                                          var rezultat_f = result[3]
                                                          }
-                                                jedinice_f = result[4];
+                                                var jedinice_f = result[4];
                                                 vrijeme_rezultata=result[12];
                                                 module_sn='251714';
                                               AnaAssays.findOne({kod:sifra_p}).populate('test').lean().exec(function (err, test) {
