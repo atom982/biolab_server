@@ -51,10 +51,10 @@ module.exports = {
                                     console.log("rezultat");
                                    
                                 
-                                     
+                                     var tmp = element.split(';')[0]
                                      rezultati.push({
-                                      analit:element.split(';')[0],
-                                      analit_rez:element.split(';')[1],
+                                      analit:tmp.split('|')[1],
+                                      analit_rez:element.split(';')[1].trim(),
                                       analit_status:element.split(';')[2]
                                     })    
                                                                   
