@@ -99,7 +99,7 @@ module.exports = {
                                                          }
                                                 jedinice_f = result[4];
                                                 vrijeme_rezultata=result[12];
-                                                module_sn='251025';
+                                                module_sn='251714';
                                               AnaAssays.findOne({kod:sifra_p}).populate('test').lean().exec(function (err, test) {
                                                 if (err) {
                                                   console.log("Greška:", err);
@@ -111,7 +111,7 @@ module.exports = {
                                                         console.log('U LIS-u ne postoji definisan test sa sifrom:'+sifra_p+' ni na jednom aparatu'+sn);
                                                       }else{
                                                       uzorak.tests.forEach(elementu => {   
-                                                                                                       
+                                                                                                 
         if((elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "ZAPRIMLJEN") || (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_r)){//elementu.status_r)){
                                                           console.log('match pronadjen')
                                                           //console.log(elementu)
@@ -136,6 +136,7 @@ module.exports = {
                                                           json.labassay = test.test
                                                           json.rezultat = []
                                                           json.rezultat.push(rezultat)
+                                                          console.log(elementu.labassay.naziv+" "+rezultat_f+"="+jedinice_f)
                                                           Results.findOne({id: uzorak.id}).populate('rezultati rezultati.labassay patient').exec(function (err, result) {
                                                             if (err) {
                                                               console.log("Greška:", err)
