@@ -146,7 +146,7 @@ class lisServer {
           }
         }
         // HL7
-   //----------------------Emerald blok
+   //----------------------MYTHIC 18 blok
    if (JSON.stringify(data).includes('MYTHIC')) {
     emerald += data
     if(JSON.stringify(data).includes('CONNECT')){
@@ -170,12 +170,13 @@ class lisServer {
         if (emerald.charCodeAt(i - 1) === 68) {
           var crc = emerald.slice(i+8,emerald.length-1).toString()
           if(parseInt(crc) === parseInt(crc16modbus(emerald.slice(0, i - 3).toString()))){
+            
             var ulaz = emerald.slice(0, i - 3).toString()
+            console.log(ulaz.split("\r"))
             var he= 'H||||'+ulaz.slice(0,ulaz.search('RESULT\r')+1).toString()
             var re='R|'+ulaz.slice(ulaz.search('RESULT\r')+8,ulaz.length).toString()
             var temp_rec = []
             he=he.split(';').join('^');
-            console.log(re.split("\r"))
             temp_rec.push(he)
             temp_rec.push(re)
             temp_rec.push('L|1')
@@ -192,7 +193,7 @@ class lisServer {
     }
     emerald = ''
   }
-//------------- End of Emerald blok
+//------------- End of Mythic 18 blok
 
         if (data.charCodeAt(data.length - 1) !== 10) { //podaci od aparata
           frame += data; //dodaj u buffer \u001a
