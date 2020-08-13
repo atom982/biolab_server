@@ -360,10 +360,10 @@ module.exports = {
                                                 AnaAssays.find({}).populate('aparat test').lean().exec(function (err, anaassays) {
                                                   uzorak.tests.forEach(function(test) {
                                                     anaassays.forEach(function(anaassay) { 
-                                                      if((anaassay.aparat.sn === json.sn) && (anaassay.test.sifra === test.labassay.sifra)  && (anaassay.test.calculated)){
+                                                      if( (anaassay.test.sifra === test.labassay.sifra)  && (anaassay.test.calculated)){
                                                         test.status_t = "U OBRADI"
                                                       }
-                      if(((anaassay.aparat.sn === json.sn) && (anaassay.test.sifra === test.labassay.sifra)&&(test.status_r ===true) && (!anaassay.test.manual) && (!anaassay.test.calculated)) ||((anaassay.aparat.sn === json.sn) && (anaassay.test.sifra === test.labassay.sifra)&&(test.status_t ==="NA ČEKANJU") && (!anaassay.test.manual) && (!anaassay.test.calculated))){
+                      if(( (anaassay.test.sifra === test.labassay.sifra)&&(test.status_r ===true)) ||((anaassay.test.sifra === test.labassay.sifra)&&(test.status_t ==="ZAPRIMLJEN"))){
                                                           testovi.push(anaassay.kod)
                                                           
                                                           test.status_t = "U OBRADI"
