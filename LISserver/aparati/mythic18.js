@@ -45,6 +45,12 @@ module.exports = {
                                     if (sender[0] === "MYTHIC 1") {
                                         sn = sender[0].trim();
                                       }
+                                    sid = header[4].split(";")[1];
+                                    var datum = header[5].split(";")[1]
+                                    var vrijeme =header[6].split(";")[1]
+                                    vrijeme_rezultata=datum.split('/')[2]+datum.split('/')[1]+datum.split('/')[0]+vrijeme.split(':').join('')
+                                    console.log('vrijeme: '+vrijeme_rezultata)
+                                    console.log(sid)
                                     break;
 
                           case 'R':
