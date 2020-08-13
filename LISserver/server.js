@@ -185,9 +185,9 @@ class lisServer {
             funkcija.parsaj_rezultat(temp_rec, io);
             temp_rec = [];
           }else{
-            var he= 'H||||'+emerald.slice(0,emerald.search('RESULT\r')+1).toString()
-            var niz = he.split(';')
-            console.log('CRC provjera nije OK za aparat EMERALD SN:',niz[0] )
+            var he= 'H||||'+emerald.slice(0,8).toString()
+            
+            console.log('CRC provjera nije OK za aparat MYTHIC SN:',he )
           }
         }
       }

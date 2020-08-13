@@ -232,7 +232,7 @@ parsaj_rezultat: function (record, io) {
   if (sender[0] === "URI2P") {
     sn = sender[1].trim(); // Urilyzer 100 Pro
   }
-
+console.log(sn)
   switch (sn) {
     case "251714":
       console.log("Erba XL 200");
