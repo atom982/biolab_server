@@ -9,7 +9,7 @@ module.exports = {
     code = site_data.sifra;
     adresa_x = 30;
     // adresa = "Nikole Šopa broj 9, 71000 Sarajevo, BiH, tel: +387 (0) 33 871 566, mail:pzusrcesarajeva@yahoo.com, web:www.poliklinikasrcesa.ba";
-
+      adresa = "Zmaja od Bosne 63, 71000 Sarajevo, tel: 00387 33 645 845, mail:admir.smailji@gmail.com , web: www.biolab.ba"
     var fs = require("fs");
     PDFDocument = require("pdfkit");
     const PDFDocumentWithTables = require("./pdf_class");
