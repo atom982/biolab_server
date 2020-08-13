@@ -212,7 +212,7 @@ parsaj_rezultat: function (record, io) {
   var _id = "";
   var sn = "";
 
-  if (sender[1] === "CDRuby") {
+  if (sender[0] === "MYTHIC 1") {
     sn = sender[0].trim();
   } else {
     sn = sender[2]; // Erba ELite 3

@@ -176,7 +176,7 @@ class lisServer {
             var temp_rec = []
             
             var he= 'H||||'+niz[0]
-            temp_rec.push(he)
+            temp_rec.push(he.split(";")[0])
             for (let index = 12; index < 29; index++) {
               temp_rec.push('R|'+niz[index])    
             }
