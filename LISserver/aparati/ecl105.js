@@ -56,7 +56,7 @@ module.exports = {
           case 'O':
             console.log("Order: ");
             order = element.split("|");
-            sid = order[2];
+            sid = "S00"+order[2]+"00819";
             console.log("SID: " + sid);
             break;
           case 'R':
