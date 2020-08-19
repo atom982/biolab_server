@@ -56,18 +56,18 @@ module.exports = {
           case 'O':
             console.log("Order: ");
             order = element.split("|");
-            sid = 'P001M81111'//order[2];
+            sid = order[2];
             console.log("SID: " + sid);
             break;
           case 'R':
             console.log("Rezultat: ");
             //'R|1|^^^PT LS|68.1|%||||||||20181109121149|',
-            //'R|2|^^^PT LS|1.31|INR||||||||20181109121149|',
-            //'R|3|^^^PT LS|16.0|Sec||||||||20181109121149|',
-            //'R|1|^^^FIBRINOGEN|2.6|g/L||||||||20181108134710|',
+            //'R|2|^^^PT LS|1.31|INR||||||||20181109121149|', ovo
+            //'R|3|^^^PT LS|16.0|Sec||||||||20181109121149|', ovo
+            //'R|1|^^^FIBRINOGEN|2.6|g/L||||||||20181108134710|', ovo
             // 'R|2|^^^FIBRINOGEN|0.0|No Unit||||||||20181108134710|',
             // 'R|3|^^^FIBRINOGEN|0.0|No Unit||||||||20181108134710|',
-            // 'R|1|^^^APTT|64.5|Sec||||||||20181102114450|',
+            // 'R|1|^^^APTT|64.5|Sec||||||||20181102114450|', ovo
             // 'R|2|^^^APTT|0.0|Ratio||||||||20181102114450|',
             // 'R|3|^^^APTT|0.0|No Unit||||||||20181102114450|',
             // Test
