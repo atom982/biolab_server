@@ -215,7 +215,7 @@ parsaj_rezultat: function (record, io) {
   if (sender[0] === "MYTHIC 1") {
     sn = sender[0].trim();
   } else {
-    sn = sender[2]; // Erba ELite 3
+    sn = sender[2]; // Mythic
   }
   if (record[0].includes("E 1394-97")) {
     sn = "251714"; // Erba XL 200
@@ -223,8 +223,8 @@ parsaj_rezultat: function (record, io) {
   if (record[0].includes("XP-300")) {
     sn = sender[5];
   }
-  if (record[0].includes("AIA-360")) {
-    sn = "27026012"; // TOSOH AIA-360
+  if (record[0].includes("ErbalytePlus")) {
+    sn = "111283"; // TOSOH AIA-360
   }
   if (record[0].includes("ECL 10")) {
     sn = "E0041-11-051216"; // Erba ECL 105
@@ -242,7 +242,7 @@ console.log(sn)
       console.log("MYTHIC 18");
       mythic18.parsaj_rezultat(record, io);
       break;
-    case "27026012":
+    case "111283":
         console.log("Erba lyte plus");
         erbalyteplus.parsaj_rezultat(record, io);
         break;

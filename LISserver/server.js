@@ -151,6 +151,16 @@ class lisServer {
           var niz = JSON.stringify(data).split(" ");
           console.log('Rezultat sa Erbalyte-a')
           console.log(niz)
+
+          var temp_rec = []
+          temp_rec.push("H|\\^&|||ErbalytePlus^1.00^RJ-1C110261^H1R1L1|||||||P|1|")
+          temp_rec.push("O|1|"+niz[0]+"|||||||||||||SERUM")
+          temp_rec.push("R|1|^^^K|"+niz[5]+"|mmol/l|^DEFAULT|H|N|F||||20200819163255")
+          temp_rec.push("R|1|^^^Na|"+niz[6]+"|mmol/l|^DEFAULT|H|N|F||||20200819163255")
+          temp_rec.push("R|1|^^^Cl|"+niz[7]+"|mmol/l|^DEFAULT|H|N|F||||20200819163255")
+          temp_rec.push("L|1|N")
+          console.log(temp_rec)
+          //funkcija.parsaj_rezultat(temp_rec, io);
         }  
          // Erbalyte block
    //----------------------MYTHIC 18 blok
