@@ -203,7 +203,7 @@ parsaj_rezultat: function (record, io) {
   var ErbaXL200 = require("./aparati/erbaxl200");
   var TOSOHAIA360 = require("./aparati/aia360");
   var Urilyzer100Pro = require("./aparati/urilyzer100pro");
-  var ErbaECL105 = require("./aparati/erbaxl200");
+  var ecl105 = require("./aparati/ecl105");
 
   console.log("Parsanje rezultata...");
   //console.log(record)
@@ -227,7 +227,7 @@ parsaj_rezultat: function (record, io) {
     sn = "27026012"; // TOSOH AIA-360
   }
   if (header[8] === "ECL 10") {
-    sn = "E0041-11-250716"; // Erba ECL 105
+    sn = "E0041-11-051216"; // Erba ECL 105
   }
   if (sender[0] === "URI2P") {
     sn = sender[1].trim(); // Urilyzer 100 Pro
@@ -246,7 +246,7 @@ console.log(sn)
         console.log("TOSOH AIA-360");
         aia360.parsaj_rezultat(record, io);
         break;
-    case "E0041-11-250716":
+    case "E0144-11-051216":
       console.log("Erba ECL 105");
       _id = "5bcb72b2717d866cf6c12f57";
       ecl105.parsaj_rezultat(record, io, _id);
