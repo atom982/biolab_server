@@ -226,7 +226,7 @@ parsaj_rezultat: function (record, io) {
   if (record[0].includes("AIA-360")) {
     sn = "27026012"; // TOSOH AIA-360
   }
-  if (header[8] === "ECL 10") {
+  if (record[0].includes("ECL 10")) {
     sn = "E0041-11-051216"; // Erba ECL 105
   }
   if (sender[0] === "URI2P") {
@@ -246,7 +246,7 @@ console.log(sn)
         console.log("TOSOH AIA-360");
         aia360.parsaj_rezultat(record, io);
         break;
-    case "E0144-11-051216":
+    case "E0041-11-051216":
       console.log("Erba ECL 105");
       _id = "5bcb72b2717d866cf6c12f57";
       ecl105.parsaj_rezultat(record, io, _id);
