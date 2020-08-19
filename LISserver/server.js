@@ -147,7 +147,7 @@ class lisServer {
         }
         // HL7
         // Erbalyte block
-        if(JSON.stringify(data).includes('  00000000000000') && JSON.stringify(data).includes('\r\n')){
+        if(JSON.stringify(data).includes('  00000000000000') ){//&& JSON.stringify(data).includes('\r\n')
           var niz = JSON.stringify(data).split(" ");
           console.log('Rezultat sa Erbalyte-a')
           console.log(niz)
