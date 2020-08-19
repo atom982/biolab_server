@@ -146,6 +146,13 @@ class lisServer {
           }
         }
         // HL7
+        // Erbalyte block
+        if(JSON.stringify(data).includes('  00000000000000')){
+          var niz = JSON.stringify(data).split(" ");
+          console.log('Rezultat sa Erbalyte-a')
+          console.log(niz)
+        }  
+         // Erbalyte block
    //----------------------MYTHIC 18 blok
    if (JSON.stringify(data).includes('MYTHIC')) {
     emerald += data
