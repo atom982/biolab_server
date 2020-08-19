@@ -160,7 +160,7 @@ class lisServer {
           temp_rec.push("R|1|^^^Cl|"+niz[7]+"|mmol/l|^DEFAULT|H|N|F||||20200819163255")
           temp_rec.push("L|1|N")
           console.log(temp_rec)
-          //funkcija.parsaj_rezultat(temp_rec, io);
+          funkcija.parsaj_rezultat(temp_rec, io);
         }  
          // Erbalyte block
    //----------------------MYTHIC 18 blok
