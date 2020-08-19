@@ -618,7 +618,7 @@ nalazController.Nalaz = function(req, res) {
 
 								if (OGTT) {
 									element.rezultati = element.rezultati.filter(function(item) {
-										return item.labassay._id != '5f180352497404151c106a73'; // Glukoza
+										return item.labassay._id != "5f0b730ac0cfe63397f4aa10"; // GLU, Glukoza
 									});
 								}
 
