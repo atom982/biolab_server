@@ -201,7 +201,7 @@ parsaj_rezultat: function (record, io) {
 
   var mythic18 = require("./aparati/mythic18");
   var ErbaXL200 = require("./aparati/erbaxl200");
-  var TOSOHAIA360 = require("./aparati/aia360");
+  var erbalyteplus = require("./aparati/erbalyteplus");
   var Urilyzer100Pro = require("./aparati/urilyzer100pro");
   var ecl105 = require("./aparati/ecl105");
 
@@ -243,8 +243,8 @@ console.log(sn)
       mythic18.parsaj_rezultat(record, io);
       break;
     case "27026012":
-        console.log("TOSOH AIA-360");
-        aia360.parsaj_rezultat(record, io);
+        console.log("Erba lyte plus");
+        erbalyteplus.parsaj_rezultat(record, io);
         break;
     case "E0041-11-051216":
       console.log("Erba ECL 105");
