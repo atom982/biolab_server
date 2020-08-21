@@ -24,7 +24,7 @@ module.exports = {
   Less: function(result, dref, gref) {
     var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "") 
     // (Interpretacija: "less")
-    if (isNaN(rezultat) || rezultat === "") {
+    if ((rezultat.includes("pozitivan") || rezultat.includes("pos")) && (isNaN(rezultat) || rezultat === "")) {
       return [" ", "No Class"];
     } else if (Number(rezultat) >= Number(Math.abs(gref))) {
       return ["H", "Red"];
