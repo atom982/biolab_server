@@ -153,8 +153,7 @@ module.exports = {
       case "e0x":      
         return [test, rezultat, interpretacija.None(rezultat, dref, gref)[0], jedinica, "", interpretacija.None(rezultat, dref, gref)[1], extend];
         break;
-      case "e02":  
-        console.log([test, rezultat, interpretacija.SpermKolicina(rezultat, dref, gref)[0], jedinica, "da", interpretacija.SpermKolicina(rezultat, dref, gref)[1], extend])    
+      case "e02":      
         return [test, rezultat, interpretacija.SpermKolicina(rezultat, dref, gref)[0], jedinica, "da", interpretacija.SpermKolicina(rezultat, dref, gref)[1], extend];
         break;
       case "e04":      
