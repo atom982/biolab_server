@@ -142,7 +142,24 @@ module.exports = {
         break;
       case "spec":      
         return [test, rezultat, interpretacija.Specific(rezultat, dref, gref)[0], jedinica, spec, interpretacija.Specific(rezultat, dref, gref)[1], extend];
-        break;      
+        break; 
+        
+        
+
+      //
+
+
+
+      case "da":      
+        return [test, rezultat, interpretacija.Da(rezultat, dref, gref)[0], jedinica, "da", interpretacija.Da(rezultat, dref, gref)[1], extend];
+        break;
+        
+        
+
+      //
+
+
+           
       default:
         return [test, rezultat, interpretacija.None(rezultat, dref, gref)[0], jedinica, "/", interpretacija.None(rezultat, dref, gref)[1], extend];
         break;

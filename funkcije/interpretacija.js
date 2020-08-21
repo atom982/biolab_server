@@ -193,6 +193,30 @@ module.exports = {
     }
   },
 
+
+
+  //
+
+
+
+  Da: function(result, dref, gref) {
+    var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "") 
+    // (Interpretacija: "da")
+    if (rezultat === "") {
+      return [" ", "No Class"];
+    } else if (rezultat.trim() === "da" || rezultat.trim() === "Da") {
+      return [" ", "Green"];
+    } else {
+      return ["H", "Red"];
+    }
+  },
+  
+
+
+  //
+
+
+  
   Infekcija: function(result, dref, gref) {
     var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "") 
     // (Interpretacija: "infekc")
