@@ -62,6 +62,9 @@ module.exports = {
       case "neg":
         return [test, rezultat, interpretacija.Negativan(rezultat, dref, gref)[0], jedinica, "negativan", interpretacija.Negativan(rezultat, dref, gref)[1], extend];
         break;
+      case "trag":
+        return [test, rezultat, interpretacija.Trag(rezultat, dref, gref)[0], jedinica, "trag", interpretacija.Trag(rezultat, dref, gref)[1], extend];
+        break;
       case "reakt":
         return [test, rezultat, interpretacija.Reaktivan(rezultat, dref, gref)[0], jedinica, "negativan", interpretacija.Reaktivan(rezultat, dref, gref)[1], extend];
         break;

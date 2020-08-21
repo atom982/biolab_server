@@ -121,6 +121,22 @@ module.exports = {
     }
   },
 
+  Trag: function(result, dref, gref) {
+    var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "") 
+    // (Interpretacija: "neg")
+    if (rezultat === "") {
+      return [" ", "No Class"];
+    } else if (rezultat.includes("pozitivan") || rezultat.includes("pos")) {
+      return ["H", "Red"];
+    } else if (rezultat.includes("negativan") || rezultat.includes("neg") || rezultat.includes("trag")) {
+      return [" ", "Green"];
+    } else if (rezultat.includes("graničan")) {
+      return [" ", "Yellow"];
+    } else {
+      return [" ", "Red"];
+    }
+  },
+
   Reaktivan: function(result, dref, gref) {
     var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "") 
     // (Interpretacija: "reakt")
