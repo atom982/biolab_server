@@ -31,13 +31,13 @@ class PDFDocumentWithTables extends PDFDocument {
     const prepareHeader = options.prepareHeader || (() => {});
     const prepareRow = options.prepareRow || (() => {});
 
-    const computeRowHeight = row => {
+    const computeRowHeight = (row) => {
       let result = 0;
 
-      row.forEach(cell => {
+      row.forEach((cell) => {
         const cellHeight = this.heightOfString(cell, {
           width: columnWidth,
-          align: "left"
+          align: "left",
         });
         result = Math.max(result, cellHeight);
       });
@@ -66,25 +66,25 @@ class PDFDocumentWithTables extends PDFDocument {
       if (i === 0) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth,
-          align: "left"
+          align: "left",
         });
       }
       if (i === 1) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth,
-          align: "center"
+          align: "center",
         });
       }
       if (i === 2) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth,
-          align: "center"
+          align: "center",
         });
       }
       if (i === 3) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth,
-          align: "center"
+          align: "center",
         });
       }
     });
@@ -130,7 +130,7 @@ class PDFDocumentWithTables extends PDFDocument {
               startY,
               {
                 width: columnWidth,
-                align: "left"
+                align: "left",
               }
             );
 
@@ -148,7 +148,7 @@ class PDFDocumentWithTables extends PDFDocument {
               startY,
               {
                 width: columnWidth,
-                align: "left"
+                align: "left",
               }
             );
           } else {
@@ -160,7 +160,7 @@ class PDFDocumentWithTables extends PDFDocument {
 
             this.text(cell, startX + i * columnContainerWidth, startY, {
               width: columnWidth,
-              align: "left"
+              align: "left",
             });
           }
         }
@@ -196,7 +196,7 @@ class PDFDocumentWithTables extends PDFDocument {
             startY,
             {
               width: columnWidth,
-              align: "center"
+              align: "center",
             }
           );
         }
@@ -215,7 +215,7 @@ class PDFDocumentWithTables extends PDFDocument {
           this.fillColor("black");
           this.text(cell.trim(), startX + i * columnContainerWidth, startY, {
             width: columnWidth,
-            align: "center"
+            align: "center",
           });
         }
 
@@ -246,7 +246,7 @@ class PDFDocumentWithTables extends PDFDocument {
 
             this.text(cell.extend, startX + i * columnContainerWidth, startY, {
               width: columnWidth,
-              align: "center"
+              align: "center",
             });
           } else {
             this.fontSize(10);
@@ -256,7 +256,308 @@ class PDFDocumentWithTables extends PDFDocument {
               startY,
               {
                 width: columnWidth,
-                align: "center"
+                align: "center",
+              }
+            );
+          }
+          this.fillColor("black");
+        }
+      });
+
+      // Refresh the y coordinate of the bottom of this row
+      rowBottomY = Math.max(startY + rowHeight, rowBottomY);
+
+      // Separation line between rows
+      this.moveTo(startX, rowBottomY - rowSpacing * 0.5)
+        .lineTo(startX + usableWidth, rowBottomY - rowSpacing * 0.5)
+        .lineWidth(0.2)
+        .opacity(0.1)
+        .stroke()
+        .opacity(1); // Reset opacity after drawing the line
+    });
+
+    this.x = startX;
+    this.moveDown();
+    return this;
+  }
+
+  // Sediment urina
+
+  table_sediment(table, arg0, arg1, arg2) {
+    // Tabela za Sediment urina
+    let startX = this.page.margins.left,
+      startY = this.y;
+    let options = {};
+
+    if (typeof arg0 === "number" && typeof arg1 === "number") {
+      startX = arg0;
+      startY = arg1;
+
+      if (typeof arg2 === "object") options = arg2;
+    } else if (typeof arg0 === "object") {
+      options = arg0;
+    }
+
+    const columnCount = table.headers.length;
+    const columnSpacing = options.columnSpacing || 2;
+    const rowSpacing = options.rowSpacing || 2;
+    const usableWidth =
+      options.width ||
+      this.page.width - this.page.margins.left - this.page.margins.right;
+    const prepareHeader = options.prepareHeader || (() => {});
+    const prepareRow = options.prepareRow || (() => {});
+
+    const computeRowHeight = (row) => {
+      let result = 0;
+
+      row.forEach((cell) => {
+        const cellHeight = this.heightOfString(cell, {
+          width: columnWidth,
+          align: "left",
+        });
+        result = Math.max(result, cellHeight);
+      });
+      return result + rowSpacing;
+    };
+
+    const columnContainerWidth = usableWidth / columnCount;
+    const columnWidth = columnContainerWidth - columnSpacing;
+    const maxY = this.page.height - this.page.margins.bottom;
+
+    let rowBottomY = 0;
+
+    this.on("pageAdded", () => {
+      startY = this.page.margins.top + 20;
+      rowBottomY = 0;
+    });
+
+    // Allow the user to override style for headers
+    prepareHeader();
+
+    // Check to have enough room for header and first rows
+    if (startY + 3 * computeRowHeight(table.headers) > maxY) this.addPage();
+
+    // Print all headers
+    table.headers.forEach((header, i) => {
+      if (i === 0) {
+        this.text(header, startX + i * columnContainerWidth, startY, {
+          width: columnWidth,
+          align: "left",
+        });
+      }
+      if (i === 1) {
+        this.text(header, startX + i * columnContainerWidth, startY, {
+          width: columnWidth - 40,
+          align: "center",
+        });
+      }
+      if (i === 2) {
+        this.text(header, startX - 40 + i * columnContainerWidth, startY, {
+          width: columnWidth - 60,
+          align: "center",
+        });
+      }
+      if (i === 3) {
+        this.text(header, startX - 100 + i * columnContainerWidth, startY, {
+          width: columnWidth + 100,
+          align: "left",
+        });
+      }
+    });
+
+    // Refresh the y coordinate of the bottom of the headers row
+    rowBottomY = Math.max(startY + computeRowHeight(table.headers), rowBottomY);
+
+    // Separation line between headers and rows
+    this.moveTo(startX, rowBottomY - rowSpacing * 0.5)
+      .lineTo(startX + usableWidth, rowBottomY - rowSpacing * 0.5)
+      .lineWidth(0.7)
+      .opacity(0.5)
+      .stroke()
+      .opacity(1); // Reset opacity after drawing the line
+
+    table.rows.forEach((row, i) => {
+      let rowHeight = 15;
+      let shadow = 0;
+      let res = [];
+
+      // Switch to next page if we cannot go any further because the space is ove
+      // For safety, consider 3 rows margin instead of just one
+      if (startY + 3 * rowHeight < maxY) {
+        startY = rowBottomY + rowSpacing;
+      } else {
+        this.addPage();
+      }
+      // Allow the user to override style for rows
+      prepareRow(row, i);
+      var tempcell0 = "";
+      var tempcell1 = "";
+
+      // Print all cells of the current row
+      row.forEach((cell, i) => {
+        if (i === 0) {
+          this.fillColor("black");
+          tempcell0 = cell;
+
+          if (cell.includes("[")) {
+            this.fontSize(7);
+            this.fillColor("red");
+            this.text(
+              cell.slice(1, 2),
+              startX + i * columnContainerWidth,
+              startY,
+              {
+                width: columnWidth,
+                align: "left",
+              }
+            );
+
+            if (cell.trim().length > 30) {
+              this.fontSize(9);
+              this.fillColor("black");
+            } else {
+              this.fontSize(10);
+              this.fillColor("black");
+            }
+
+            this.text(
+              cell.slice(3).trim(),
+              startX + 5 + i * columnContainerWidth,
+              startY,
+              {
+                width: columnWidth,
+                align: "left",
+              }
+            );
+          } else {
+            if (cell.trim().length > 30) {
+              this.fontSize(9);
+            } else {
+              this.fontSize(10);
+            }
+
+            this.text(cell, startX + i * columnContainerWidth, startY, {
+              width: columnWidth,
+              align: "left",
+            });
+          }
+        }
+
+        if (i === 1) {
+          if (cell.rezultat.includes(";")) {
+            res = cell.rezultat.split(";");
+          }
+
+          if (res.length != undefined && res.length > 1) {
+            rowHeight = rowHeight + 12.5 * (res.length - 1);
+            shadow = 12.5 * (res.length - 1);
+          }
+
+          if (res.length) {
+            cell.rezultat = "";
+
+            res.forEach((element) => {
+              cell.rezultat = cell.rezultat + element.trim() + "\n";
+            });
+          }
+
+          cell.rezultat = cell.rezultat.replace(/,/g, "\n");
+
+          if (false) {
+            this.fontSize(9);
+          } else {
+            this.fontSize(10);
+          }
+
+          this.fillColor("black");
+          tempcell1 = cell;
+
+          if (cell.kontrola === "Red") {
+            this.font("PTSansBold")
+              .rect(170, this.y + shadow - 0.2, 92.5, -12 - shadow)
+              .opacity(0.25)
+              .fill("#7B8186")
+              .fillColor("black")
+              .opacity(1);
+          } else {
+          }
+
+          this.text(
+            cell.rezultat.trim(),
+            startX + i * columnContainerWidth,
+            startY,
+            {
+              width: columnWidth - 40,
+              align: "center",
+            }
+          );
+        }
+
+        if (i === 2) {
+          if (cell === undefined) {
+            cell = "";
+          }
+
+          if (cell.trim().length > 10) {
+            this.fontSize(9);
+          } else {
+            this.fontSize(10);
+          }
+
+          this.fillColor("black");
+          this.text(
+            cell.trim(),
+            startX - 40 + i * columnContainerWidth,
+            startY,
+            {
+              width: columnWidth - 60,
+              align: "center",
+            }
+          );
+        }
+
+        if (i === 3) {
+          if (cell.reference.includes("*")) {
+            this.fillColor("red");
+          } else {
+            this.fillColor("black");
+          }
+
+          if (cell.extend.trim() != "" && !cell.reference.includes("*")) {
+            if (
+              cell.extend.trim().length > 50 &&
+              cell.extend.trim().length <= 60
+            ) {
+              this.fontSize(9);
+            } else if (
+              cell.extend.trim().length > 60 &&
+              cell.extend.trim().length <= 65
+            ) {
+              this.fontSize(8);
+            } else if (cell.extend.trim().length > 65) {
+              this.fontSize(7);
+            } else {
+              this.fontSize(10);
+            }
+
+            this.text(
+              cell.extend,
+              startX - 100 + i * columnContainerWidth,
+              startY,
+              {
+                width: columnWidth + 100,
+                align: "left",
+              }
+            );
+          } else {
+            this.fontSize(10);
+            this.text(
+              cell.reference,
+              startX - 100 + i * columnContainerWidth,
+              startY,
+              {
+                width: columnWidth + 100,
+                align: "left",
               }
             );
           }
@@ -314,13 +615,13 @@ class PDFDocumentWithTables extends PDFDocument {
     const prepareHeader = options.prepareHeader || (() => {});
     const prepareRow = options.prepareRow || (() => {});
 
-    const computeRowHeight = row => {
+    const computeRowHeight = (row) => {
       let result = 0;
 
-      row.forEach(cell => {
+      row.forEach((cell) => {
         const cellHeight = this.heightOfString(cell, {
           width: columnWidth,
-          align: "left"
+          align: "left",
         });
         result = Math.max(result, cellHeight);
       });
@@ -349,13 +650,13 @@ class PDFDocumentWithTables extends PDFDocument {
       if (i === 0) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth,
-          align: "left"
+          align: "left",
         });
       }
       if (i === 1) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth * 3,
-          align: "left"
+          align: "left",
         });
       }
     });
@@ -403,7 +704,7 @@ class PDFDocumentWithTables extends PDFDocument {
               startY,
               {
                 width: columnWidth,
-                align: "left"
+                align: "left",
               }
             );
 
@@ -421,7 +722,7 @@ class PDFDocumentWithTables extends PDFDocument {
               startY,
               {
                 width: columnWidth,
-                align: "left"
+                align: "left",
               }
             );
           } else {
@@ -433,7 +734,7 @@ class PDFDocumentWithTables extends PDFDocument {
 
             this.text(cell, startX + i * columnContainerWidth, startY, {
               width: columnWidth,
-              align: "left"
+              align: "left",
             });
           }
         }
@@ -451,7 +752,7 @@ class PDFDocumentWithTables extends PDFDocument {
           if (res.length) {
             cell.rezultat = "";
 
-            res.forEach(element => {
+            res.forEach((element) => {
               cell.rezultat = cell.rezultat + element.trim() + "\n";
             });
           }
@@ -483,7 +784,7 @@ class PDFDocumentWithTables extends PDFDocument {
             startY,
             {
               width: columnWidth * 3,
-              align: "left"
+              align: "left",
             }
           );
         }
@@ -537,13 +838,13 @@ class PDFDocumentWithTables extends PDFDocument {
     const prepareHeader = options.prepareHeader || (() => {});
     const prepareRow = options.prepareRow || (() => {});
 
-    const computeRowHeight = row => {
+    const computeRowHeight = (row) => {
       let result = 0;
 
-      row.forEach(cell => {
+      row.forEach((cell) => {
         const cellHeight = this.heightOfString(cell, {
           width: columnWidth,
-          align: "left"
+          align: "left",
         });
         result = Math.max(result, cellHeight);
       });
@@ -572,19 +873,19 @@ class PDFDocumentWithTables extends PDFDocument {
       if (i === 0) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth,
-          align: "left"
+          align: "left",
         });
       }
       if (i === 1) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth,
-          align: "center"
+          align: "center",
         });
       }
       if (i === 2) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth,
-          align: "center"
+          align: "center",
         });
       }
     });
@@ -629,7 +930,7 @@ class PDFDocumentWithTables extends PDFDocument {
 
           this.text(cell, startX + i * columnContainerWidth, startY, {
             width: columnWidth,
-            align: "left"
+            align: "left",
           });
         }
 
@@ -642,7 +943,7 @@ class PDFDocumentWithTables extends PDFDocument {
             startY,
             {
               width: columnWidth,
-              align: "center"
+              align: "center",
             }
           );
         }
@@ -650,7 +951,7 @@ class PDFDocumentWithTables extends PDFDocument {
         if (i === 2) {
           this.text(cell, startX + i * columnContainerWidth, startY, {
             width: columnWidth,
-            align: "center"
+            align: "center",
           });
         }
       });

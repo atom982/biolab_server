@@ -142,8 +142,27 @@ module.exports = {
                 doc.addPage();
               }
 
-              doc.fontSize(12).opacity(0.2).rect(50, doc.y, 511.5, 15).fill("#7B8186").fillColor("black").opacity(1).fontSize(8).fillColor("red").text(mul.naslov.slice(1, 2), 50).fontSize(12).fillColor("black").text(mul.naslov.slice(4), 57, doc.y - 11);
-              doc.table_default({ headers: mul.headers, rows: mul.rows }, { prepareHeader: () => doc.fontSize(8), prepareRow: (row, i) => doc.fontSize(10) });
+
+              if (mul.naslov.slice(4).trim() === "Sediment urina" && sites.includes(site)) {
+                mul.rows.forEach(red => {
+                  if (red[1].rezultat.includes(";")) {
+                    reset = reset + 3;
+                  }
+                });
+                doc.fontSize(12).opacity(0.2).rect(50, doc.y, 511.5, 15).fill("#7B8186").fillColor("black").opacity(1).fontSize(8).fillColor("red").text(mul.naslov.slice(1, 2), 50).fontSize(12).fillColor("black").text(mul.naslov.slice(4), 57, doc.y - 11);
+                doc.table_sediment({ headers: mul.headers, rows: mul.rows }, { prepareHeader: () => doc.fontSize(8), prepareRow: (row, i) => doc.fontSize(10) });
+              } else if (mul.naslov.slice(4).trim() === "Spermiogram" && sites.includes(site)) {
+                mul.rows.forEach(red => {
+                  if (red[1].rezultat.includes(";")) {
+                    reset = reset + 3;
+                  }
+                });
+                doc.fontSize(12).opacity(0.2).rect(50, doc.y, 511.5, 15).fill("#7B8186").fillColor("black").opacity(1).fontSize(8).fillColor("red").text(mul.naslov.slice(1, 2), 50).fontSize(12).fillColor("black").text(mul.naslov.slice(4), 57, doc.y - 11);
+                doc.table_default({ headers: mul.headers, rows: mul.rows }, { prepareHeader: () => doc.fontSize(8), prepareRow: (row, i) => doc.fontSize(10) });
+              } else {
+                doc.fontSize(12).opacity(0.2).rect(50, doc.y, 511.5, 15).fill("#7B8186").fillColor("black").opacity(1).fontSize(8).fillColor("red").text(mul.naslov.slice(1, 2), 50).fontSize(12).fillColor("black").text(mul.naslov.slice(4), 57, doc.y - 11);
+                doc.table_default({ headers: mul.headers, rows: mul.rows }, { prepareHeader: () => doc.fontSize(8), prepareRow: (row, i) => doc.fontSize(10) });
+              }
             });
           }
         }
