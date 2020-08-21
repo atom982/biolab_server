@@ -474,7 +474,7 @@ class PDFDocumentWithTables extends PDFDocument {
 
           if (cell.kontrola === "Red") {
             this.font("PTSansBold")
-              .rect(200, this.y + shadow - 0.2, 92.5, -12 - shadow)
+              .rect(195, this.y + shadow - 0.2, 92.5, -12 - shadow)
               .opacity(0.25)
               .fill("#7B8186")
               .fillColor("black")
@@ -546,7 +546,7 @@ class PDFDocumentWithTables extends PDFDocument {
               startY,
               {
                 width: columnWidth,
-                align: "left",
+                align: "center",
               }
             );
           } else {
@@ -557,7 +557,7 @@ class PDFDocumentWithTables extends PDFDocument {
               startY,
               {
                 width: columnWidth,
-                align: "left",
+                align: "center",
               }
             );
           }
