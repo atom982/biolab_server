@@ -150,14 +150,23 @@ module.exports = {
 
 
 
-      case "da":      
-        return [test, rezultat, interpretacija.Da(rezultat, dref, gref)[0], jedinica, "da", interpretacija.Da(rezultat, dref, gref)[1], extend];
+      case "e0x":      
+        return [test, rezultat, interpretacija.None(rezultat, dref, gref)[0], jedinica, "", interpretacija.None(rezultat, dref, gref)[1], extend];
+        break;
+      case "e02":      
+        return [test, rezultat, interpretacija.SpermKolicina(rezultat, dref, gref)[0], jedinica, "da", interpretacija.SpermKolicina(rezultat, dref, gref)[1], extend];
         break;
       case "e04":      
         return [test, rezultat, interpretacija.SpermIzgled(rezultat, dref, gref)[0], jedinica, "uredan", interpretacija.SpermIzgled(rezultat, dref, gref)[1], extend];
         break;
       case "e05":      
         return [test, rezultat, interpretacija.SpermBoja(rezultat, dref, gref)[0], jedinica, "sivo bijela", interpretacija.SpermBoja(rezultat, dref, gref)[1], extend];
+        break;
+      case "e07":      
+        return [test, rezultat, interpretacija.SpermLikvefakcija(rezultat, dref, gref)[0], jedinica, dref + " - " + gref, interpretacija.SpermLikvefakcija(rezultat, dref, gref)[1], extend];
+        break;
+      case "e08":      
+        return [test, rezultat, interpretacija.SpermAglutinacija(rezultat, dref, gref)[0], jedinica, "nije prisutna", interpretacija.SpermAglutinacija(rezultat, dref, gref)[1], extend];
         break;
         
         

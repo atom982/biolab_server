@@ -199,7 +199,7 @@ module.exports = {
 
 
 
-  Da: function(result, dref, gref) {
+  SpermKolicina: function(result, dref, gref) {
     var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "") 
     // (Interpretacija: "da")
     if (rezultat === "") {
@@ -229,6 +229,30 @@ module.exports = {
     if (rezultat === "") {
       return [" ", "No Class"];
     } else if (rezultat.toLowerCase() === "sivo bijela") {
+      return [" ", "Green"];
+    } else {
+      return ["H", "Red"];
+    }
+  },
+
+  SpermLikvefakcija: function(result, dref, gref) {
+    var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "") 
+    // (Interpretacija: "norm")
+    if (rezultat === "") {
+      return [" ", "No Class"];
+    } else if (rezultat.toLowerCase() === "uredna") {
+      return [" ", "Green"];
+    } else {
+      return ["H", "Red"];
+    }
+  },
+
+  SpermAglutinacija: function(result, dref, gref) {
+    var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "") 
+    // (Interpretacija: "norm")
+    if (rezultat === "") {
+      return [" ", "No Class"];
+    } else if (rezultat.toLowerCase() === "nije prisutna") {
       return [" ", "Green"];
     } else {
       return ["H", "Red"];
