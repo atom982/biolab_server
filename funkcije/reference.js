@@ -153,6 +153,12 @@ module.exports = {
       case "da":      
         return [test, rezultat, interpretacija.Da(rezultat, dref, gref)[0], jedinica, "da", interpretacija.Da(rezultat, dref, gref)[1], extend];
         break;
+      case "e04":      
+        return [test, rezultat, interpretacija.SpermIzgled(rezultat, dref, gref)[0], jedinica, "uredan", interpretacija.SpermIzgled(rezultat, dref, gref)[1], extend];
+        break;
+      case "e05":      
+        return [test, rezultat, interpretacija.SpermBoja(rezultat, dref, gref)[0], jedinica, "sivo bijela", interpretacija.SpermBoja(rezultat, dref, gref)[1], extend];
+        break;
         
         
 

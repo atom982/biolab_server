@@ -222,7 +222,19 @@ module.exports = {
       return ["H", "Red"];
     }
   },
-  
+
+  SpermBoja: function(result, dref, gref) {
+    var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "") 
+    // (Interpretacija: "norm")
+    if (rezultat === "") {
+      return [" ", "No Class"];
+    } else if (rezultat.toLowerCase() === "sivo bijela") {
+      return [" ", "Green"];
+    } else {
+      return ["H", "Red"];
+    }
+  },
+    
 
 
   //
