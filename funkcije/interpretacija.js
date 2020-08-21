@@ -28,6 +28,8 @@ module.exports = {
       return [" ", "No Class"];
     } else if (Number(rezultat) >= Number(Math.abs(gref))) {
       return ["H", "Red"];
+    } else if (rezultat.includes("pozitivan") || rezultat.includes("pos")) {
+      return ["H", "Red"];
     } else {
       return [" ", "Green"];
     }
