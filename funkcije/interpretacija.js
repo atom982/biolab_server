@@ -354,7 +354,7 @@ module.exports = {
     // (Interpretacija: "nesto")
     if (rezultat === "") {
       return [" ", "No Class"];
-    } else if (rezultat.includes("masa") || rezultat.includes("dosta")) {
+    } else if (rezultat.includes("masa") || rezultat.includes("dosta") || rezultat.includes("malo")) {
       return ["H", "Red"];
     } else {
       return [" ", "Green"];
