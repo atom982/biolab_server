@@ -487,7 +487,7 @@ class PDFDocumentWithTables extends PDFDocument {
             startX + i * columnContainerWidth,
             startY,
             {
-              width: columnWidth - 40,
+              width: columnWidth,
               align: "center",
             }
           );
@@ -507,10 +507,10 @@ class PDFDocumentWithTables extends PDFDocument {
           this.fillColor("black");
           this.text(
             cell.trim(),
-            startX - 40 + i * columnContainerWidth,
+            startX + i * columnContainerWidth,
             startY,
             {
-              width: columnWidth - 60,
+              width: columnWidth,
               align: "center",
             }
           );
@@ -542,7 +542,7 @@ class PDFDocumentWithTables extends PDFDocument {
 
             this.text(
               cell.extend,
-              startX - 100 + i * columnContainerWidth,
+              startX + i * columnContainerWidth,
               startY,
               {
                 width: columnWidth + 100,
@@ -553,7 +553,7 @@ class PDFDocumentWithTables extends PDFDocument {
             this.fontSize(10);
             this.text(
               cell.reference,
-              startX - 100 + i * columnContainerWidth,
+              startX + i * columnContainerWidth,
               startY,
               {
                 width: columnWidth + 100,
