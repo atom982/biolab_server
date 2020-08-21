@@ -347,20 +347,20 @@ class PDFDocumentWithTables extends PDFDocument {
       }
       if (i === 1) {
         this.text(header, startX + i * columnContainerWidth, startY, {
-          width: columnWidth - 40,
+          width: columnWidth,
           align: "center",
         });
       }
       if (i === 2) {
-        this.text(header, startX - 40 + i * columnContainerWidth, startY, {
-          width: columnWidth - 60,
+        this.text(header, startX + i * columnContainerWidth, startY, {
+          width: columnWidth,
           align: "center",
         });
       }
       if (i === 3) {
-        this.text(header, startX - 100 + i * columnContainerWidth, startY, {
-          width: columnWidth + 100,
-          align: "left",
+        this.text(header, startX + i * columnContainerWidth, startY, {
+          width: columnWidth,
+          align: "center",
         });
       }
     });
