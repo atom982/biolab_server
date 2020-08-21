@@ -474,7 +474,7 @@ class PDFDocumentWithTables extends PDFDocument {
 
           if (cell.kontrola === "Red") {
             this.font("PTSansBold")
-              .rect(195, this.y + shadow - 0.2, 92.5, -12 - shadow)
+              .rect( this.x + columnContainerWidth, this.y + shadow - 0.2, 92.5, -12 - shadow)
               .opacity(0.25)
               .fill("#7B8186")
               .fillColor("black")
