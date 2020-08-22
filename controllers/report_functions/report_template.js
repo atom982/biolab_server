@@ -91,8 +91,6 @@ module.exports = {
     doc.font("PTSansBold").fontSize(12).text(rowsno, 50, nvisina + 70);
     doc.moveDown(1);
 
-    doc.moveDown(1);
-
     var i = 0;
     var rows = [];
     var analit = true;
