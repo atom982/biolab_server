@@ -48,7 +48,7 @@ module.exports = {
     );
 
     var memo = 0;
-    var nvisina = 100;
+    var nvisina = 90;
     var adjust = nvisina - 70;
     var nalazMemorandum = true;
 
@@ -59,7 +59,7 @@ module.exports = {
 
     doc.registerFont("PTSansRegular", config.nalaz_ptsansregular);
     doc.registerFont("PTSansBold", config.nalaz_ptsansbold);
-    doc.image(config.nalaz_logo + code + ".jpg", 28, 10, { fit: [240, 80], align: "center", valign: "center" });
+    doc.image(config.nalaz_logo + code + ".jpg", 28, 10, { fit: [240, 70], align: "center", valign: "center" });
 
     // doc.font("PTSansRegular").fontSize(13).fillColor("#7B8186").text("RIQAS certificirana eksterna kontrola kvaliteta", 308, 40);
     doc.font("PTSansRegular").fontSize(12).fillColor("black").text("Prezime i ime: ", 50, nvisina);
