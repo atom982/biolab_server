@@ -166,8 +166,10 @@ class PDFDocumentWithTables extends PDFDocument {
         }
 
         if (i === 1) {
-          if (cell.rezultat.trim().length >= 20) {
+          if (cell.rezultat.trim().length >= 20 && cell.rezultat.trim().length < 27) {
             this.fontSize(9);
+          } else if (cell.rezultat.trim().length >= 27) {
+            this.fontSize(8);
           } else {
             this.fontSize(10);
           }
