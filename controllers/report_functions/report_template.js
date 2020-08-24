@@ -7,8 +7,8 @@ module.exports = {
     let adresa = "";
 
     code = site_data.sifra;
-    adresa_x = 70;
-    adresa = "Zmaja od Bosne 63, 71000 Sarajevo, tel: 00387 33 645 845, mail:admir.smailji@gmail.com , web: www.biolab.ba"
+    adresa_x = 67.5;
+    adresa = "Zmaja od Bosne 63, 71000 Sarajevo, tel: 00387 33 645 845, mail:admir.smailji@gmail.com , web: www.bio-lab.ba"
     var fs = require("fs");
     PDFDocument = require("pdfkit");
     const PDFDocumentWithTables = require("./pdf_class");
