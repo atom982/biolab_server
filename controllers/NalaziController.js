@@ -76,6 +76,16 @@ nalazController.Mail = function(req, res) {
 										config.nalaz_signature +
 											nalaz.site.sifra +
 											'-' +
+											"Stamp" +
+											'.png',
+										72,
+										height,
+										{ keepAspectRatio: true }
+									)
+									.image(
+										config.nalaz_signature +
+											nalaz.site.sifra +
+											'-' +
 											req.body.decoded.user +
 											'.png',
 										372,
