@@ -78,9 +78,9 @@ nalazController.Mail = function(req, res) {
 											'-' +
 											req.body.decoded.user +
 											'.png',
-										390,
+										385,
 										height,
-										{ width: 135, keepAspectRatio: true }
+										{ width: 140, keepAspectRatio: true }
 									)
 									// .image(config.nalaz_footer + nalaz.site.sifra + eddress + ".jpg", 0, 745, { width: 615, keepAspectRatio: true })
 									// .text("Stranica " + str + " od " + page, 300, 790, { fontSize: 8, align: "center center" })
