@@ -80,7 +80,7 @@ nalazController.Mail = function(req, res) {
 											'.png',
 										390,
 										height,
-										{ width: 130, height: 60, keepAspectRatio: false }
+										{ width: 135, keepAspectRatio: true }
 									)
 									// .image(config.nalaz_footer + nalaz.site.sifra + eddress + ".jpg", 0, 745, { width: 615, keepAspectRatio: true })
 									// .text("Stranica " + str + " od " + page, 300, 790, { fontSize: 8, align: "center center" })
