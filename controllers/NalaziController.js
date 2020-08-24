@@ -78,7 +78,7 @@ nalazController.Mail = function(req, res) {
 											'-' +
 											req.body.decoded.user +
 											'.png',
-										375,
+										372,
 										height,
 										{ width: 150, keepAspectRatio: true }
 									)
