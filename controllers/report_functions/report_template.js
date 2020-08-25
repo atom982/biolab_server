@@ -7,7 +7,7 @@ module.exports = {
     let adresa = "";
 
     code = site_data.sifra;
-    adresa_x = 60;
+    adresa_x = 65;
     adresa = "Zmaja od Bosne broj 63, 71000 Sarajevo, tel: +38733645845, email: info@bio-lab.ba, web: www.bio-lab.ba"
     var fs = require("fs");
     PDFDocument = require("pdfkit");
