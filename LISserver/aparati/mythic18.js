@@ -205,7 +205,7 @@ module.exports = {
                                                                         novirez.status = uzorak.status
                                                                       }
                                                                       novirez.rezultati.forEach(rezu => {
-                                                                        if(rezu.labassay.equals(test.labassay._id)){
+                                                                        if(rezu.labassay.equals(test.labassay._id) && rezu.rezultat[0].dilucija === "MULTI"){
                                                                           rezu.status = "NIJE ODOBREN"
                                                                           rezu.rezultat[0].rezultat_f = '0' // !!!
                                                                         }
