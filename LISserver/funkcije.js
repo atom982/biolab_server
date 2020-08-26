@@ -202,7 +202,7 @@ parsaj_rezultat: function (record, io) {
   var mythic18 = require("./aparati/mythic18");
   var ErbaXL200 = require("./aparati/erbaxl200");
   var erbalyteplus = require("./aparati/erbalyteplus");
-  var Urilyzer100Pro = require("./aparati/urilyzer100pro");
+  var Access2 = require("./aparati/access2");
   var ecl105 = require("./aparati/ecl105");
 
   console.log("Parsanje rezultata...");
@@ -232,8 +232,17 @@ parsaj_rezultat: function (record, io) {
   if (sender[0] === "URI2P") {
     sn = sender[1].trim(); // Urilyzer 100 Pro
   }
+  if (record[0].includes("ACCESS")) {
+    sn = "503075"; // Access 2
+  }
+  
 console.log(sn)
   switch (sn) {
+    case "503075":
+      console.log("Access 2");
+      var serijski = '5f0b71a96cf682961981a73e'
+      Access2.parsaj_rezultat(record, io,serijski);
+      break;
     case "251714":
       console.log("Erba XL 200");
       ErbaXL200.parsaj_rezultat(record, io);
@@ -290,11 +299,19 @@ parsaj_query: function (record, callback) {
   if (record[0].includes("E 1394-97")) {
     sn = "251025"; // Erba XL 200
   }
-
+  if (record[0].includes("ACCESS")) {
+    sn = "503075"; // Access 2
+  }
   switch (sn) {
     case "251025": // Erba XL 200
       console.log("Query Parsing: Erba XL 200");
       ErbaXL200.parsaj_query(record, function (poruka) {
+        callback(poruka);
+      });
+      break;
+      case "503075": // Erba XL 200
+      console.log("Query Parsing: Erba XL 200");
+      access2.parsaj_query(record, function (poruka) {
         callback(poruka);
       });
       break;
