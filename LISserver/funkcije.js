@@ -284,7 +284,7 @@ parsaj_query: function (record, callback) {
   var TOSOHAIA360 = require("./aparati/aia360");
   var Urilyzer100Pro = require("./aparati/urilyzer100pro");
   var ErbaECL105 = require("./aparati/erbaxl200");
-
+  var Access2 = require("./aparati/access2");
   //console.log(record)
 
   var header = record[0].split("|");
@@ -311,7 +311,7 @@ parsaj_query: function (record, callback) {
       break;
       case "503075": // Erba XL 200
       console.log("Query Parsing: Erba XL 200");
-      access2.parsaj_query(record, function (poruka) {
+      Access2.parsaj_query(record, function (poruka) {
         callback(poruka);
       });
       break;
