@@ -400,7 +400,8 @@ module.exports = {
             var patient_arr = query_arr[2].split("^");
             console.log('duzina sid-a:'+patient_arr[2].length)
             console.log('sid:'+patient_arr[2])
-            json.sid = patient_arr[2].trim().toUpperCase();
+            json.sid = patient_arr[2].trim();
+            json.sid =json.sid.toUpperCase()
             json.pid = query_arr[2];
             json.endrange = query_arr[3]
             var test_arr = query_arr[4].split("^");
