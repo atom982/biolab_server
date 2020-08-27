@@ -70,7 +70,7 @@ module.exports = {
                                     qc = true
                                     console.log('kontrolni uzorak')
                                   }
-                                  sid="P"+'00'+sid+"B"+"00827"
+                                  sid="S"+'00'+sid+"B"+"00827"
                                   console.log("sid:"+sid);
                                   break;
                         case 'R':
