@@ -441,14 +441,14 @@ module.exports = {
                         counter++;
                         if (counter < testovi.length) {
                           if (element === '1048') { dilution = '' } else { dilution = '' }
-                          if(definisaniTestovi.includes(element)){
+                          
                           tests += '^^^' + element + '^'  + dilution + '\\';
-                          }
+                          
                         } else {
                           if (element === '1048') { dilution = '' } else { dilution = '' }
-                          if(definisaniTestovi.includes(element)){
+                         
                           tests += '^^^' + element + '^'  + dilution;
-                          }
+                          
                         }
                       });
                       Results.findOne({ 'id': uzorak.id }).populate('patient rezultati.labassay').exec(function (err, rezultat) {
