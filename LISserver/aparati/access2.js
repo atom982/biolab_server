@@ -62,6 +62,7 @@ module.exports = {
             console.log("Order: ");
             var order = element.split("|");
             sid = order[2].trim(); // 'S001C90406'
+            sid = sid.toUpperCase()
             console.log("SID: " + sid);
             break;
           case 'R':
@@ -401,7 +402,7 @@ module.exports = {
             console.log('duzina sid-a:'+patient_arr[2].length)
             console.log('sid:'+patient_arr[2])
             json.sid = patient_arr[2].trim();
-            json.sid =json.sid.toUpperCase()
+            
             json.pid = query_arr[2];
             json.endrange = query_arr[3]
             var test_arr = query_arr[4].split("^");
