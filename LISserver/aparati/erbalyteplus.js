@@ -65,10 +65,12 @@ module.exports = {
                                   var order = element.split("|");
                                   var pomSID = order[2].split("^");
                                   sid = pomSID[0];
+                                  sid = sid.replace(/^0+/, '');
                                   if(order[11] ==='Q'){
                                     qc = true
                                     console.log('kontrolni uzorak')
                                   }
+                                  sid="P"+'00'+sid+"00827"
                                   console.log("sid:"+sid);
                                   break;
                         case 'R':
