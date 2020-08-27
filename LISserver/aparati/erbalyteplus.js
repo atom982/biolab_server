@@ -82,7 +82,7 @@ module.exports = {
                                     default:
                                       break;
                                   } 
-                                  sid="S"+param+sid+"B"+"00827"
+                                  sid="S"+param+sid+"B"+"00828"
                                   console.log("sid:"+sid);
                                   break;
                         case 'R':
