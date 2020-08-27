@@ -70,7 +70,19 @@ module.exports = {
                                     qc = true
                                     console.log('kontrolni uzorak')
                                   }
-                                  sid="S"+'00'+sid+"B"+"00827"
+                                  var broj =sid.length
+                                  var param = ''
+                                  switch (broj) {
+                                    case 1:
+                                            param = "00"
+                                      break;
+                                      case 2:
+                                        param = "0"
+                                  break;
+                                    default:
+                                      break;
+                                  } 
+                                  sid="S"+param+sid+"B"+"00827"
                                   console.log("sid:"+sid);
                                   break;
                         case 'R':
