@@ -500,7 +500,7 @@ module.exports = {
                           ime = ime.replace(/ž/g,'z')
                           var patient = 'P|1'
                           recordret.push(patient);
-                          var order = 'O|1|'+'   '+json.sid+'|'+json.pid.substring(16,json.pid.length-2)+'|'+tests+'|R||||||A||||1||||||||||O';
+                          var order = 'O|1|'+'   '+json.sid+'||'+tests+'|R||||||A||||1||||||||||O';
                           //           O|1|                ||             |R||||||N||||||||||||||F
                           var niztest = []
   
