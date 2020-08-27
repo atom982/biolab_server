@@ -402,7 +402,7 @@ module.exports = {
             console.log('duzina sid-a:'+patient_arr[2].length)
             console.log('sid:'+patient_arr[2])
             json.sid = patient_arr[2].trim();
-            
+            json.sid = json.sid.toUpperCase()
             json.pid = query_arr[2];
             json.endrange = query_arr[3]
             var test_arr = query_arr[4].split("^");
@@ -439,7 +439,7 @@ module.exports = {
                           if ((anaassay.aparat.sn === json.sn) && (anaassay.test.sifra === test.labassay.sifra) && (anaassay.test.calculated)) {
                             test.status_t = "U OBRADI"
                           }
-                          if (((anaassay.aparat.sn === json.sn) && (anaassay.test.sifra === test.labassay.sifra) && (test.status_r === true)) || ((anaassay.aparat.sn === json.sn) && (anaassay.test.sifra === test.labassay.sifra) && (test.status_t === "ZAPRIMLJEN") )) {
+                          if (((anaassay.test.sifra === test.labassay.sifra) && (test.status_r === true)) || ( (anaassay.test.sifra === test.labassay.sifra) && (test.status_t === "ZAPRIMLJEN") )|| ( (anaassay.test.sifra === test.labassay.sifra) && (test.status_t === "U OBRADI") )) {
                             testovi.push(anaassay.kod)
                             test.status_t = "U OBRADI"
                           }
