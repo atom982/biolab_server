@@ -83,7 +83,7 @@ module.exports = {
 
             var vrijeme_rezultata = Date.now();
                
-            var module_sn = "H7600";
+            var module_sn = "503075";
 
             console.log("Rezultat: "+rezultat_f + " " + jedinice_f);
 
@@ -118,7 +118,7 @@ module.exports = {
                             
                              
                             if (test === null) {
-                              console.log('U LIS-u ne postoji definisan test sa sifrom:' + sifra_p + ' ni na jednom aparatu' + sn);
+                              console.log('U LIS-u ne postoji definisan test sa sifrom:' + sifra_p + '  na aparatu Access 2');
                             } else {
                               uzorak.tests.forEach(elementu => {
   
