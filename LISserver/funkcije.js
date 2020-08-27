@@ -310,7 +310,7 @@ parsaj_query: function (record, callback) {
       });
       break;
       case "503075": // Erba XL 200
-      console.log("Query Parsing: Erba XL 200");
+      console.log("Query Parsing: Access2");
       Access2.parsaj_query(record, function (poruka) {
         callback(poruka);
       });

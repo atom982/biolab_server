@@ -48,7 +48,7 @@ module.exports = {
             console.log("Header: ");
             var header = element.split("|");
             var sender = header[4].split("^");
-            sn = 'H7600';
+            sn = '503075';
             vrijeme_prijenosa = Date.now();
             //console.log("Vrijeme prenosa: " + vrijeme_prijenosa);
             break;
@@ -387,7 +387,7 @@ module.exports = {
             console.log("Header: ");
             var header = element.split("|");
             var sender = header[4].split("^");
-            json.sn = sender[0];
+            json.sn = sender[1];
             json.vrijeme_prijenosa = Date.now();
             break;
           case 'P':
@@ -397,17 +397,9 @@ module.exports = {
   
             console.log("Query: ");
             var query_arr = element.split("|");
-            json.sequence = query_arr[1];
-            var patient_arr = query_arr[2].split("^");
-            console.log('duzina sid-a:'+patient_arr[2].length)
-            console.log('sid:'+patient_arr[2])
-            json.sid = patient_arr[2].trim();
-            json.sid = json.sid.toUpperCase()
-            json.pid = query_arr[2];
-            json.endrange = query_arr[3]
-            var test_arr = query_arr[4].split("^");
-            json.test_id = test_arr[3];
-            json.request_type = query_arr[12];
+            json.sequence = query_arr[2];
+            var niz = query_arr[2].split("^");
+            json.sid = niz[1]
             console.log(json.sid);
             break;
           case 'L':
