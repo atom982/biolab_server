@@ -475,8 +475,32 @@ module.exports = {
                           });
                           uzorak.save()
                           console.log("Kreiram Record: ");
-                          //var header = 'H|\\^&|||atom^1|||||H7600|TSDWN^REPLY|P|1';
-                          var header = 'H|\\^&|||atom^1|||||H7600|TSDWN^REPLY|P|1'
+                            // H|\^&|||LIS|||||||P|1|20001010080000<CR>
+                            // P|1|0987656789|||Smith^Tom^A^Jr.^Mr.||19631124|M|||||Jones
+                            // O|1|Samp45||^^^TSH|R||||||A||||Serum<CR>
+                            // L|1|F<CR>
+                            function getFormattedDate() {
+                                var date = new Date();
+                            
+                                var month = date.getMonth() + 1;
+                                var day = date.getDate();
+                                var hour = date.getHours();
+                                var min = date.getMinutes();
+                                var sec = date.getSeconds();
+                            
+                                month = (month < 10 ? "0" : "") + month;
+                                day = (day < 10 ? "0" : "") + day;
+                                hour = (hour < 10 ? "0" : "") + hour;
+                                min = (min < 10 ? "0" : "") + min;
+                                sec = (sec < 10 ? "0" : "") + sec;
+                            
+                                var str = date.getFullYear()+ month  + day +  hour  + min  + sec;
+                            
+                                /*alert(str);*/
+                            
+                                return str;
+                            }
+                          var header = 'H|\\^&|||atom|||||||P|1|'+getFormattedDate()
                           
                           recordret.push(header);
                           var prezime = rezultat.patient.prezime
@@ -498,10 +522,17 @@ module.exports = {
                           ime = ime.replace(/š/g,'s')
                           ime = ime.replace(/đ/g,'d')
                           ime = ime.replace(/ž/g,'z')
-                          var patient = 'P|1'
+                          var spol = rezultat.patient.spol
+
+                          if(spol === "ŽENSKI"){
+                            spol = "F"
+                          }else{
+                            spol = "M"
+                          }
+                          var patient = 'P|1|'+rezultat.patient.jmbg+'|||'+ime+'||19631124|'+spol+'|'
                           recordret.push(patient);
-                          var order = 'O|1|'+'   '+json.sid+'||'+tests+'|R||||||A||||1||||||||||O';
-                          //           O|1|                ||             |R||||||N||||||||||||||F
+                          var order = 'O|1|'+'   '+json.sid+'||'+tests+'|R||||||A||||Serum';
+                          //           // O|1|Samp45||^^^TSH|R||||||A||||Serum<CR>
                           var niztest = []
   
                           if (order.length > 240) {
@@ -550,7 +581,7 @@ module.exports = {
                           }
                           var terminator = 'L|1|N';
                           recordret.push(terminator);
-  
+                          console.log(recordret)
                           callback(recordret);
                         }
   
