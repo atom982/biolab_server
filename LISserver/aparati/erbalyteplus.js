@@ -82,7 +82,8 @@ module.exports = {
                                     default:
                                       break;
                                   } 
-                                  sid="S"+param+sid+"B"+"00828"
+                                  var datumT = new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().substring(0, 10)
+                                  sid = 'S'+param+sid+'B'+ datumT.substring(3, 4) + datumT.substring(5, 7) + datumT.substring(8, 10)
                                   console.log("sid:"+sid);
                                   break;
                         case 'R':
