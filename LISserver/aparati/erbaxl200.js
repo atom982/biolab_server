@@ -357,8 +357,8 @@ module.exports = {
                                                 var tests = '';
                                                 var counter =0;
                                                 var uzoraklength=uzorak.tests.length;
-                                                
-                                                AnaAssays.find({}).populate('aparat test').lean().exec(function (err, anaassays) {
+                                                var serijski = '5c71b6f5c599d9279717a334'
+                                                AnaAssays.find({aparat:mongoose.Types.ObjectId(serijski)}).populate('aparat test').lean().exec(function (err, anaassays) {
                                                   uzorak.tests.forEach(function(test) {
                                                     anaassays.forEach(function(anaassay) { 
                                                       if( (anaassay.test.sifra === test.labassay.sifra)  && (anaassay.test.calculated)){
