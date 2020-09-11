@@ -1889,6 +1889,991 @@ class PDFDocumentWithTablesPPoLokaciji extends PDFDocument {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Radna lista, PDFDocument
+
+class PDFDocumentWithTablesWorkList extends PDFDocument {
+  constructor(options) {
+    super(options);
+  }
+
+  table(table, arg0, arg1, arg2) {
+    let startX = this.page.margins.left,
+      startY = this.y;
+    let options = {};
+
+    if (typeof arg0 === "number" && typeof arg1 === "number") {
+      startX = arg0;
+      startY = arg1;
+
+      if (typeof arg2 === "object") options = arg2;
+    } else if (typeof arg0 === "object") {
+      options = arg0;
+    }
+
+    const columnCount = table.headers.length;
+    const columnSpacing = options.columnSpacing || 2;
+    const rowSpacing = options.rowSpacing || 2;
+    const usableWidth =
+      options.width ||
+      this.page.width - this.page.margins.left - this.page.margins.right;
+    const prepareHeader = options.prepareHeader || (() => {});
+    const prepareRow = options.prepareRow || (() => {});
+    const computeRowHeight = row => {
+      let result = 0;
+
+      row.forEach(cell => {
+        const cellHeight = this.heightOfString(cell, {
+          width: columnWidth,
+          align: "left"
+        });
+        result = Math.max(result, cellHeight);
+      });
+      return result + rowSpacing;
+    };
+
+    const columnContainerWidth = usableWidth / columnCount;
+    const columnWidth = columnContainerWidth - columnSpacing;
+    const maxY = this.page.height - this.page.margins.bottom;
+
+    let rowBottomY = 0;
+
+    this.on("pageAdded", () => {
+      startY = this.page.margins.top + 20;
+      rowBottomY = 0;
+    });
+    // Allow the user to override style for headers
+    prepareHeader();
+    // Check to have enough room for header and first rows
+    if (startY + 3 * computeRowHeight(table.headers) > maxY) this.addPage();
+    // Print all headers
+    table.headers.forEach((header, i) => {
+      if (i === 0) {
+        this.text(header, startX + i * columnContainerWidth, startY, {
+          width: columnWidth,
+          align: "left"
+        });
+      }
+      if (i === 1) {
+        this.text(header, startX + i * columnContainerWidth, startY, {
+          width: columnWidth + 100,
+          align: "left"
+        });
+      }
+      if (i === 2) {
+        this.text(header, startX + 100 + i * columnContainerWidth, startY, {
+          width: columnWidth - 100,
+          align: "left"
+        });
+      }
+    });
+    // Refresh the y coordinate of the bottom of the headers row
+    rowBottomY = Math.max(startY + computeRowHeight(table.headers), rowBottomY);
+    // Separation line between headers and rows
+    this.moveTo(startX, rowBottomY - rowSpacing * 0.5)
+      .lineTo(startX + usableWidth, rowBottomY - rowSpacing * 0.5)
+      .lineWidth(2)
+      .stroke();
+    table.rows.forEach((row, i) => {
+      const rowHeight = 15; // computeRowHeight(row)
+      var pageAdded = false;
+      var correction = 0;
+      // Switch to next page if we cannot go any further because the space is ove
+      // For safety, consider 3 rows margin instead of just one
+      if (startY + 3 * rowHeight < maxY) {
+        startY = rowBottomY + rowSpacing;
+      } else {
+        this.addPage();
+        pageAdded = true;
+      }
+      // Allow the user to override style for rows
+      prepareRow(row, i);
+      // Print all cells of the current row
+      row.forEach((cell, i) => {
+        if (i === 0) {
+          var Niz = cell.split("\n");
+
+          Niz.forEach(element => {
+            if (element.includes("Godište:")) {
+              this.fontSize(8);
+              this.text(
+                element,
+                startX + i * columnContainerWidth,
+                startY + 12,
+                {
+                  width: columnWidth,
+                  align: "left"
+                }
+              );
+            } else if (element.includes("Redni broj pacijenta:")) {
+              this.fontSize(8);
+              this.text(
+                element,
+                startX + i * columnContainerWidth,
+                startY + 22,
+                {
+                  width: columnWidth,
+                  align: "left"
+                }
+              );
+            } else {
+              this.fontSize(9);
+              this.text(element, startX + i * columnContainerWidth, startY, {
+                width: columnWidth,
+                align: "left"
+              });
+            }
+          });
+        }
+        if (i === 1) {
+          this.fontSize(10);
+          var Arr = cell.split("\n");
+
+          // console.log(Arr.length);
+          if (Arr.length === 2) {
+            correction = 12;
+          } else {
+            correction = 0;
+          }
+
+          Arr.forEach(element => {
+
+            
+            if(element.includes("Uzorak: ")){
+
+              // console.log(element)
+
+              this.font("PTSansBold", config.nalaz_ptsansbold);
+
+              this.text(element, startX + i * columnContainerWidth, startY, {
+                width: columnWidth + 100,
+                align: "left",
+                underline: false
+              });
+
+            }else{
+
+              this.font("PTSansRegular", config.nalaz_ptsansregular);
+
+              this.text(element, startX + i * columnContainerWidth, startY, {
+                width: columnWidth + 100,
+                align: "left",
+                underline: false
+              });
+
+            }
+            
+            startY = this.y;
+
+            if (element.length) {
+              this.moveTo(this.x, this.y)
+                .lineTo(this.x + 230, this.y)
+                .lineWidth(0.5)
+                .opacity(0.7)
+                .stroke()
+                .opacity(1); // Reset opacity after drawing the line
+
+              this.moveTo(484, this.y)
+                .lineTo(535, this.y)
+                .lineWidth(0.5)
+                .opacity(0.7)
+                .stroke()
+                .opacity(1); // Reset opacity after drawing the line
+            }
+          });
+        }
+      });
+      // Refresh the y coordinate of the bottom of this row
+      rowBottomY = Math.max(startY + rowHeight, rowBottomY) + correction;
+      // Separation line between rows
+      this.moveTo(startX, rowBottomY - rowSpacing * 0.5)
+        .lineTo(startX + usableWidth, rowBottomY - rowSpacing * 0.5)
+        .lineWidth(1)
+        .opacity(0.7)
+        .stroke()
+        .opacity(1); // Reset opacity after drawing the line
+    });
+    this.x = startX;
+    this.moveDown();
+    return this;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Radna lista, Controller
+
+reportController.WorkList = function(req, res) {
+  if (mongoose.connection.readyState != 1) {
+    res.json({
+      success: false,
+      message: "Greška prilikom konekcije na MongoDB."
+    });
+  } else {
+
+    console.log("Radna lista, Controller")
+    
+    console.log(req.body.range)
+
+    var range = req.body.range.split("do");
+    if (range.length === 2) {
+      to = range[1].trim() + "T21:59:59";
+      to = new Date(to + "Z");
+      from = range[1].trim() + "T00:00:00";
+      from = new Date(from + "Z");
+    } else {
+      to = range[0].trim() + "T21:59:59";
+      to = new Date(to + "Z");
+      from = range[0].trim() + "T00:00:00";
+      from = new Date(from + "Z");
+    }
+    
+
+    var tmpTime = "";
+    if (req.body.range.length > 20) {
+      tmpTime =
+       /*  req.body.range.slice(8, 10) +
+        "." +
+        req.body.range.slice(5, 7) +
+        "." +
+        req.body.range.slice(0, 4) +
+        " do " + */
+        req.body.range.slice(22, 24) +
+        "." +
+        req.body.range.slice(19, 21) +
+        "." +
+        req.body.range.slice(14, 18);
+    } else {
+      tmpTime =
+        req.body.range.slice(8, 10) +
+        "." +
+        req.body.range.slice(5, 7) +
+        "." +
+        req.body.range.slice(0, 4);
+    }
+
+    var uslov = {};
+
+    uslov = {
+      created_at: {
+        $gt: from,
+        $lt: to
+      }
+    };
+
+    // console.log(uslov)
+
+    Samples.find(uslov)
+      .populate("patient site tests.labassay")
+      .exec(function(err, samples) {
+        if (err) {
+          console.log("Greška:", err);
+        } else {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          if (samples.length) {
+            const doc = new PDFDocumentWithTablesWorkList({
+              bufferPages: true
+            });
+
+            doc.registerFont("PTSansRegular", config.nalaz_ptsansregular);
+            doc.registerFont("PTSansBold", config.nalaz_ptsansbold);
+            doc
+              .font("PTSansRegular")
+              .fontSize(16)
+              .fillColor("#black")
+              .text("Radna lista", 70, 50, {
+                align: "left"
+              });
+
+            doc.moveDown();
+
+            var headers = ["Pacijent", "Uzorci", "Check"];
+            var rows = [];
+            var linerow = [];
+
+
+            let pids = [];
+            
+
+           
+
+
+            
+
+
+           
+
+            samples = samples.sort(function (a, b) {
+              return a.pid.localeCompare(b.pid, undefined, {
+                numeric: true,
+                sensitivity: "base",
+              });
+            });
+
+            samples.forEach(element => {
+              pids.push(element.pid)
+              
+            });
+
+            let uniquePids = [...new Set(pids)];
+
+            
+
+            var Obj = []
+            var data = {}
+
+            uniquePids.forEach(pid => {
+              data = {}
+              var Samples = []
+
+              data.pid = pid
+
+              samples.forEach(sample => {
+                if(sample.pid === pid){
+                  Samples.push(sample)
+                }
+                
+              });
+
+              Samples = Samples.sort(function (a, b) {
+                return a.id.localeCompare(b.id, undefined, {
+                  numeric: true,
+                  sensitivity: "base",
+                });
+              });
+
+              data.samples = Samples
+
+
+
+
+
+
+
+
+
+              Obj.push(data)
+              
+            });
+
+
+            
+
+
+
+
+
+
+
+
+            Obj.forEach(objekat => {
+
+              // console.log(objekat);
+
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+             
+              var godiste = objekat.samples[0].patient.jmbg.substring(4, 7);
+              switch (godiste[0]) {
+                case "9":
+                  godiste = "1" + godiste + ".";
+                  break;
+                case "0":
+                  godiste = "2" + godiste + ".";
+                  break;
+                default:
+                  break;
+              }
+
+              linerow = [];
+              analize = "";
+
+              if (godiste == "1920.") {
+                var ime =
+                objekat.samples[0].patient.ime.trim() +
+                  " " +
+                  objekat.samples[0].patient.prezime.trim() +
+                  "\n" +
+                  "Godište: Nema podataka." +
+                  "\n" +
+                  "Redni broj pacijenta: " +
+                  objekat.pid + 
+                  "\n";
+              } else {
+                var ime =
+                objekat.samples[0].patient.ime.trim() +
+                  " " +
+                  objekat.samples[0].patient.prezime.trim() +
+                  "\n" +
+                  "Godište: " +
+                  godiste +
+                  "\n" +
+                  "Redni broj pacijenta: " +
+                  objekat.pid + 
+                  "\n";
+              }
+
+              linerow.push(ime);
+              
+
+               
+
+              objekat.samples.forEach(sekc => {
+
+                analize += "Uzorak: " + sekc.id.trim() + "\n";
+
+                
+
+
+                sekc.tests.forEach(test => {
+                  analize += test.labassay.analit.trim() + "\n";
+                });
+
+
+               
+              });
+
+              linerow.push(analize);
+
+              rows.push(linerow);
+
+              // console.log(linerow);
+
+              
+
+              doc.table(
+                {
+                  headers: headers,
+                  rows: rows
+                },
+                {
+                  prepareHeader: () => doc.fontSize(8),
+                  prepareRow: (row, i) => doc.fontSize(10)
+                }
+              );
+
+              if (analize.split("\n").length === 2) {
+                doc.moveDown();
+              } else {
+              }
+
+              rows = [];
+
+              doc.moveDown();
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            });
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            const range = doc.bufferedPageRange();
+
+            for (let i = range.start; i < range.start + range.count; i++) {
+              doc.switchToPage(i);
+              doc
+                .font("PTSansRegular")
+                .fontSize(13)
+                .fillColor("#7B8186")
+                .text(tmpTime, 70, 25);
+              doc
+                .font("PTSansRegular")
+                .fontSize(8)
+                .fillColor("#black")
+                .text(
+                  `Stranica ${i + 1} od ${range.count}`,
+                  doc.page.width / 2 - 25,
+                  doc.page.height - 30,
+                  { lineBreak: false }
+                );
+            }
+            doc.end();
+            doc.pipe(
+              fs
+                .createWriteStream(
+                  config.report_path +
+                    "worklists/" +
+                    req.body.timestamp +
+                    ".pdf"
+                )
+                .on("finish", function() {
+                  res.json({
+                    success: true,
+                    message: "Izvještaj uspjesno kreiran",
+                    id: req.body.range,
+                    Obj: Obj
+                  });
+                })
+            );
+          } else {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+            res.json({
+              success: true,
+              message: "Nema dostupnih podataka.",
+              id: req.body.range
+            });
+          }
+        }
+      });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Pacijenti po lokaciji, Controller
 
 reportController.PPoLokaciji = function(req, res) {
