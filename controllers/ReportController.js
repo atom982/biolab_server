@@ -2321,7 +2321,7 @@ reportController.WorkList = function(req, res) {
 
             doc.moveDown();
 
-            var headers = ["Pacijent", "Uzorci", "Check"];
+            var headers = ["Pacijent", "Analize", "Check"];
             var rows = [];
             var linerow = [];
 
