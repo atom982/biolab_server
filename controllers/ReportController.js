@@ -2231,8 +2231,7 @@ reportController.WorkList = function(req, res) {
 
     console.log("Radna lista, Controller")
     
-    console.log(req.body.range)
-
+    
     var range = req.body.range.split("do");
     if (range.length === 2) {
       to = range[1].trim() + "T21:59:59";
@@ -2345,7 +2344,21 @@ reportController.WorkList = function(req, res) {
             });
 
             samples.forEach(element => {
-              pids.push(element.pid)
+
+              if(req.body.low.trim() == "" && req.body.high.trim() == ""){  
+                pids.push(element.pid)
+              }else if(!isNaN(req.body.low) && !isNaN(req.body.high) && req.body.low.trim() != "" && req.body.high.trim() != "" && element.pid >= req.body.low && element.pid <= req.body.high){
+                pids.push(element.pid)
+                
+              }else{
+                console.log("Nije definisano")
+              }
+
+
+              
+
+              
+              
               
             });
 
