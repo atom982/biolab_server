@@ -45,7 +45,7 @@ const SchemaAudit_SampleDelete = mongoose.Schema({
     {
       labassay: { type: mongoose.Schema.ObjectId, ref: "LabAssays" },
       status_r: { type: Boolean, default: false },
-      status_t: { type: String, default: "NA ČEKANJU" }
+      status_t: { type: String, default: "ZAPRIMLJEN" }
     }
   ],
   created_at: { type: Date, default: Date.now },
@@ -117,7 +117,7 @@ const SchemaAudit_Sample = mongoose.Schema({
     {
       labassay: { type: mongoose.Schema.ObjectId, ref: "LabAssays" },
       status_r: { type: Boolean, default: false },
-      status_t: { type: String, default: "NA ČEKANJU" }
+      status_t: { type: String, default: "ZAPRIMLJEN" }
     }
   ],
   created_at: { type: Date, default: Date.now },

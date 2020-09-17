@@ -2359,10 +2359,10 @@ sampleController.List = function(req, res) {
             if (element.labassay.manual && element.status_t != "U OBRADI") {
               deletable = true;
             }
-            if (!element.labassay.manual && element.status_t != "NA ČEKANJU") {
+            if (!element.labassay.manual && element.status_t != "ZAPRIMLJEN") {
               deletable = true;
             }
-            if (element.status_t === "NA ČEKANJU") {
+            if (element.status_t === "ZAPRIMLJEN") {
               nacekanju++;
             }
             if (element.status_t === "U OBRADI") {
@@ -2845,7 +2845,7 @@ sampleController.Update = function(req, res) {
 
         var counter = 0;
         var zaunos = true;
-        var status_t = "NA ČEKANJU";
+        var status_t = "ZAPRIMLJEN";
         var sampleTeststemp = result.sample.tests;
         result.sample.status = "U OBRADI";
         var age = null;
@@ -2870,7 +2870,7 @@ sampleController.Update = function(req, res) {
               if (err) {
                 console.log("Greška:", err);
               } else {
-                status_t = "NA ČEKANJU";
+                status_t = "ZAPRIMLJEN";
                 if (test.manual) {
                   status_t = "U OBRADI";
                 }
@@ -4017,11 +4017,11 @@ sampleController.ListSve = function(req, res) {
               }
               if (
                 !element.labassay.manual &&
-                element.status_t != "NA ČEKANJU"
+                element.status_t != "ZAPRIMLJEN"
               ) {
                 deletable = true;
               }
-              if (element.status_t === "NA ČEKANJU") {
+              if (element.status_t === "ZAPRIMLJEN") {
                 nacekanju++;
               }
               if (element.status_t === "U OBRADI") {
