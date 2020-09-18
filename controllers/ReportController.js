@@ -2229,7 +2229,7 @@ reportController.WorkList = function(req, res) {
     });
   } else {
 
-    console.log("Radna lista, Controller")
+    // console.log("Radna lista, Controller")
     
     
     var range = req.body.range.split("do");
@@ -2351,7 +2351,7 @@ reportController.WorkList = function(req, res) {
                 pids.push(element.pid)
                 
               }else{
-                console.log("Nije definisano")
+                // console.log("Nije definisano")
               }
 
 

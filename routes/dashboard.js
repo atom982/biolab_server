@@ -8,8 +8,8 @@ router.get("/dashboard/bar", dashboard.VerticalBar);
 router.get("/dashboard/info", dashboard.InfoWidgets);
 router.get("/dashboard/line", dashboard.LineChart);
 router.get("/dashboard/patients", dashboard.Patients);
-router.get("/evaluation/bubble", dashboard.BubbleChart);
+// router.get("/evaluation/bubble", dashboard.BubbleChart);
 
-router.get("/dashboard/data", dashboard.dashboardData);
+// router.get("/dashboard/data", dashboard.dashboardData);
 
 module.exports = router;
