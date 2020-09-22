@@ -101,7 +101,9 @@ class PDFDocumentWithTables extends PDFDocument {
       .opacity(1); // Reset opacity after drawing the line
 
     table.rows.forEach((row, i) => {
-      const rowHeight = 15;
+      let rowHeight = 15;
+      let shadow = 0;
+      let res = [];
 
       // Switch to next page if we cannot go any further because the space is ove
       // For safety, consider 3 rows margin instead of just one
@@ -166,7 +168,10 @@ class PDFDocumentWithTables extends PDFDocument {
         }
 
         if (i === 1) {
-          if (cell.rezultat.trim().length >= 20 && cell.rezultat.trim().length < 27) {
+          if (
+            cell.rezultat.trim().length >= 20 &&
+            cell.rezultat.trim().length < 27
+          ) {
             this.fontSize(9);
           } else if (cell.rezultat.trim().length >= 27) {
             this.fontSize(7.5);
@@ -230,20 +235,39 @@ class PDFDocumentWithTables extends PDFDocument {
           }
 
           if (cell.extend.trim() != "" && !cell.reference.includes("*")) {
-            if (
-              cell.extend.trim().length >= 55 &&
-              cell.extend.trim().length <= 60
-            ) {
-              this.fontSize(9);
-            } else if (
-              cell.extend.trim().length >= 60 &&
-              cell.extend.trim().length <= 65
-            ) {
-              this.fontSize(8);
-            } else if (cell.extend.trim().length >= 65) {
-              this.fontSize(7);
+            if (cell.extend.includes(";")) {
+              res = cell.extend.split(";");
+
+              if (res.length != undefined && res.length > 1) {
+                rowHeight = rowHeight + 12.5 * (res.length - 1);
+                shadow = 12.5 * (res.length - 1);
+              }
+
+              if (res.length) {
+                cell.extend = "";
+
+                res.forEach((element) => {
+                  cell.extend = cell.extend + element.trim() + "\n";
+                });
+              }
+
+              cell.extend = cell.extend.replace(/,/g, "\n");
             } else {
-              this.fontSize(10);
+              if (
+                cell.extend.trim().length >= 55 &&
+                cell.extend.trim().length <= 60
+              ) {
+                this.fontSize(9);
+              } else if (
+                cell.extend.trim().length >= 60 &&
+                cell.extend.trim().length <= 65
+              ) {
+                this.fontSize(8);
+              } else if (cell.extend.trim().length >= 65) {
+                this.fontSize(7);
+              } else {
+                this.fontSize(10);
+              }
             }
 
             this.text(cell.extend, startX + i * columnContainerWidth, startY, {
@@ -272,8 +296,8 @@ class PDFDocumentWithTables extends PDFDocument {
       // Separation line between rows
       this.moveTo(startX, rowBottomY - rowSpacing * 0.5)
         .lineTo(startX + usableWidth, rowBottomY - rowSpacing * 0.5)
-        .lineWidth(0.2)
-        .opacity(0.1)
+        .lineWidth(0.3)
+        .opacity(0.2)
         .stroke()
         .opacity(1); // Reset opacity after drawing the line
     });
@@ -573,8 +597,8 @@ class PDFDocumentWithTables extends PDFDocument {
       // Separation line between rows
       this.moveTo(startX, rowBottomY - rowSpacing * 0.5)
         .lineTo(startX + usableWidth, rowBottomY - rowSpacing * 0.5)
-        .lineWidth(0.2)
-        .opacity(0.1)
+        .lineWidth(0.3)
+        .opacity(0.2)
         .stroke()
         .opacity(1); // Reset opacity after drawing the line
     });
@@ -798,8 +822,8 @@ class PDFDocumentWithTables extends PDFDocument {
       // Separation line between rows
       this.moveTo(startX, rowBottomY - rowSpacing * 0.5)
         .lineTo(startX + usableWidth, rowBottomY - rowSpacing * 0.5)
-        .lineWidth(0.2)
-        .opacity(0.1)
+        .lineWidth(0.3)
+        .opacity(0.2)
         .stroke()
         .opacity(1); // Reset opacity after drawing the line
     });
@@ -964,8 +988,8 @@ class PDFDocumentWithTables extends PDFDocument {
       // Separation line between rows
       this.moveTo(startX, rowBottomY - rowSpacing * 0.5)
         .lineTo(startX + usableWidth, rowBottomY - rowSpacing * 0.5)
-        .lineWidth(0.2)
-        .opacity(0.1)
+        .lineWidth(0.3)
+        .opacity(0.2)
         .stroke()
         .opacity(1); // Reset opacity after drawing the line
     });
