@@ -2804,6 +2804,9 @@ sampleController.Update = function(req, res) {
     .populate("sample patient")
     .exec(function(err, result) {
       if (result) {
+
+        var Created = result.created_at;
+
         var delr = {};
         delr.id = result.id;
         delr.sample = result.sample;
@@ -2896,7 +2899,7 @@ sampleController.Update = function(req, res) {
                   });
                   if (testm) {
                     if (test.manual) {
-                      result.created_at = Date.now();
+                      result.created_at = Created;
 
                       if (testm.test.multi) {
                         testm.test.multiparam.forEach(param => {
@@ -3228,7 +3231,7 @@ sampleController.Update = function(req, res) {
                               jedinice_p: "",
                               rezultat_i: "",
                               odobren: false,
-                              created_at: Date.now(),
+                              created_at: Created,
                               created_by: req.body.decoded.user
                             }
                           ]
