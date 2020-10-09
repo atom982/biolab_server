@@ -58,13 +58,13 @@ class PDFDocumentWithTables extends PDFDocument {
       this.page.width - this.page.margins.left - this.page.margins.right;
     const prepareHeader = options.prepareHeader || (() => {});
     const prepareRow = options.prepareRow || (() => {});
-    const computeRowHeight = row => {
+    const computeRowHeight = (row) => {
       let result = 0;
 
-      row.forEach(cell => {
+      row.forEach((cell) => {
         const cellHeight = this.heightOfString(cell, {
           width: columnWidth,
-          align: "left"
+          align: "left",
         });
         result = Math.max(result, cellHeight);
       });
@@ -90,13 +90,13 @@ class PDFDocumentWithTables extends PDFDocument {
       if (i === 0) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth + 40,
-          align: "left"
+          align: "left",
         });
       }
       if (i === 1) {
         this.text(header, startX - 160 + i * columnContainerWidth, startY, {
           width: columnWidth + 160,
-          align: "left"
+          align: "left",
         });
       }
     });
@@ -125,13 +125,13 @@ class PDFDocumentWithTables extends PDFDocument {
         if (i === 0) {
           this.text(cell, startX + i * columnContainerWidth, startY, {
             width: columnWidth + 40,
-            align: "left"
+            align: "left",
           });
         }
         if (i === 1) {
           this.text(cell, startX - 160 + i * columnContainerWidth, startY, {
             width: columnWidth + 160,
-            align: "left"
+            align: "left",
           });
           startY = this.y;
         }
@@ -152,11 +152,11 @@ class PDFDocumentWithTables extends PDFDocument {
   }
 }
 
-reportController.KProtokol = function(req, res) {
+reportController.KProtokol = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     var range = req.body.range.split("do");
@@ -205,31 +205,31 @@ reportController.KProtokol = function(req, res) {
       uslov = {
         created_at: {
           $gt: from,
-          $lt: to
+          $lt: to,
         },
-        status: true
+        status: true,
       };
     } else {
       uslov = {
         created_at: {
           $gt: from,
-          $lt: to
+          $lt: to,
         },
         site: mongoose.Types.ObjectId(req.body.izbor._id),
-        status: true
+        status: true,
       };
     }
 
     Nalazi.find(uslov)
       .populate("patient site")
-      .exec(function(err, nalazi) {
+      .exec(function (err, nalazi) {
         if (err) {
           console.log("Greška:", err);
         } else {
           if (nalazi.length) {
             const doc = new PDFDocumentWithTables({
               layout: "landscape",
-              bufferPages: true
+              bufferPages: true,
             });
 
             doc.registerFont("PTSansRegular", config.nalaz_ptsansregular);
@@ -254,7 +254,7 @@ reportController.KProtokol = function(req, res) {
             var headers = ["Pacijent", "Analize"];
             var rows = [];
             var linerow = [];
-            nalazi.forEach(nalaz => {
+            nalazi.forEach((nalaz) => {
               var godiste = nalaz.patient.jmbg.substring(4, 7);
               switch (godiste[0]) {
                 case "9":
@@ -307,11 +307,11 @@ reportController.KProtokol = function(req, res) {
               }
 
               linerow.push(ime);
-              nalaz.rows.forEach(sekc => {
-                sekc.forEach(test => {
+              nalaz.rows.forEach((sekc) => {
+                sekc.forEach((test) => {
                   if (test.hasOwnProperty("multi")) {
                     analize += test.test + " (";
-                    test.rezultat.forEach(analit => {
+                    test.rezultat.forEach((analit) => {
                       analize +=
                         analit[0].trim() +
                         "=" +
@@ -334,11 +334,11 @@ reportController.KProtokol = function(req, res) {
             doc.table(
               {
                 headers: headers,
-                rows: rows
+                rows: rows,
               },
               {
                 prepareHeader: () => doc.fontSize(8),
-                prepareRow: (row, i) => doc.fontSize(10)
+                prepareRow: (row, i) => doc.fontSize(10),
               }
             );
 
@@ -368,11 +368,11 @@ reportController.KProtokol = function(req, res) {
                 .createWriteStream(
                   config.report_path + "protokol/" + req.body.timestamp + ".pdf"
                 )
-                .on("finish", function() {
+                .on("finish", function () {
                   res.json({
                     success: true,
                     message: "Izvještaj uspjesno kreiran",
-                    id: req.body.range
+                    id: req.body.range,
                   });
                 })
             );
@@ -380,7 +380,7 @@ reportController.KProtokol = function(req, res) {
             res.json({
               success: true,
               message: "Nema dostupnih podataka.",
-              id: req.body.range
+              id: req.body.range,
             });
           }
         }
@@ -419,13 +419,13 @@ class PDFDocumentWithTablesFinansijski extends PDFDocument {
       this.page.width - this.page.margins.left - this.page.margins.right;
     const prepareHeader = options.prepareHeader || (() => {});
     const prepareRow = options.prepareRow || (() => {});
-    const computeRowHeight = row => {
+    const computeRowHeight = (row) => {
       let result = 0;
 
-      row.forEach(cell => {
+      row.forEach((cell) => {
         const cellHeight = this.heightOfString(cell, {
           width: columnWidth,
-          align: "left"
+          align: "left",
         });
         result = Math.max(result, cellHeight);
       });
@@ -451,31 +451,31 @@ class PDFDocumentWithTablesFinansijski extends PDFDocument {
       if (i === 0) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth + 40,
-          align: "left"
+          align: "left",
         });
       }
       if (i === 1) {
         this.text(header, startX + 40 + i * columnContainerWidth, startY, {
           width: columnWidth - 40,
-          align: "center"
+          align: "center",
         });
       }
       if (i === 2) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth - 52,
-          align: "center"
+          align: "center",
         });
       }
       if (i === 3) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth,
-          align: "center"
+          align: "center",
         });
       }
       if (i === 4) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth,
-          align: "center"
+          align: "center",
         });
       }
     });
@@ -506,14 +506,14 @@ class PDFDocumentWithTablesFinansijski extends PDFDocument {
           tempcell0 = cell;
           this.text(cell, startX + i * columnContainerWidth, startY, {
             width: columnWidth + 40,
-            align: "left"
+            align: "left",
           });
         }
         if (i === 1) {
           tempcell1 = cell;
           this.text(cell, startX + 40 + i * columnContainerWidth, startY, {
             width: columnWidth - 40,
-            align: "center"
+            align: "center",
           });
         }
         if (i === 2) {
@@ -524,33 +524,33 @@ class PDFDocumentWithTablesFinansijski extends PDFDocument {
               .fillColor("black")
               .text(tempcell0, startX + 0 * columnContainerWidth, startY, {
                 width: columnWidth + 40,
-                align: "left"
+                align: "left",
               })
               .text(tempcell1, startX + 40 + 1 * columnContainerWidth, startY, {
                 width: columnWidth - 40,
-                align: "center"
+                align: "center",
               })
               .text(cell, startX + i * columnContainerWidth, startY, {
                 width: columnWidth - 52,
-                align: "center"
+                align: "center",
               });
           } else {
             this.text(cell, startX + i * columnContainerWidth, startY, {
               width: columnWidth - 52,
-              align: "center"
+              align: "center",
             });
           }
         }
         if (i === 3) {
           this.text(cell, startX + i * columnContainerWidth, startY, {
             width: columnWidth,
-            align: "center"
+            align: "center",
           });
         }
         if (i === 4) {
           this.text(cell, startX + i * columnContainerWidth, startY, {
             width: columnWidth,
-            align: "center"
+            align: "center",
           });
         }
       });
@@ -570,11 +570,11 @@ class PDFDocumentWithTablesFinansijski extends PDFDocument {
   }
 }
 
-reportController.FPodanu = function(req, res) {
+reportController.FPodanu = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     var range = req.body.range.split("do");
@@ -623,29 +623,29 @@ reportController.FPodanu = function(req, res) {
       uslov = {
         created_at: {
           $gt: from,
-          $lt: to
-        }
+          $lt: to,
+        },
       };
     } else {
       uslov = {
         created_at: {
           $gt: from,
-          $lt: to
+          $lt: to,
         },
-        site: mongoose.Types.ObjectId(req.body.izbor._id)
+        site: mongoose.Types.ObjectId(req.body.izbor._id),
       };
     }
 
     Results.find(uslov)
       .populate("patient site rezultati.labassay")
-      .exec(function(err, rezultati) {
+      .exec(function (err, rezultati) {
         if (err) {
           console.log("Greška:", err);
         } else {
           if (rezultati.length) {
             const doc = new PDFDocumentWithTablesFinansijski({
               layout: "landscape",
-              bufferPages: true
+              bufferPages: true,
             });
 
             doc.registerFont("PTSansRegular", config.nalaz_ptsansregular);
@@ -667,7 +667,7 @@ reportController.FPodanu = function(req, res) {
                 .fontSize(18)
                 .fillColor("#black")
                 .text("Finansijski izvještaj | Po danu: " + tmpTime, 0, 50, {
-                  align: "center"
+                  align: "center",
                 });
             } else {
               doc
@@ -675,11 +675,11 @@ reportController.FPodanu = function(req, res) {
                 .fontSize(20)
                 .fillColor("#black")
                 .text("Finansijski izvještaj | Po danu: " + tmpTime, 0, 50, {
-                  align: "center"
+                  align: "center",
                 });
             }
             doc.moveDown();
-            rezultati.sort(function(a, b) {
+            rezultati.sort(function (a, b) {
               return a.id.substring(5, 10) == b.id.substring(5, 10)
                 ? 0
                 : +(a.id.substring(5, 10) > b.id.substring(5, 10)) || -1;
@@ -689,7 +689,7 @@ reportController.FPodanu = function(req, res) {
               "Pacijenata",
               "Uzoraka",
               "Testova",
-              "Promet"
+              "Promet",
             ];
             var rows = [];
             var linerow = [];
@@ -707,20 +707,20 @@ reportController.FPodanu = function(req, res) {
               if (i === 0) {
                 if (
                   !tempDatum.filter(
-                    datum => datum === rezultati[0].id.substring(5, 10)
+                    (datum) => datum === rezultati[0].id.substring(5, 10)
                   ).length > 0
                 ) {
                   tempDatum.push(rezultati[0].id.substring(5, 10));
                 }
                 if (
                   !tempPatients.filter(
-                    patient => patient === rezultati[0].patient._id
+                    (patient) => patient === rezultati[0].patient._id
                   ).length > 0
                 ) {
                   tempPatients.push(rezultati[0].patient._id);
                 }
                 if (
-                  !tempUzoraka.filter(uzorak => uzorak === rezultati[0].id)
+                  !tempUzoraka.filter((uzorak) => uzorak === rezultati[0].id)
                     .length > 0
                 ) {
                   tempUzoraka.push(rezultati[0].id);
@@ -728,7 +728,7 @@ reportController.FPodanu = function(req, res) {
 
                 tempTestova += rezultati[0].rezultati.length;
 
-                rezultati[0].rezultati.forEach(rezultat => {
+                rezultati[0].rezultati.forEach((rezultat) => {
                   tempPromet += parseInt(rezultat.labassay.price);
                 });
               } else {
@@ -738,20 +738,20 @@ reportController.FPodanu = function(req, res) {
                 ) {
                   if (
                     !tempDatum.filter(
-                      datum => datum === rezultati[i].id.substring(5, 10)
+                      (datum) => datum === rezultati[i].id.substring(5, 10)
                     ).length > 0
                   ) {
                     tempDatum.push(rezultati[i].id.substring(5, 10));
                   }
                   if (
                     !tempPatients.filter(
-                      patient => patient === rezultati[i].patient._id
+                      (patient) => patient === rezultati[i].patient._id
                     ).length > 0
                   ) {
                     tempPatients.push(rezultati[i].patient._id);
                   }
                   if (
-                    !tempUzoraka.filter(uzorak => uzorak === rezultati[i].id)
+                    !tempUzoraka.filter((uzorak) => uzorak === rezultati[i].id)
                       .length > 0
                   ) {
                     tempUzoraka.push(rezultati[i].id);
@@ -759,7 +759,7 @@ reportController.FPodanu = function(req, res) {
 
                   tempTestova += rezultati[i].rezultati.length;
 
-                  rezultati[i].rezultati.forEach(rezultat => {
+                  rezultati[i].rezultati.forEach((rezultat) => {
                     tempPromet += parseInt(rezultat.labassay.price);
                   });
                   if (i === rezultati.length - 1) {
@@ -859,20 +859,20 @@ reportController.FPodanu = function(req, res) {
                   tempPromet = 0;
                   if (
                     !tempDatum.filter(
-                      datum => datum === rezultati[i].id.substring(5, 10)
+                      (datum) => datum === rezultati[i].id.substring(5, 10)
                     ).length > 0
                   ) {
                     tempDatum.push(rezultati[i].id.substring(5, 10));
                   }
                   if (
                     !tempPatients.filter(
-                      patient => patient === rezultati[i].patient._id
+                      (patient) => patient === rezultati[i].patient._id
                     ).length > 0
                   ) {
                     tempPatients.push(rezultati[i].patient._id);
                   }
                   if (
-                    !tempUzoraka.filter(uzorak => uzorak === rezultati[i].id)
+                    !tempUzoraka.filter((uzorak) => uzorak === rezultati[i].id)
                       .length > 0
                   ) {
                     tempUzoraka.push(rezultati[i].id);
@@ -880,7 +880,7 @@ reportController.FPodanu = function(req, res) {
 
                   tempTestova += rezultati[i].rezultati.length;
 
-                  rezultati[i].rezultati.forEach(rezultat => {
+                  rezultati[i].rezultati.forEach((rezultat) => {
                     tempPromet += parseInt(rezultat.labassay.price);
                   });
                 }
@@ -890,11 +890,11 @@ reportController.FPodanu = function(req, res) {
             doc.table(
               {
                 headers: headers,
-                rows: rows
+                rows: rows,
               },
               {
                 prepareHeader: () => doc.fontSize(8),
-                prepareRow: (row, i) => doc.fontSize(10)
+                prepareRow: (row, i) => doc.fontSize(10),
               }
             );
 
@@ -924,11 +924,11 @@ reportController.FPodanu = function(req, res) {
                 .createWriteStream(
                   config.report_path + "fpodanu/" + req.body.timestamp + ".pdf"
                 )
-                .on("finish", function() {
+                .on("finish", function () {
                   res.json({
                     success: true,
                     message: "Izvještaj uspjesno kreiran",
-                    id: req.body.range
+                    id: req.body.range,
                   });
                 })
             );
@@ -936,7 +936,7 @@ reportController.FPodanu = function(req, res) {
             res.json({
               success: true,
               message: "Nema dostupnih podataka.",
-              id: req.body.range
+              id: req.body.range,
             });
           }
         }
@@ -944,11 +944,11 @@ reportController.FPodanu = function(req, res) {
   }
 };
 
-reportController.PPodanu = function(req, res) {
+reportController.PPodanu = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     var range = req.body.range.split("do");
@@ -997,29 +997,29 @@ reportController.PPodanu = function(req, res) {
       uslov = {
         created_at: {
           $gt: from,
-          $lt: to
-        }
+          $lt: to,
+        },
       };
     } else {
       uslov = {
         created_at: {
           $gt: from,
-          $lt: to
+          $lt: to,
         },
-        site: mongoose.Types.ObjectId(req.body.izbor._id)
+        site: mongoose.Types.ObjectId(req.body.izbor._id),
       };
     }
 
     Results.find(uslov)
       .populate("patient site rezultati.labassay")
-      .exec(function(err, rezultati) {
+      .exec(function (err, rezultati) {
         if (err) {
           console.log("Greška:", err);
         } else {
           if (rezultati.length) {
             const doc = new PDFDocumentWithTablesFinansijski({
               layout: "landscape",
-              bufferPages: true
+              bufferPages: true,
             });
 
             doc.registerFont("PTSansRegular", config.nalaz_ptsansregular);
@@ -1041,7 +1041,7 @@ reportController.PPodanu = function(req, res) {
                 .fontSize(18)
                 .fillColor("#black")
                 .text("Broj urađenih analiza: " + tmpTime, 0, 50, {
-                  align: "center"
+                  align: "center",
                 });
             } else {
               doc
@@ -1049,26 +1049,27 @@ reportController.PPodanu = function(req, res) {
                 .fontSize(20)
                 .fillColor("#black")
                 .text("Broj urađenih analiza: " + tmpTime, 0, 50, {
-                  align: "center"
+                  align: "center",
                 });
             }
             doc.moveDown();
             var testovi = [];
-            rezultati.forEach(rezultat => {
-              rezultat.rezultati.forEach(element => {
+            rezultati.forEach((rezultat) => {
+              rezultat.rezultati.forEach((element) => {
                 if (element.labassay != null) {
                   if (
                     !testovi.filter(
-                      test => test.ime === element.labassay.analit
+                      (test) => test.ime === element.labassay.analit
                     ).length > 0
                   ) {
                     testovi.push({ ime: element.labassay.analit, count: 0 });
                   }
                   if (
-                    testovi.filter(test => test.ime === element.labassay.analit)
-                      .length > 0
+                    testovi.filter(
+                      (test) => test.ime === element.labassay.analit
+                    ).length > 0
                   ) {
-                    testovi.forEach(t => {
+                    testovi.forEach((t) => {
                       if (t.ime === element.labassay.analit) {
                         t.count = parseInt(t.count) + 1;
                       }
@@ -1078,14 +1079,14 @@ reportController.PPodanu = function(req, res) {
               });
             });
 
-            testovi.sort(function(a, b) {
+            testovi.sort(function (a, b) {
               return a.count == b.count ? 0 : +(a.count < b.count) || -1;
             });
             var exists = false;
-            LabAssays.find().exec(function(err, LabTsts) {
-              LabTsts.forEach(tsts => {
+            LabAssays.find().exec(function (err, LabTsts) {
+              LabTsts.forEach((tsts) => {
                 exists = false;
-                testovi.forEach(test => {
+                testovi.forEach((test) => {
                   if (tsts.analit === test.ime) {
                     exists = true;
                   }
@@ -1101,7 +1102,7 @@ reportController.PPodanu = function(req, res) {
               var linerow = [];
               var i = 0;
               var total = 0;
-              testovi.forEach(element => {
+              testovi.forEach((element) => {
                 i++;
                 linerow = [];
                 linerow.push(i);
@@ -1121,11 +1122,11 @@ reportController.PPodanu = function(req, res) {
               doc.table(
                 {
                   headers: headers,
-                  rows: rows
+                  rows: rows,
                 },
                 {
                   prepareHeader: () => doc.fontSize(8),
-                  prepareRow: (row, i) => doc.fontSize(10)
+                  prepareRow: (row, i) => doc.fontSize(10),
                 }
               );
 
@@ -1158,11 +1159,11 @@ reportController.PPodanu = function(req, res) {
                       req.body.timestamp +
                       ".pdf"
                   )
-                  .on("finish", function() {
+                  .on("finish", function () {
                     res.json({
                       success: true,
                       message: "Izvještaj uspjesno kreiran",
-                      id: req.body.range
+                      id: req.body.range,
                     });
                   })
               );
@@ -1171,7 +1172,7 @@ reportController.PPodanu = function(req, res) {
             res.json({
               success: true,
               message: "Nema dostupnih podataka.",
-              id: req.body.range
+              id: req.body.range,
             });
           }
         }
@@ -1179,11 +1180,11 @@ reportController.PPodanu = function(req, res) {
   }
 };
 
-reportController.PPomjestu = function(req, res) {
+reportController.PPomjestu = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     var range = req.body.range.split("do");
@@ -1232,29 +1233,29 @@ reportController.PPomjestu = function(req, res) {
       uslov = {
         created_at: {
           $gt: from,
-          $lt: to
-        }
+          $lt: to,
+        },
       };
     } else {
       uslov = {
         created_at: {
           $gt: from,
-          $lt: to
+          $lt: to,
         },
-        site: mongoose.Types.ObjectId(req.body.izbor._id)
+        site: mongoose.Types.ObjectId(req.body.izbor._id),
       };
     }
 
     Results.find(uslov)
       .populate("patient site")
-      .exec(function(err, rezultati) {
+      .exec(function (err, rezultati) {
         if (err) {
           console.log("Greška:", err);
         } else {
           if (rezultati.length) {
             const doc = new PDFDocumentWithTablesFinansijski({
               layout: "landscape",
-              bufferPages: true
+              bufferPages: true,
             });
 
             doc.registerFont("PTSansRegular", config.nalaz_ptsansregular);
@@ -1276,7 +1277,7 @@ reportController.PPomjestu = function(req, res) {
                 .fontSize(18)
                 .fillColor("#black")
                 .text("Pacijenti po mjestu: " + tmpTime, 0, 50, {
-                  align: "center"
+                  align: "center",
                 });
             } else {
               doc
@@ -1284,15 +1285,15 @@ reportController.PPomjestu = function(req, res) {
                 .fontSize(20)
                 .fillColor("#black")
                 .text("Pacijenti po mjestu: " + tmpTime, 0, 50, {
-                  align: "center"
+                  align: "center",
                 });
             }
             doc.moveDown();
             var pacijenti = [];
-            rezultati.forEach(element => {
+            rezultati.forEach((element) => {
               if (
                 !pacijenti.filter(
-                  pacijent => pacijent._id === element.patient._id
+                  (pacijent) => pacijent._id === element.patient._id
                 ).length > 0
               ) {
                 pacijenti.push(element.patient);
@@ -1300,14 +1301,14 @@ reportController.PPomjestu = function(req, res) {
             });
 
             var mjesta = [];
-            pacijenti.forEach(pacijent => {
+            pacijenti.forEach((pacijent) => {
               if (
-                !mjesta.filter(mjesto => mjesto.mjesto === pacijent.adresa)
+                !mjesta.filter((mjesto) => mjesto.mjesto === pacijent.adresa)
                   .length > 0
               ) {
                 mjesta.push({ mjesto: pacijent.adresa, count: 1 });
               } else {
-                mjesta.forEach(element => {
+                mjesta.forEach((element) => {
                   if (element.mjesto === pacijent.adresa) {
                     element.count++;
                   }
@@ -1315,7 +1316,7 @@ reportController.PPomjestu = function(req, res) {
               }
             });
 
-            mjesta.sort(function(a, b) {
+            mjesta.sort(function (a, b) {
               return a.count == b.count ? 0 : +(a.count < b.count) || -1;
             });
             // console.log(mjesta);
@@ -1325,7 +1326,7 @@ reportController.PPomjestu = function(req, res) {
             var linerow = [];
             var i = 0;
             var total = 0;
-            mjesta.forEach(element => {
+            mjesta.forEach((element) => {
               i++;
               linerow = [];
               linerow.push(i);
@@ -1345,11 +1346,11 @@ reportController.PPomjestu = function(req, res) {
             doc.table(
               {
                 headers: headers,
-                rows: rows
+                rows: rows,
               },
               {
                 prepareHeader: () => doc.fontSize(8),
-                prepareRow: (row, i) => doc.fontSize(10)
+                prepareRow: (row, i) => doc.fontSize(10),
               }
             );
 
@@ -1382,11 +1383,11 @@ reportController.PPomjestu = function(req, res) {
                     req.body.timestamp +
                     ".pdf"
                 )
-                .on("finish", function() {
+                .on("finish", function () {
                   res.json({
                     success: true,
                     message: "Izvještaj uspješno kreiran",
-                    id: req.body.range
+                    id: req.body.range,
                   });
                 })
             );
@@ -1394,7 +1395,7 @@ reportController.PPomjestu = function(req, res) {
             res.json({
               success: true,
               message: "Nema dostupnih podataka.",
-              id: req.body.range
+              id: req.body.range,
             });
           }
         }
@@ -1402,11 +1403,11 @@ reportController.PPomjestu = function(req, res) {
   }
 };
 
-reportController.FPodanuGraph = function(req, res) {
+reportController.FPodanuGraph = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     var range = req.body.range.split("do");
@@ -1432,16 +1433,16 @@ reportController.FPodanuGraph = function(req, res) {
       uslov = {
         created_at: {
           $gt: from,
-          $lt: to
-        }
+          $lt: to,
+        },
       };
     } else {
       uslov = {
         created_at: {
           $gt: from,
-          $lt: to
+          $lt: to,
         },
-        site: mongoose.Types.ObjectId(req.body.izbor._id)
+        site: mongoose.Types.ObjectId(req.body.izbor._id),
       };
     }
 
@@ -1469,12 +1470,12 @@ reportController.FPodanuGraph = function(req, res) {
     }
     Results.find(uslov)
       .populate("patient site rezultati.labassay")
-      .exec(function(err, rezultati) {
+      .exec(function (err, rezultati) {
         if (err) {
           console.log("Greška:", err);
         } else {
           if (rezultati.length) {
-            rezultati.sort(function(a, b) {
+            rezultati.sort(function (a, b) {
               return a.id.substring(5, 10) == b.id.substring(5, 10)
                 ? 0
                 : +(a.id.substring(5, 10) > b.id.substring(5, 10)) || -1;
@@ -1485,7 +1486,7 @@ reportController.FPodanuGraph = function(req, res) {
               "Pacijenata",
               "Uzoraka",
               "Testova",
-              "Promet"
+              "Promet",
             ];
             var rows = [];
             var linerow = [];
@@ -1503,20 +1504,20 @@ reportController.FPodanuGraph = function(req, res) {
               if (i === 0) {
                 if (
                   !tempDatum.filter(
-                    datum => datum === rezultati[0].id.substring(5, 10)
+                    (datum) => datum === rezultati[0].id.substring(5, 10)
                   ).length > 0
                 ) {
                   tempDatum.push(rezultati[0].id.substring(5, 10));
                 }
                 if (
                   !tempPatients.filter(
-                    patient => patient === rezultati[0].patient._id
+                    (patient) => patient === rezultati[0].patient._id
                   ).length > 0
                 ) {
                   tempPatients.push(rezultati[0].patient._id);
                 }
                 if (
-                  !tempUzoraka.filter(uzorak => uzorak === rezultati[0].id)
+                  !tempUzoraka.filter((uzorak) => uzorak === rezultati[0].id)
                     .length > 0
                 ) {
                   tempUzoraka.push(rezultati[0].id);
@@ -1524,7 +1525,7 @@ reportController.FPodanuGraph = function(req, res) {
 
                 tempTestova += rezultati[0].rezultati.length;
 
-                rezultati[0].rezultati.forEach(rezultat => {
+                rezultati[0].rezultati.forEach((rezultat) => {
                   tempPromet += parseInt(rezultat.labassay.price);
                 });
               } else {
@@ -1534,20 +1535,20 @@ reportController.FPodanuGraph = function(req, res) {
                 ) {
                   if (
                     !tempDatum.filter(
-                      datum => datum === rezultati[i].id.substring(5, 10)
+                      (datum) => datum === rezultati[i].id.substring(5, 10)
                     ).length > 0
                   ) {
                     tempDatum.push(rezultati[i].id.substring(5, 10));
                   }
                   if (
                     !tempPatients.filter(
-                      patient => patient === rezultati[i].patient._id
+                      (patient) => patient === rezultati[i].patient._id
                     ).length > 0
                   ) {
                     tempPatients.push(rezultati[i].patient._id);
                   }
                   if (
-                    !tempUzoraka.filter(uzorak => uzorak === rezultati[i].id)
+                    !tempUzoraka.filter((uzorak) => uzorak === rezultati[i].id)
                       .length > 0
                   ) {
                     tempUzoraka.push(rezultati[i].id);
@@ -1555,7 +1556,7 @@ reportController.FPodanuGraph = function(req, res) {
 
                   tempTestova += rezultati[i].rezultati.length;
 
-                  rezultati[i].rezultati.forEach(rezultat => {
+                  rezultati[i].rezultati.forEach((rezultat) => {
                     tempPromet += parseInt(rezultat.labassay.price);
                   });
                   if (i === rezultati.length - 1) {
@@ -1655,20 +1656,20 @@ reportController.FPodanuGraph = function(req, res) {
                   tempPromet = 0;
                   if (
                     !tempDatum.filter(
-                      datum => datum === rezultati[i].id.substring(5, 10)
+                      (datum) => datum === rezultati[i].id.substring(5, 10)
                     ).length > 0
                   ) {
                     tempDatum.push(rezultati[i].id.substring(5, 10));
                   }
                   if (
                     !tempPatients.filter(
-                      patient => patient === rezultati[i].patient._id
+                      (patient) => patient === rezultati[i].patient._id
                     ).length > 0
                   ) {
                     tempPatients.push(rezultati[i].patient._id);
                   }
                   if (
-                    !tempUzoraka.filter(uzorak => uzorak === rezultati[i].id)
+                    !tempUzoraka.filter((uzorak) => uzorak === rezultati[i].id)
                       .length > 0
                   ) {
                     tempUzoraka.push(rezultati[i].id);
@@ -1676,7 +1677,7 @@ reportController.FPodanuGraph = function(req, res) {
 
                   tempTestova += rezultati[i].rezultati.length;
 
-                  rezultati[i].rezultati.forEach(rezultat => {
+                  rezultati[i].rezultati.forEach((rezultat) => {
                     tempPromet += parseInt(rezultat.labassay.price);
                   });
                 }
@@ -1687,13 +1688,13 @@ reportController.FPodanuGraph = function(req, res) {
               success: true,
               message: "Rezultati u prilogu.",
               headers: headers,
-              rows: rows
+              rows: rows,
             });
           } else {
             res.json({
               success: false,
               message: "Nema dostupnih podataka.",
-              id: req.body.range
+              id: req.body.range,
             });
           }
         }
@@ -1730,13 +1731,13 @@ class PDFDocumentWithTablesPPoLokaciji extends PDFDocument {
       this.page.width - this.page.margins.left - this.page.margins.right;
     const prepareHeader = options.prepareHeader || (() => {});
     const prepareRow = options.prepareRow || (() => {});
-    const computeRowHeight = row => {
+    const computeRowHeight = (row) => {
       let result = 0;
 
-      row.forEach(cell => {
+      row.forEach((cell) => {
         const cellHeight = this.heightOfString(cell, {
           width: columnWidth,
-          align: "left"
+          align: "left",
         });
         result = Math.max(result, cellHeight);
       });
@@ -1762,19 +1763,19 @@ class PDFDocumentWithTablesPPoLokaciji extends PDFDocument {
       if (i === 0) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth,
-          align: "left"
+          align: "left",
         });
       }
       if (i === 1) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth + 100,
-          align: "left"
+          align: "left",
         });
       }
       if (i === 2) {
         this.text(header, startX + 100 + i * columnContainerWidth, startY, {
           width: columnWidth - 100,
-          align: "left"
+          align: "left",
         });
       }
     });
@@ -1804,7 +1805,7 @@ class PDFDocumentWithTablesPPoLokaciji extends PDFDocument {
         if (i === 0) {
           var Niz = cell.split("\n");
 
-          Niz.forEach(element => {
+          Niz.forEach((element) => {
             if (element.includes("Godište:")) {
               this.fontSize(8);
               this.text(
@@ -1813,7 +1814,7 @@ class PDFDocumentWithTablesPPoLokaciji extends PDFDocument {
                 startY + 12,
                 {
                   width: columnWidth,
-                  align: "left"
+                  align: "left",
                 }
               );
             } else if (element.includes("Nalaz izdan:")) {
@@ -1824,14 +1825,14 @@ class PDFDocumentWithTablesPPoLokaciji extends PDFDocument {
                 startY + 22,
                 {
                   width: columnWidth,
-                  align: "left"
+                  align: "left",
                 }
               );
             } else {
               this.fontSize(9);
               this.text(element, startX + i * columnContainerWidth, startY, {
                 width: columnWidth,
-                align: "left"
+                align: "left",
               });
             }
           });
@@ -1847,11 +1848,11 @@ class PDFDocumentWithTablesPPoLokaciji extends PDFDocument {
             correction = 0;
           }
 
-          Arr.forEach(element => {
+          Arr.forEach((element) => {
             this.text(element, startX + i * columnContainerWidth, startY, {
               width: columnWidth + 100,
               align: "left",
-              underline: false
+              underline: false,
             });
             startY = this.y;
 
@@ -1888,112 +1889,6 @@ class PDFDocumentWithTablesPPoLokaciji extends PDFDocument {
     return this;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Radna lista, PDFDocument
 
@@ -2024,13 +1919,13 @@ class PDFDocumentWithTablesWorkList extends PDFDocument {
       this.page.width - this.page.margins.left - this.page.margins.right;
     const prepareHeader = options.prepareHeader || (() => {});
     const prepareRow = options.prepareRow || (() => {});
-    const computeRowHeight = row => {
+    const computeRowHeight = (row) => {
       let result = 0;
 
-      row.forEach(cell => {
+      row.forEach((cell) => {
         const cellHeight = this.heightOfString(cell, {
           width: columnWidth,
-          align: "left"
+          align: "left",
         });
         result = Math.max(result, cellHeight);
       });
@@ -2056,19 +1951,19 @@ class PDFDocumentWithTablesWorkList extends PDFDocument {
       if (i === 0) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth,
-          align: "left"
+          align: "left",
         });
       }
       if (i === 1) {
         this.text(header, startX + i * columnContainerWidth, startY, {
           width: columnWidth + 100,
-          align: "left"
+          align: "left",
         });
       }
       if (i === 2) {
         this.text(header, startX + 100 + i * columnContainerWidth, startY, {
           width: columnWidth - 100,
-          align: "left"
+          align: "left",
         });
       }
     });
@@ -2098,7 +1993,7 @@ class PDFDocumentWithTablesWorkList extends PDFDocument {
         if (i === 0) {
           var Niz = cell.split("\n");
 
-          Niz.forEach(element => {
+          Niz.forEach((element) => {
             if (element.includes("Godište:")) {
               this.fontSize(8);
               this.text(
@@ -2107,7 +2002,7 @@ class PDFDocumentWithTablesWorkList extends PDFDocument {
                 startY + 12,
                 {
                   width: columnWidth,
-                  align: "left"
+                  align: "left",
                 }
               );
             } else if (element.includes("Redni broj pacijenta:")) {
@@ -2118,14 +2013,14 @@ class PDFDocumentWithTablesWorkList extends PDFDocument {
                 startY + 22,
                 {
                   width: columnWidth,
-                  align: "left"
+                  align: "left",
                 }
               );
             } else {
               this.fontSize(9);
               this.text(element, startX + i * columnContainerWidth, startY, {
                 width: columnWidth,
-                align: "left"
+                align: "left",
               });
             }
           });
@@ -2141,11 +2036,8 @@ class PDFDocumentWithTablesWorkList extends PDFDocument {
             correction = 0;
           }
 
-          Arr.forEach(element => {
-
-            
-            if(element.includes("Uzorak: ")){
-
+          Arr.forEach((element) => {
+            if (element.includes("Uzorak: ")) {
               // console.log(element)
 
               this.font("PTSansBold", config.nalaz_ptsansbold);
@@ -2153,21 +2045,18 @@ class PDFDocumentWithTablesWorkList extends PDFDocument {
               this.text(element, startX + i * columnContainerWidth, startY, {
                 width: columnWidth + 100,
                 align: "left",
-                underline: false
+                underline: false,
               });
-
-            }else{
-
+            } else {
               this.font("PTSansRegular", config.nalaz_ptsansregular);
 
               this.text(element, startX + i * columnContainerWidth, startY, {
                 width: columnWidth + 100,
                 align: "left",
-                underline: false
+                underline: false,
               });
-
             }
-            
+
             startY = this.y;
 
             if (element.length) {
@@ -2204,34 +2093,17 @@ class PDFDocumentWithTablesWorkList extends PDFDocument {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Radna lista, Controller
 
-reportController.WorkList = function(req, res) {
+reportController.WorkList = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
-
     // console.log("Radna lista, Controller")
-    
-    
+
     var range = req.body.range.split("do");
     if (range.length === 2) {
       to = range[1].trim() + "T21:59:59";
@@ -2244,12 +2116,11 @@ reportController.WorkList = function(req, res) {
       from = range[0].trim() + "T00:00:00";
       from = new Date(from + "Z");
     }
-    
 
     var tmpTime = "";
     if (req.body.range.length > 20) {
       tmpTime =
-       /*  req.body.range.slice(8, 10) +
+        /*  req.body.range.slice(8, 10) +
         "." +
         req.body.range.slice(5, 7) +
         "." +
@@ -2274,38 +2145,22 @@ reportController.WorkList = function(req, res) {
     uslov = {
       created_at: {
         $gt: from,
-        $lt: to
-      }
+        $lt: to,
+      },
+      site: mongoose.Types.ObjectId(req.body.izbor._id),
     };
 
     // console.log(uslov)
 
     Samples.find(uslov)
       .populate("patient site tests.labassay")
-      .exec(function(err, samples) {
+      .exec(function (err, samples) {
         if (err) {
           console.log("Greška:", err);
         } else {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
           if (samples.length) {
             const doc = new PDFDocumentWithTablesWorkList({
-              bufferPages: true
+              bufferPages: true,
             });
 
             doc.registerFont("PTSansRegular", config.nalaz_ptsansregular);
@@ -2315,7 +2170,7 @@ reportController.WorkList = function(req, res) {
               .fontSize(16)
               .fillColor("#black")
               .text("Radna lista", 70, 50, {
-                align: "left"
+                align: "left",
               });
 
             doc.moveDown();
@@ -2324,17 +2179,7 @@ reportController.WorkList = function(req, res) {
             var rows = [];
             var linerow = [];
 
-
             let pids = [];
-            
-
-           
-
-
-            
-
-
-           
 
             samples = samples.sort(function (a, b) {
               return a.pid.localeCompare(b.pid, undefined, {
@@ -2343,43 +2188,38 @@ reportController.WorkList = function(req, res) {
               });
             });
 
-            samples.forEach(element => {
+            if (req.body.high == "" || isNaN(req.body.high)) {
+              req.body.high = samples[samples.length - 1].pid;
+            }
 
-              if(req.body.low.trim() == "" && req.body.high.trim() == ""){  
-                pids.push(element.pid)
-              }else if(!isNaN(req.body.low) && !isNaN(req.body.high) && req.body.low.trim() != "" && req.body.high.trim() != "" && element.pid >= req.body.low && element.pid <= req.body.high){
-                pids.push(element.pid)
-                
-              }else{
-                // console.log("Nije definisano")
+            if (req.body.low == "" || isNaN(req.body.low)) {
+              req.body.low = samples[0].pid;
+            }
+
+            samples.forEach((element) => {
+              if (
+                parseInt(element.pid) >= parseInt(req.body.low) &&
+                parseInt(element.pid) <= parseInt(req.body.high)
+              ) {
+                pids.push(element.pid);
               }
-
-
-              
-
-              
-              
-              
             });
 
             let uniquePids = [...new Set(pids)];
 
-            
+            var Obj = [];
+            var data = {};
 
-            var Obj = []
-            var data = {}
+            uniquePids.forEach((pid) => {
+              data = {};
+              var Samples = [];
 
-            uniquePids.forEach(pid => {
-              data = {}
-              var Samples = []
+              data.pid = pid;
 
-              data.pid = pid
-
-              samples.forEach(sample => {
-                if(sample.pid === pid){
-                  Samples.push(sample)
+              samples.forEach((sample) => {
+                if (sample.pid === pid) {
+                  Samples.push(sample);
                 }
-                
               });
 
               Samples = Samples.sort(function (a, b) {
@@ -2389,68 +2229,14 @@ reportController.WorkList = function(req, res) {
                 });
               });
 
-              data.samples = Samples
+              data.samples = Samples;
 
-
-
-
-
-
-
-
-
-              Obj.push(data)
-              
+              Obj.push(data);
             });
 
-
-            
-
-
-
-
-
-
-
-
-            Obj.forEach(objekat => {
-
+            Obj.forEach((objekat) => {
               // console.log(objekat);
 
-              
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-             
               var godiste = objekat.samples[0].patient.jmbg.substring(4, 7);
               switch (godiste[0]) {
                 case "9":
@@ -2468,18 +2254,18 @@ reportController.WorkList = function(req, res) {
 
               if (godiste == "1920.") {
                 var ime =
-                objekat.samples[0].patient.ime.trim() +
+                  objekat.samples[0].patient.ime.trim() +
                   " " +
                   objekat.samples[0].patient.prezime.trim() +
                   "\n" +
                   "Godište: Nema podataka." +
                   "\n" +
                   "Redni broj pacijenta: " +
-                  objekat.pid + 
+                  objekat.pid +
                   "\n";
               } else {
                 var ime =
-                objekat.samples[0].patient.ime.trim() +
+                  objekat.samples[0].patient.ime.trim() +
                   " " +
                   objekat.samples[0].patient.prezime.trim() +
                   "\n" +
@@ -2487,28 +2273,18 @@ reportController.WorkList = function(req, res) {
                   godiste +
                   "\n" +
                   "Redni broj pacijenta: " +
-                  objekat.pid + 
+                  objekat.pid +
                   "\n";
               }
 
               linerow.push(ime);
-              
 
-               
-
-              objekat.samples.forEach(sekc => {
-
+              objekat.samples.forEach((sekc) => {
                 analize += "Uzorak: " + sekc.id.trim() + "\n";
 
-                
-
-
-                sekc.tests.forEach(test => {
+                sekc.tests.forEach((test) => {
                   analize += test.labassay.analit.trim() + "\n";
                 });
-
-
-               
               });
 
               linerow.push(analize);
@@ -2517,16 +2293,14 @@ reportController.WorkList = function(req, res) {
 
               // console.log(linerow);
 
-              
-
               doc.table(
                 {
                   headers: headers,
-                  rows: rows
+                  rows: rows,
                 },
                 {
                   prepareHeader: () => doc.fontSize(8),
-                  prepareRow: (row, i) => doc.fontSize(10)
+                  prepareRow: (row, i) => doc.fontSize(10),
                 }
               );
 
@@ -2538,47 +2312,7 @@ reportController.WorkList = function(req, res) {
               rows = [];
 
               doc.moveDown();
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             });
-
-
-
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             const range = doc.bufferedPageRange();
 
@@ -2609,42 +2343,20 @@ reportController.WorkList = function(req, res) {
                     req.body.timestamp +
                     ".pdf"
                 )
-                .on("finish", function() {
+                .on("finish", function () {
                   res.json({
                     success: true,
                     message: "Izvještaj uspjesno kreiran",
                     id: req.body.range,
-                    Obj: Obj
+                    Obj: Obj,
                   });
                 })
             );
           } else {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
             res.json({
               success: true,
               message: "Nema dostupnih podataka.",
-              id: req.body.range
+              id: req.body.range,
             });
           }
         }
@@ -2652,248 +2364,13 @@ reportController.WorkList = function(req, res) {
   }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Pacijenti po lokaciji, Controller
 
-reportController.PPoLokaciji = function(req, res) {
+reportController.PPoLokaciji = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     var range = req.body.range.split("do");
@@ -2937,21 +2414,21 @@ reportController.PPoLokaciji = function(req, res) {
     uslov = {
       created_at: {
         $gt: from,
-        $lt: to
+        $lt: to,
       },
       lokacija: mongoose.Types.ObjectId(req.body.lokacija._id),
-      status: true
+      status: true,
     };
 
     Nalazi.find(uslov)
       .populate("patient site lokacija")
-      .exec(function(err, nalazi) {
+      .exec(function (err, nalazi) {
         if (err) {
           console.log("Greška:", err);
         } else {
           if (nalazi.length) {
             const doc = new PDFDocumentWithTablesPPoLokaciji({
-              bufferPages: true
+              bufferPages: true,
             });
 
             doc.registerFont("PTSansRegular", config.nalaz_ptsansregular);
@@ -2961,7 +2438,7 @@ reportController.PPoLokaciji = function(req, res) {
               .fontSize(16)
               .fillColor("#black")
               .text("Pošiljatelj: " + req.body.lokacija.lokacija, 70, 50, {
-                align: "left"
+                align: "left",
               });
 
             doc.moveDown();
@@ -2970,7 +2447,7 @@ reportController.PPoLokaciji = function(req, res) {
             var rows = [];
             var linerow = [];
 
-            nalazi.forEach(nalaz => {
+            nalazi.forEach((nalaz) => {
               var tmp_time = new Date(
                 new Date(nalaz.created_at).getTime() -
                   new Date(nalaz.created_at).getTimezoneOffset() * 60000
@@ -3029,8 +2506,8 @@ reportController.PPoLokaciji = function(req, res) {
 
               linerow.push(ime);
 
-              nalaz.rows.forEach(sekc => {
-                sekc.forEach(test => {
+              nalaz.rows.forEach((sekc) => {
+                sekc.forEach((test) => {
                   if (test.hasOwnProperty("multi")) {
                     if (test.test.includes("[")) {
                       analize += test.test.substring(4).trim() + "\n";
@@ -3054,11 +2531,11 @@ reportController.PPoLokaciji = function(req, res) {
               doc.table(
                 {
                   headers: headers,
-                  rows: rows
+                  rows: rows,
                 },
                 {
                   prepareHeader: () => doc.fontSize(8),
-                  prepareRow: (row, i) => doc.fontSize(10)
+                  prepareRow: (row, i) => doc.fontSize(10),
                 }
               );
 
@@ -3100,11 +2577,11 @@ reportController.PPoLokaciji = function(req, res) {
                     req.body.timestamp +
                     ".pdf"
                 )
-                .on("finish", function() {
+                .on("finish", function () {
                   res.json({
                     success: true,
                     message: "Izvještaj uspjesno kreiran",
-                    id: req.body.range
+                    id: req.body.range,
                   });
                 })
             );
@@ -3112,18 +2589,18 @@ reportController.PPoLokaciji = function(req, res) {
             res.json({
               success: true,
               message: "Nema dostupnih podataka.",
-              id: req.body.range
+              id: req.body.range,
             });
           }
         }
       });
   }
 };
-reportController.TATpopacijentu = function(req, res) {
+reportController.TATpopacijentu = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     var range = req.body.range.split("do");
@@ -3162,44 +2639,41 @@ reportController.TATpopacijentu = function(req, res) {
         req.body.range.slice(0, 4);
     }
 
-
     var uslov = {};
 
     if (req.body.izbor.naziv === "Kompletan izvještaj") {
       uslov = {
         created_at: {
           $gt: from,
-          $lt: to
-        }
+          $lt: to,
+        },
       };
     } else {
       uslov = {
         created_at: {
           $gt: from,
-          $lt: to
+          $lt: to,
         },
-        site: mongoose.Types.ObjectId(req.body.izbor._id)
+        site: mongoose.Types.ObjectId(req.body.izbor._id),
       };
     }
-    console.log('uslov:')
-    console.log(uslov)
-    
+    console.log("uslov:");
+    console.log(uslov);
+
     Nalazi.find(uslov)
       .populate("patient site")
-      .exec(function(err, nalazi) {
+      .exec(function (err, nalazi) {
         if (err) {
           console.log("Greška:", err);
         } else {
-          
           if (nalazi.length) {
             const doc = new PDFDocumentWithTablesFinansijski({
               layout: "landscape",
-              bufferPages: true
+              bufferPages: true,
             });
 
             doc.registerFont("PTSansRegular", config.nalaz_ptsansregular);
             doc.registerFont("PTSansBold", config.nalaz_ptsansbold);
-
 
             if (tmpTime.length > 15) {
               doc
@@ -3207,7 +2681,7 @@ reportController.TATpopacijentu = function(req, res) {
                 .fontSize(18)
                 .fillColor("#black")
                 .text("TAT po pacijentu: " + tmpTime, 0, 50, {
-                  align: "center"
+                  align: "center",
                 });
             } else {
               doc
@@ -3215,29 +2689,29 @@ reportController.TATpopacijentu = function(req, res) {
                 .fontSize(20)
                 .fillColor("#black")
                 .text("TAT po pacijentu: " + tmpTime, 0, 50, {
-                  align: "center"
+                  align: "center",
                 });
             }
             doc.moveDown();
             var pacijenti = [];
-            var counter  = 0
-            var difff = 0
-            console.log('broj nalaza:'+nalazi.length)
-            nalazi.forEach(nalaz => {
-              if(nalaz.location==="/" && nalaz.status){
-                counter++
-                difff =  Math.floor(new Date(nalaz.created_at).getTime()/60000) - Math.floor(nalaz.timestamp/60000)
-                pacijenti.push(
-                  {
-                    rank:counter,
-                    imeip:nalaz.patient.ime +" " +nalaz.patient.prezime,
-                    tat:difff
-                  }
-                )
-            }
+            var counter = 0;
+            var difff = 0;
+            console.log("broj nalaza:" + nalazi.length);
+            nalazi.forEach((nalaz) => {
+              if (nalaz.location === "/" && nalaz.status) {
+                counter++;
+                difff =
+                  Math.floor(new Date(nalaz.created_at).getTime() / 60000) -
+                  Math.floor(nalaz.timestamp / 60000);
+                pacijenti.push({
+                  rank: counter,
+                  imeip: nalaz.patient.ime + " " + nalaz.patient.prezime,
+                  tat: difff,
+                });
+              }
             });
 
-            pacijenti.sort(function(a, b) {
+            pacijenti.sort(function (a, b) {
               return a.rank == b.rank ? 0 : +(a.rank > b.rank) || -1;
             });
             // console.log(mjesta);
@@ -3246,7 +2720,7 @@ reportController.TATpopacijentu = function(req, res) {
             var rows = [];
             var linerow = [];
             var total = 0;
-            pacijenti.forEach(element => {
+            pacijenti.forEach((element) => {
               linerow = [];
               linerow.push(element.rank);
               linerow.push(element.imeip);
@@ -3257,7 +2731,7 @@ reportController.TATpopacijentu = function(req, res) {
                 linerow = [];
                 linerow.push("-");
                 linerow.push("Prosječan TAT");
-                linerow.push((total/pacijenti.length).toFixed());
+                linerow.push((total / pacijenti.length).toFixed());
                 rows.push(linerow);
               }
             });
@@ -3265,11 +2739,11 @@ reportController.TATpopacijentu = function(req, res) {
             doc.table(
               {
                 headers: headers,
-                rows: rows
+                rows: rows,
               },
               {
                 prepareHeader: () => doc.fontSize(8),
-                prepareRow: (row, i) => doc.fontSize(10)
+                prepareRow: (row, i) => doc.fontSize(10),
               }
             );
 
@@ -3302,11 +2776,11 @@ reportController.TATpopacijentu = function(req, res) {
                     req.body.timestamp +
                     ".pdf"
                 )
-                .on("finish", function() {
+                .on("finish", function () {
                   res.json({
                     success: true,
                     message: "Izvještaj uspješno kreiran",
-                    id: req.body.range
+                    id: req.body.range,
                   });
                 })
             );
@@ -3314,7 +2788,7 @@ reportController.TATpopacijentu = function(req, res) {
             res.json({
               success: true,
               message: "Nema dostupnih podataka.",
-              id: req.body.range
+              id: req.body.range,
             });
           }
         }
