@@ -2899,6 +2899,7 @@ sampleController.Update = function(req, res) {
                   });
                   if (testm) {
                     if (test.manual) {
+                      
                       result.created_at = Created;
 
                       if (testm.test.multi) {
@@ -3231,7 +3232,7 @@ sampleController.Update = function(req, res) {
                               jedinice_p: "",
                               rezultat_i: "",
                               odobren: false,
-                              created_at: Created,
+                              created_at: Date.now(),
                               created_by: req.body.decoded.user
                             }
                           ]
@@ -5348,6 +5349,11 @@ sampleController.sacuvajUzorke = function(req, res) {
             uzorakFront.code = codeStr;
 
             uzorakFront.anticoag = req.body.anticoag;
+
+            // Partneri - Pošiljaoc, Naručioc i Izvršioc 
+            uzorakFront.narucioc = req.body.narucioc;
+            uzorakFront.posiljaoc = req.body.posiljaoc;
+
             uzorakFront.tip = uzorakFront.tip;
             uzorakFront.created_by = req.body.decoded.user;
 
@@ -5804,6 +5810,11 @@ sampleController.sacuvajUzorke = function(req, res) {
                                               60000
                                         );
                                         rezultat.sample = sample;
+
+                                        // Partneri - Pošiljaoc, Naručioc i Izvršioc
+                                        rezultat.narucioc = req.body.narucioc;
+                                        rezultat.posiljaoc = req.body.posiljaoc;
+                                        
                                         rezultat.id = sample.id;
                                         if (
                                           req.body.protokol !== undefined &&

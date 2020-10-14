@@ -373,7 +373,7 @@ apiUrlController.apiUrlObradaPregled = function (req, res) {
   }
 
   Results.find(uslov)
-    .populate("sample patient rezultati.labassay")
+    .populate("sample patient rezultati.labassay posiljaoc narucioc")
     .sort({
       created_at: -1,
     })
@@ -393,7 +393,34 @@ apiUrlController.apiUrlObradaPregled = function (req, res) {
                     JSON.stringify(element.created_at).substring(1, 11)
               ).length > 0
             ) {
+              var posiljaoc = null;
+              var narucioc = null;
+
+              if (element.narucioc != null) {
+                var icon =
+                  '<i style="font-size: 14px; color:#f7cc36;" class="fa fa-handshake-o" title="' +
+                  element.narucioc.naziv +
+                  '"></i>';
+                narucioc = element.narucioc;
+              }
+
+              if (element.posiljaoc != null) {
+                var icon =
+                  '<i style="font-size: 14px; color:#f7cc36;" class="fa fa-handshake-o" title="' +
+                  element.posiljaoc.naziv +
+                  '"></i>';
+                posiljaoc = element.posiljaoc;
+              }
+
+              if (element.posiljaoc == null && element.narucioc == null) {
+                var icon =
+                  '<i style="font-size: 14px; color:#d9d9d9;" class="fa fa-handshake-o"></i>';
+              }
+
               Rezultati.push({
+                partneri: icon,
+                narucioc: narucioc,
+                posiljaoc: element.posiljaoc,
                 obrada:
                   "<button style='white-space: nowrap;' id='" +
                   element.patient._id +
@@ -434,6 +461,7 @@ apiUrlController.apiUrlObradaPregled = function (req, res) {
             var check = true;
             var micro = false;
             var verificiran = true;
+            var uzorci = [];
 
             rezultati.forEach((rez) => {
               if (
@@ -466,6 +494,8 @@ apiUrlController.apiUrlObradaPregled = function (req, res) {
                   micro = true;
                 }
 
+                uzorci.push(rez.id);
+
                 newrez.barcodes +=
                   "<button style='white-space: nowrap;' id='" +
                   rez.id +
@@ -482,6 +512,8 @@ apiUrlController.apiUrlObradaPregled = function (req, res) {
             samples = samples.replace(/(.+),$/, "$1");
             newrez.remove = check;
             newrez.micro = micro;
+
+            newrez.uzorci = uzorci;
 
             newrez.verificiran = verificiran;
 

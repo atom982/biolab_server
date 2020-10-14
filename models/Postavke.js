@@ -1,22 +1,22 @@
 const mongoose = require("mongoose");
 
 var SchemaTip = mongoose.Schema({
-  tipAparata: { type: String, required: true }
+  tipAparata: { type: String, required: true },
 });
 
 var SchemaTehno = mongoose.Schema({
-  tehnologijaAparata: { type: String, required: true }
+  tehnologijaAparata: { type: String, required: true },
 });
 
 var SchemaTipUzorka = mongoose.Schema({
-  tip: { type: String, required: true }
+  tip: { type: String, required: true },
 });
 
 var SchemaLokacija = mongoose.Schema({
   lokacija: { type: String, required: true },
   email: { type: String, required: true, default: "" },
   sendEmail: { type: Boolean, required: true, default: false },
-  site: { type: mongoose.Schema.ObjectId, ref: "Site" }
+  site: { type: mongoose.Schema.ObjectId, ref: "Site" },
 });
 
 var SchemaCustomers = mongoose.Schema({
@@ -24,32 +24,32 @@ var SchemaCustomers = mongoose.Schema({
   opis: { type: String, required: true },
   telefon: { type: String, required: true },
   email: { type: String, required: true },
-  adresa: { type: String, required: true }
+  adresa: { type: String, required: true },
 });
 
 var SchemaDoktor = mongoose.Schema({
   doktorIme: { type: String, required: true },
   doktorPrezime: { type: String, required: true },
   lokacija: { type: String, required: true },
-  site: { type: mongoose.Schema.ObjectId, ref: "Site" }
+  site: { type: mongoose.Schema.ObjectId, ref: "Site" },
 });
 
 var SchemaSekcija = mongoose.Schema({
   sekcija: { type: String, required: true },
-  order: { type: String, default: "0" }
+  order: { type: String, default: "0" },
 });
 
 var SchemaGrupaTesta = mongoose.Schema({
   grupa: { type: String, required: true },
-  sekcija: { type: mongoose.Schema.ObjectId, ref: "Sekcija" }
+  sekcija: { type: mongoose.Schema.ObjectId, ref: "Sekcija" },
 });
 
 var SchemaReferentneGrupe = mongoose.Schema({
-  grupa: { type: String, required: true }
+  grupa: { type: String, required: true },
 });
 
 var SchemaJedinice = mongoose.Schema({
-  jedinica: { type: String, required: true }
+  jedinica: { type: String, required: true },
 });
 
 var SchemaAnalyser = mongoose.Schema({
@@ -60,7 +60,7 @@ var SchemaAnalyser = mongoose.Schema({
   manual: { type: Boolean, required: false, default: false },
   tehnologija: [{ type: String, required: true }],
   sekcija: { type: String, required: true },
-  site: { type: mongoose.Schema.ObjectId, ref: "Site" }
+  site: { type: mongoose.Schema.ObjectId, ref: "Site" },
 });
 
 var SchemaLabAssays = mongoose.Schema({
@@ -77,18 +77,18 @@ var SchemaLabAssays = mongoose.Schema({
         opis: { type: String, default: "Nema podataka." },
         poviseno: {
           type: Object,
-          default: { text: "Nema podataka.", dijagnoza: [] }
+          default: { text: "Nema podataka.", dijagnoza: [] },
         },
         snizeno: {
           type: Object,
-          default: { text: "Nema podataka.", dijagnoza: [] }
+          default: { text: "Nema podataka.", dijagnoza: [] },
         },
         vrijeme: { type: String, default: "Nema podataka." },
         priprema: { type: String, default: "Nema podataka." },
-        napomena: { type: String, default: "Nema podataka." }
+        napomena: { type: String, default: "Nema podataka." },
       },
-      izbornik: { type: Array, default: [] }
-    }
+      izbornik: { type: Array, default: [] },
+    },
   ],
   analit: { type: String, required: false },
   sekcija: { type: String, required: false },
@@ -112,8 +112,8 @@ var SchemaLabAssays = mongoose.Schema({
       cijena: { type: String, required: false, default: "0" },
       code: { type: String, required: false, default: "" },
       izabran: { type: Boolean, required: false, default: false },
-      klasa: { type: String, required: false, default: "warning" }
-    }
+      klasa: { type: String, required: false, default: "warning" },
+    },
   ],
   kategorija: { type: String, required: false, default: "" },
   test_type: { type: String, required: false, default: "default" },
@@ -124,15 +124,15 @@ var SchemaLabAssays = mongoose.Schema({
     opis: { type: String, default: "Nema podataka." },
     poviseno: {
       type: Object,
-      default: { text: "Nema podataka.", dijagnoza: [] }
+      default: { text: "Nema podataka.", dijagnoza: [] },
     },
     snizeno: {
       type: Object,
-      default: { text: "Nema podataka.", dijagnoza: [] }
+      default: { text: "Nema podataka.", dijagnoza: [] },
     },
     vrijeme: { type: String, default: "Nema podataka." },
     priprema: { type: String, default: "Nema podataka." },
-    napomena: { type: String, default: "Nema podataka." }
+    napomena: { type: String, default: "Nema podataka." },
   },
   orderbyusage: { type: Number, min: 0, max: 650, default: "0" },
   manual: { type: Boolean, default: false },
@@ -151,15 +151,15 @@ var SchemaLabAssays = mongoose.Schema({
       cijena: { type: String, required: false, default: "0" },
       code: { type: String, required: false, default: "" },
       izabran: { type: Boolean, required: false, default: false },
-      klasa: { type: String, required: false, default: "warning" }
-    }
+      klasa: { type: String, required: false, default: "warning" },
+    },
   ],
   calculatedFormula: { type: Array, default: [] },
   price: { type: String, default: "0" },
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: null },
   created_by: { type: String, default: "" },
-  updated_by: { type: String, default: "" }
+  updated_by: { type: String, default: "" },
 });
 
 var SchemaAnaAssays = mongoose.Schema({
@@ -182,8 +182,8 @@ var SchemaAnaAssays = mongoose.Schema({
       dDob: { type: String, default: null },
       gDob: { type: String, default: null },
       refd: { type: String, default: null },
-      refg: { type: String, default: null }
-    }
+      refg: { type: String, default: null },
+    },
   ],
   tipoviUzorka: { type: Array, default: [] },
   site: { type: mongoose.Schema.ObjectId, ref: "Site" },
@@ -191,7 +191,7 @@ var SchemaAnaAssays = mongoose.Schema({
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: null },
   created_by: { type: String, default: "" },
-  updated_by: { type: String, default: "" }
+  updated_by: { type: String, default: "" },
 });
 
 var SchemaPatients = mongoose.Schema({
@@ -209,7 +209,7 @@ var SchemaPatients = mongoose.Schema({
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: null },
   created_by: { type: String, default: null },
-  updated_by: { type: String, default: null }
+  updated_by: { type: String, default: null },
 });
 
 var SchemaSamples = mongoose.Schema({
@@ -230,8 +230,8 @@ var SchemaSamples = mongoose.Schema({
         .toISOString()
         .slice(0, -8)
         .replace("T", " "),
-      by: null
-    }
+      by: null,
+    },
   },
 
   datum: {
@@ -241,11 +241,16 @@ var SchemaSamples = mongoose.Schema({
     )
       .toISOString()
       .slice(0, -8)
-      .replace("T", " ")
+      .replace("T", " "),
   },
   status: { type: String, default: "n/a" },
   doktor: { type: String, default: "n/a" },
   lokacija: { type: mongoose.Schema.ObjectId, ref: "Lokacija" },
+
+  // Partneri - Pošiljaoc, Naručioc i Izvršioc
+  posiljaoc: { type: mongoose.Schema.ObjectId, ref: "Partneri", default: null },
+  narucioc: { type: mongoose.Schema.ObjectId, ref: "Partneri", default: null },
+
   customer: { type: mongoose.Schema.ObjectId, ref: "Customers", default: null },
   patient: { type: mongoose.Schema.ObjectId, ref: "Patients" },
   trudnica: { type: String, default: "NE" },
@@ -258,21 +263,30 @@ var SchemaSamples = mongoose.Schema({
   komentar: { type: String, default: "" },
   tests: [
     {
+
+      // Partneri - Pošiljaoc, Naručioc i Izvršioc
+      izvrsioc: { type: mongoose.Schema.ObjectId, ref: "Partneri", default: null },
+
       labassay: { type: mongoose.Schema.ObjectId, ref: "LabAssays" },
       status_r: { type: Boolean, default: false },
-      status_t: { type: String, default: "ZAPRIMLJEN" }
-    }
+      status_t: { type: String, default: "ZAPRIMLJEN" },
+    },
   ],
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },
   created_by: { type: String, default: "" },
-  updated_by: { type: String, default: "" }
+  updated_by: { type: String, default: "" },
 });
 
 var SchemaResults = mongoose.Schema({
   id: { type: String, required: true, unique: true },
   migrated: { type: Boolean, default: false },
   timestamp: { type: String },
+
+  // Partneri - Pošiljaoc, Naručioc i Izvršioc
+  posiljaoc: { type: mongoose.Schema.ObjectId, ref: "Partneri", default: null },
+  narucioc: { type: mongoose.Schema.ObjectId, ref: "Partneri", default: null },
+
   verificiran: { type: Boolean, default: false },
   sample: { type: mongoose.Schema.ObjectId, ref: "Samples" },
   patient: { type: mongoose.Schema.ObjectId, ref: "Patients" },
@@ -283,6 +297,10 @@ var SchemaResults = mongoose.Schema({
   protokol: { type: String, default: "" },
   rezultati: [
     {
+
+      // Partneri - Pošiljaoc, Naručioc i Izvršioc
+      izvrsioc: { type: mongoose.Schema.ObjectId, ref: "Partneri", default: null },
+      
       labassay: { type: mongoose.Schema.ObjectId, ref: "LabAssays" }, // link na kks
       status: { type: String, default: "U OBRADI" }, // ostaje
       retest: { type: Boolean, default: false }, // retest treba i za analite
@@ -313,10 +331,10 @@ var SchemaResults = mongoose.Schema({
           created_at: { type: Date, default: Date.now },
           updated_at: { type: Date, default: null },
           created_by: { type: String, default: "" },
-          updated_by: { type: String, default: null }
-        }
-      ]
-    }
+          updated_by: { type: String, default: null },
+        },
+      ],
+    },
   ],
   multi: { type: Array, default: [] },
   controlmulti: { type: Boolean, default: false },
@@ -324,9 +342,8 @@ var SchemaResults = mongoose.Schema({
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },
   created_by: { type: String, default: "" },
-  updated_by: { type: String, default: Date.now }
+  updated_by: { type: String, default: Date.now },
 });
-
 
 var SchemaNalazi = mongoose.Schema({
   patient: { type: mongoose.Schema.ObjectId, ref: "Patients" },
@@ -349,7 +366,7 @@ var SchemaNalazi = mongoose.Schema({
   legenda: { type: Array, default: [] },
   specificni: { type: Array, default: [] },
   uzorkovano: { type: Date, default: Date.now },
-  pid: { type: String, default: "1" }
+  pid: { type: String, default: "1" },
 });
 
 var SchemaPaneli = mongoose.Schema({
@@ -365,10 +382,10 @@ var SchemaPaneli = mongoose.Schema({
       cijena: { type: String, default: "0" },
       manual: { type: Boolean, default: false },
       calculated: { type: Boolean, default: false },
-      calculatedTests: { type: Array, default: [] }
-    }
+      calculatedTests: { type: Array, default: [] },
+    },
   ],
-  site: { type: mongoose.Schema.ObjectId, ref: "Site" }
+  site: { type: mongoose.Schema.ObjectId, ref: "Site" },
 });
 
 var SchemaSite = mongoose.Schema({
@@ -388,12 +405,12 @@ var SchemaSite = mongoose.Schema({
     nalazLegenda: { type: Boolean, default: false },
     Interpretacija: { type: Boolean, default: false },
     nalazMemorandum: { type: Boolean, default: false },
-    mailToLokacija: { type: Boolean, default: false }
+    mailToLokacija: { type: Boolean, default: false },
   },
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },
   created_by: { type: String, default: "" },
-  updated_by: { type: String, default: "" }
+  updated_by: { type: String, default: "" },
 });
 
 var SchemaOutbox = mongoose.Schema({
@@ -405,7 +422,7 @@ var SchemaOutbox = mongoose.Schema({
   migrated: { type: Boolean, default: false },
   site: { type: mongoose.Schema.ObjectId, ref: "Site" },
   created_at: { type: Date, default: Date.now },
-  created_by: { type: String, default: "" }
+  created_by: { type: String, default: "" },
 });
 
 var SchemaSettings = mongoose.Schema({
@@ -421,7 +438,7 @@ var SchemaSettings = mongoose.Schema({
   ana_tipovi: { type: Array, default: [] },
   lab_tipovi: { type: Array, default: [] },
   kategorije: { type: Array, default: [] },
-  entryorders: { type: Array, default: [] }
+  entryorders: { type: Array, default: [] },
 });
 
 var SchemaUzorci = mongoose.Schema({
@@ -433,7 +450,7 @@ var SchemaUzorci = mongoose.Schema({
   testoviTag: { type: Array, default: [] },
   hitno: { type: Boolean, default: false },
   time: { type: Date, default: null },
-  komentar: { type: String, default: "" }
+  komentar: { type: String, default: "" },
 });
 var SchemaIntegrationRaw = mongoose.Schema({
   protokol: { type: String, unique: true, required: true },
@@ -444,21 +461,50 @@ var SchemaIntegrationRaw = mongoose.Schema({
   spol: { type: String },
   analize: { type: Array, default: [] },
   created_at: { type: Date, default: Date.now },
-  site: { type: mongoose.Schema.ObjectId, ref: "Site" }
+  site: { type: mongoose.Schema.ObjectId, ref: "Site" },
 });
 var SchemaIntegration = mongoose.Schema({
   remote_id: { type: String, unique: true, required: true },
   local_id: { type: mongoose.Schema.ObjectId, ref: "LabAssays" },
   multiparam: {
     type: { Boolean, required: true, default: false },
-    id: { type: mongoose.Schema.ObjectId }
-  }
+    id: { type: mongoose.Schema.ObjectId },
+  },
 });
+
+// Partneri - Pošiljaoc, Naručioc i Izvršioc
+
+var SchemaPartneri = mongoose.Schema({
+  
+  naziv: { type: String, default: "Nema podataka" },
+  opis: { type: String, default: "Nema podataka" },
+  jib: { type: String, default: "Nema podataka" }, 
+  adresa: { type: String, default: "Nema podataka" },
+  odgovornoLice: { type: String, default: "Nema podataka" },
+  telefon: { type: String, default: "Nema podataka" },
+  lokal: { type: String, default: "Nema podataka" },
+  email: { type: String, default: "Nema podataka" },
+  web: { type: String, default: "Nema podataka" },
+  postavke: {
+    type: Object,
+    default: { posiljaoc: false, narucioc: false, izvrsioc: false}
+  },
+
+  created_at: { type: Date, default: Date.now },
+  updated_at: { type: Date, default: Date.now },
+  created_by: { type: String, default: "Nema podataka" },
+  updated_by: { type: String, default: "Nema podataka" }
+});
+
 const models = [
   (tipAparata = mongoose.model("tipAparata", SchemaTip)),
   (tehnologijaAparata = mongoose.model("tehnologijaAparata", SchemaTehno)),
   (tipUzorka = mongoose.model("tipUzorka", SchemaTipUzorka)),
   (Lokacija = mongoose.model("Lokacija", SchemaLokacija)),
+
+  // Partneri - Pošiljaoc, Naručioc i Izvršioc
+  (Partneri = mongoose.model("Partneri", SchemaPartneri)),
+
   (Customers = mongoose.model("Customers", SchemaCustomers)),
   (Doktor = mongoose.model("Doktor", SchemaDoktor)),
   (Sekcija = mongoose.model("Sekcija", SchemaSekcija)),
@@ -478,7 +524,7 @@ const models = [
   (Settings = mongoose.model("Settings", SchemaSettings)),
   (Uzorci = mongoose.model("Uzorci", SchemaUzorci)),
   (IntegrationRaw = mongoose.model("IntegrationRaw", SchemaIntegrationRaw)),
-  (Integration = mongoose.model("Integration", SchemaIntegration))
+  (Integration = mongoose.model("Integration", SchemaIntegration)),
 ];
 
 module.exports = models;
