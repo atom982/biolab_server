@@ -369,7 +369,7 @@ module.exports = {
     let comment = napomena
 
     if(COV2){
-      napomena = "Analiza: COVID-19 Antigen. Uzorak: Bris nazofarinksa. Metod: Fluorescent Immunoassay (FIA)\n" + comment
+      napomena = "Analiza: COVID-19 Antigen.\nUzorak: Bris nazofarinksa.\nMetod: Fluorescent Immunoassay (FIA)\n" + comment
     }
 
     if (napomena.length) {
