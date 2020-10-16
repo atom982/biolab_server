@@ -94,6 +94,7 @@ module.exports = {
     var i = 0;
     var rows = [];
     var analit = true;
+    var COV2 = false;
     var reset = 0;
 
     sekcijeniz.forEach(element => {
@@ -120,6 +121,14 @@ module.exports = {
               rows: test.rezultat
             });
           } else {
+
+            if(test.rezultat[0].includes("COVID-19 Antigen")){
+             
+              COV2 = true
+              
+            } 
+
+
             rows.push(test.rezultat);
             analit = true;
           }
@@ -355,6 +364,12 @@ module.exports = {
 
     if (doc.y > 650) {
       doc.addPage();
+    }
+
+    let comment = napomena
+
+    if(COV2){
+      napomena = "Analiza: COVID-19 Antigen. Uzorak: Bris nazofarinksa. Metod: Fluorescent Immunoassay (FIA)\n" + comment
     }
 
     if (napomena.length) {
