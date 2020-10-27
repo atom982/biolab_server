@@ -380,7 +380,7 @@ module.exports = {
       doc.addPage();
     }
 
-    let comment = napomena
+    let comment1 = napomena
 
     if(COV2){
       napomena = "Analiza: COVID-19 Antigen\nUzorak: Bris nazofarinksa\nMetod: Fluorescent Immunoassay (FIA)\n" + comment1
