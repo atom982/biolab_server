@@ -408,7 +408,7 @@ module.exports = {
     eachLine = napomena.split("\n");
 
     for (var i = 0, l = eachLine.length; i < l; i++) {
-      doc.text(eachLine[i], { width: 465, align: "justify" });
+      doc.text(eachLine[i], { width: 465, align: "left" });
       if (eachLine[i].length === 0) {
         doc.moveDown(1);
       }
