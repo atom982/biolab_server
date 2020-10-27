@@ -95,6 +95,8 @@ module.exports = {
     var rows = [];
     var analit = true;
     var COV2 = false;
+    var AbIgG = false;
+    var AbIgM = false;
     var reset = 0;
 
     sekcijeniz.forEach(element => {
@@ -125,6 +127,18 @@ module.exports = {
             if(test.rezultat[0].includes("COVID-19 Antigen")){
              
               COV2 = true
+              
+            } 
+
+            if(test.rezultat[0].includes("SARS-COV-2 IgG")){
+             
+              AbIgG = true
+              
+            } 
+
+            if(test.rezultat[0].includes("SARS-COV-2 IgM")){
+             
+              AbIgM = true
               
             } 
 
@@ -369,7 +383,21 @@ module.exports = {
     let comment = napomena
 
     if(COV2){
-      napomena = "Analiza: COVID-19 Antigen\nUzorak: Bris nazofarinksa\nMetod: Fluorescent Immunoassay (FIA)\n" + comment
+      napomena = "Analiza: COVID-19 Antigen\nUzorak: Bris nazofarinksa\nMetod: Fluorescent Immunoassay (FIA)\n" + comment1
+    }
+
+    let comment2 = napomena
+
+
+    if(AbIgM && AbIgG){
+      napomena = "Analize: SARS-COV-2 IgG i SARS-COV-2 IgM su rađene metodom Fluorescent Immunoassay (FIA)\n" + comment2
+    }else if(AbIgM && !AbIgG){
+      napomena = "Analiza: SARS-COV-2 IgM je rađena metodom Fluorescent Immunoassay (FIA)\n" + comment2
+    }else if(!AbIgM && AbIgG){
+      napomena = "Analiza: SARS-COV-2 IgG je rađena metodom Fluorescent Immunoassay (FIA)\n" + comment2
+    }else{
+
+
     }
 
     if (napomena.length) {
