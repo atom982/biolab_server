@@ -1346,8 +1346,8 @@ odobravanjeController.Calculate = function(req, res) {
   var final = "";
 
   if (
-    req.body.ime.includes("OGTT") ||
-    req.body.ime.includes("Inzulin-") ||
+    req.body.ime.includes("OGTT -") ||
+    req.body.ime.includes("INSULIN -") ||
     req.body.ime.includes("Prolaktin P") ||
     req.body.ime.includes("Gluk-") ||
     req.body.ime.includes("Kortizol-")

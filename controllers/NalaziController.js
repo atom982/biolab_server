@@ -636,7 +636,7 @@ nalazController.Nalaz = function(req, res) {
 
 								if (Insulin) {
 									element.rezultati = element.rezultati.filter(function(item) {
-										return item.labassay._id != '5d63de20a255375c7bf6c4fb'; // Inzulin
+										return item.labassay._id != '5f40e80b90fa666d29c02e51'; // Inzulin
 									});
 								}
 
