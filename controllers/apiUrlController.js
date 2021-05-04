@@ -1678,14 +1678,19 @@ apiUrlController.apiUrlAnaAssays = function (req, res) {
 
             default:
               results = results.filter(function (result) {
+                if(result.test === undefined){
+                  console.log(result._id)
+                }else{
+
+                }
                 return (
                   (result.test.naziv
                     .toLowerCase()
-                    .includes(req.query.filter.toLowerCase()) &&
+                    .includes(req.query.filter.toLowerCase()) && result.test != undefined &&
                     result.test.test_type === "default") ||
                   (result.test.analit
                     .toLowerCase()
-                    .includes(req.query.filter.toLowerCase()) &&
+                    .includes(req.query.filter.toLowerCase()) && result.test != undefined &&
                     result.test.test_type === "default")
                 );
               });
