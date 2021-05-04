@@ -1679,14 +1679,14 @@ apiUrlController.apiUrlAnaAssays = function (req, res) {
             default:
 
               results.forEach(element => {
-                if(element.test === undefined){
-                  console.log(result._id)
+                if(element.test == undefined){
+                  console.log(element._id)
                 }else{
 
                 }
                 
               });
-              
+
               results = results.filter(function (result) {
                 
                 return (
