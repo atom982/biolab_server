@@ -1684,13 +1684,13 @@ apiUrlController.apiUrlAnaAssays = function (req, res) {
 
                 }
                 return (
-                  (result.test.naziv
+                  (result.test != undefined && result.test.naziv
                     .toLowerCase()
-                    .includes(req.query.filter.toLowerCase()) && result.test != undefined &&
+                    .includes(req.query.filter.toLowerCase()) && 
                     result.test.test_type === "default") ||
-                  (result.test.analit
+                  (result.test != undefined && result.test.analit
                     .toLowerCase()
-                    .includes(req.query.filter.toLowerCase()) && result.test != undefined &&
+                    .includes(req.query.filter.toLowerCase()) && 
                     result.test.test_type === "default")
                 );
               });
