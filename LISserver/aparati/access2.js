@@ -511,7 +511,7 @@ module.exports = {
                           if(rime.length > 20){
                             rime = rezultat.patient.ime.substring(0,19)
                           }
-                          ime = prezime+'-'+rime
+                          ime = prezime+'^'+rime
                           ime = ime.replace(/Ć/g,'C')
                           ime = ime.replace(/Č/g,'C')
                           ime = ime.replace(/Š/g,'S')
@@ -529,7 +529,8 @@ module.exports = {
                           }else{
                             spol = "M"
                           }
-                          var patient = 'P|1|'+ime+'|||'+rezultat.patient.jmbg+'||19631124|'+spol+'|'
+                          //var patient = 'P|1|'+ime+'|||'+rezultat.patient.jmbg+'||19631124|'+spol+'|'
+                          var patient = 'P|1|'+rezultat.patient.jmbg+'|||'+ime+'||19631124|'+spol+'|'
                           recordret.push(patient);
                           var order = 'O|1|'+json.sid+'||'+tests+'|R||||||A||||Serum';
                           //           // O|1|Samp45||^^^TSH|R||||||A||||Serum<CR>
