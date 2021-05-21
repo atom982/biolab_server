@@ -48,6 +48,7 @@ module.exports = {
     );
 
     var memo = 0;
+    var temp = 0;
     var nvisina = 90;
     var adjust = nvisina - 70;
     var nalazMemorandum = true;
@@ -98,6 +99,8 @@ module.exports = {
     var AbIgG = false;
     var AbIgM = false;
     var reset = 0;
+
+    var alergije = false;
 
     sekcijeniz.forEach(element => {
       if (!element[0].mikrobiologija) {
@@ -162,6 +165,10 @@ module.exports = {
               if (doc.y > 650) {
                 doc.addPage();
               }
+
+              if (mul.naslov.slice(4).toLowerCase().includes("alergo test")) {
+                alergije = true;
+              } 
 
 
               if (mul.naslov.slice(4).trim() === "Sediment urina") {
@@ -380,6 +387,19 @@ module.exports = {
       doc.addPage();
     }
 
+    if(alergije === true){
+      // console.log("Alergije")
+
+      temp = 60;
+      
+      doc.image(config.nalaz_references + "Alergije.png", 50, doc.y + 5, { width: 510, keepAspectRatio: true, lineBreak: false });
+      doc.moveDown(7);
+    }else{
+
+      temp = 0;
+
+    }
+
     let comment1 = napomena
 
     if(COV2){
@@ -413,7 +433,7 @@ module.exports = {
         doc.moveDown(1);
       }
     }
-    memo = doc.y;
+    memo = doc.y - temp;
 
     doc.font("PTSansRegular").fontSize(10).text("_______________________________", 390).text("       Voditelj laboratorija");
 

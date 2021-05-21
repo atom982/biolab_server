@@ -52,6 +52,8 @@ nalazController.Mail = function(req, res) {
 						});
 					} else {
 						var height = nalaz.height;
+						var heightStamp = (Number(nalaz.height) + 20).toString();
+						console.log(heightStamp)
 						let pageStr = [];
 
 						for (i = 0; i < page; i++) {
@@ -79,7 +81,7 @@ nalazController.Mail = function(req, res) {
 											"Stamp" +
 											'.png',
 										72,
-										height,
+										heightStamp,
 										{ width: 120, keepAspectRatio: true }
 									)
 									.image(
@@ -1259,6 +1261,7 @@ nalazController.Nalaz = function(req, res) {
 										baseConfig.nalaz_ptsansregular = config.nalaz_ptsansregular;
 										baseConfig.nalaz_ptsansbold = config.nalaz_ptsansbold;
 										baseConfig.nalaz_logo = config.nalaz_logo;
+										baseConfig.nalaz_references = config.nalaz_references;
 										baseConfig.nalaz_footer = config.nalaz_footer;
 
 										report_template.create_report(
@@ -1314,6 +1317,7 @@ nalazController.Nalaz = function(req, res) {
 										baseConfig.nalaz_ptsansregular = config.nalaz_ptsansregular;
 										baseConfig.nalaz_ptsansbold = config.nalaz_ptsansbold;
 										baseConfig.nalaz_logo = config.nalaz_logo;
+										baseConfig.nalaz_references = config.nalaz_references;
 										baseConfig.nalaz_footer = config.nalaz_footer;
 
 										report_template.create_report(
