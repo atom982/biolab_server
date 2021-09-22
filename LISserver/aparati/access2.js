@@ -224,7 +224,7 @@ module.exports = {
                                             element.status = "NIJE ODOBREN"
                                             uzorak.save()
                                             var received = elementu.labassay.naziv
-                                            console.log(':: Dosao test sa MODULAR E170: ' + elementu.labassay.naziv)
+                                            console.log(':: Dosao test sa ACCESS 2: ' + elementu.labassay.naziv)
   
                                             result.save(function (err, novi) {
                                               if (err) {
