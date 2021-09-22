@@ -121,9 +121,9 @@ module.exports = {
                               console.log('U LIS-u ne postoji definisan test sa sifrom:' + sifra_p + '  na aparatu Access 2');
                             } else {
                               uzorak.tests.forEach(elementu => {
-                                console.log("labassay:"+elementu.labassay.sifra.trim())
-                                console.log("anaassay:"+test.test.sifra.trim())
-                                console.log("status:"+elementu.status_t)
+                                // console.log("labassay:"+elementu.labassay.sifra.trim())
+                                // console.log("anaassay:"+test.test.sifra.trim())
+                                // console.log("status:"+elementu.status_t)
                                 if ((elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "U OBRADI") ||(elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "ZAPRIMLJEN") || (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_r)) {
                                   console.log('Match Found')
                                   // console.log(elementu)
