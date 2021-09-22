@@ -121,7 +121,7 @@ module.exports = {
                               console.log('U LIS-u ne postoji definisan test sa sifrom:' + sifra_p + '  na aparatu Access 2');
                             } else {
                               uzorak.tests.forEach(elementu => {
-  
+                                console.log("elementu:"+elementu)
                                 if ((elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "U OBRADI") ||(elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "ZAPRIMLJEN") || (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_r)) {
                                   console.log('Match Found')
                                   // console.log(elementu)
