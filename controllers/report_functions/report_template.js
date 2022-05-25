@@ -81,7 +81,8 @@ module.exports = {
       doc.font("PTSansRegular").fontSize(12).text("Godište:", 50, nvisina + 16).text(data.godiste + ".", 150 - 56, nvisina + 16);
     }
 
-    doc.font("PTSansRegular").fontSize(12).text("Spol:", 50, nvisina + 32).text(data.spol[0].toUpperCase() + data.spol.slice(1).toLowerCase(), 96 - 17, nvisina + 32).text("Datum: ", 444 + 10, nvisina - 2).text(data.datum, 494 + 10, nvisina - 2);
+    doc.font("PTSansRegular").fontSize(12).text("Spol:", 50, nvisina + 32).text(data.spol[0].toUpperCase() + data.spol.slice(1).toLowerCase(), 96 - 17, nvisina + 32);
+    // .text("Datum: ", 444 + 10, nvisina - 2).text(data.datum, 494 + 10, nvisina - 2);
 
     if (data.telefon === "NEPOZNATO" || data.telefon === "Nema podataka" || data.telefon.trim() === "") {
       data.telefon = "";
