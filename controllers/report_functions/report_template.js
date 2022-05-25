@@ -380,7 +380,7 @@ module.exports = {
 
     doc.font("PTSansBold").fontSize(8);
     if (legenda.length) {
-      doc.fontSize(8).text("Legenda: " + leg, 50, doc.y + reset);
+      doc.fontSize(8).text("Legenda: L - nizak, H - visok\n" + leg, 50, doc.y + reset);
     }
     if (specificni != undefined && specificni.length) {
       var ref = "";
