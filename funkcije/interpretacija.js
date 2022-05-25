@@ -5,31 +5,40 @@ module.exports = {
     return [" ", "No Class"];
   },
 
-  Standard: function(result, dref, gref) {
-    var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "") 
+  Standard: function (result, dref, gref) {
+    var rezultat = result
+      .replace(/,/g, ".")
+      .replace(/</g, "")
+      .replace(/>/g, "");
     // (Interpretacija: "A", "ogtt", "insul")
     if (isNaN(rezultat) || rezultat === "" || (dref == "0" && gref == "0")) {
       return [" ", "No Class"];
     } else if (Number(rezultat) < Number(Math.abs(dref))) {
-      return ["L", "Red"];
+      return ["L", "L"];
     } else if (Number(rezultat) > Number(Math.abs(gref))) {
-      return ["H", "Red"];
-    } else if (Number(rezultat) === Number(Math.abs(dref)) || Number(rezultat) === Number(Math.abs(gref))) {
+      return ["H", "H"];
+    } else if (
+      Number(rezultat) === Number(Math.abs(dref)) ||
+      Number(rezultat) === Number(Math.abs(gref))
+    ) {
       return [" ", "Yellow"];
     } else {
       return [" ", "Green"];
     }
   },
 
-  Less: function(result, dref, gref) {
-    var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "") 
+  Less: function (result, dref, gref) {
+    var rezultat = result
+      .replace(/,/g, ".")
+      .replace(/</g, "")
+      .replace(/>/g, "");
     // (Interpretacija: "less")
     if (rezultat.includes("pozitivan") || rezultat.includes("pos")) {
       return ["H", "Red"];
     } else if (isNaN(rezultat) || rezultat === "") {
       return [" ", "No Class"];
     } else if (Number(rezultat) >= Number(Math.abs(gref))) {
-      return ["H", "Red"];
+      return ["H", "H"];
     } else if (rezultat.includes("pozitivan") || rezultat.includes("pos")) {
       return ["H", "Red"];
     } else {
@@ -53,13 +62,16 @@ module.exports = {
     }
   },
 
-  LessEqual: function(result, dref, gref) {
-    var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "")   
+  LessEqual: function (result, dref, gref) {
+    var rezultat = result
+      .replace(/,/g, ".")
+      .replace(/</g, "")
+      .replace(/>/g, "");
     // (Interpretacija: "grte")
     if (isNaN(rezultat) || rezultat === "") {
       return [" ", "No Class"];
     } else if (Number(rezultat) > Number(Math.abs(gref))) {
-      return ["L", "Red"];
+      return ["H", "H"];
     } else if (Number(rezultat) == Number(Math.abs(gref))) {
       return [" ", "Green"];
     } else {
@@ -67,15 +79,18 @@ module.exports = {
     }
   },
 
-  Greater: function(result, dref, gref) {
-    var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "")   
+  Greater: function (result, dref, gref) {
+    var rezultat = result
+      .replace(/,/g, ".")
+      .replace(/</g, "")
+      .replace(/>/g, "");
     // (Interpretacija: "grt")
     if (isNaN(rezultat) || rezultat === "") {
       return [" ", "No Class"];
     } else if (Number(rezultat) < Number(Math.abs(gref))) {
-      return ["L", "Red"];
+      return ["L", "L"];
     } else if (Number(rezultat) == Number(Math.abs(gref))) {
-      return [" ", "Yellow"];
+      return ["L", "L"];
     } else {
       return [" ", "Green"];
     }
@@ -95,19 +110,23 @@ module.exports = {
     }
   },
 
-  GreaterEqual: function(result, dref, gref) {
-    var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "")   
+  GreaterEqual: function (result, dref, gref) {
+    var rezultat = result
+      .replace(/,/g, ".")
+      .replace(/</g, "")
+      .replace(/>/g, "");
     // (Interpretacija: "grte")
     if (isNaN(rezultat) || rezultat === "") {
       return [" ", "No Class"];
     } else if (Number(rezultat) < Number(Math.abs(gref))) {
-      return ["L", "Red"];
+      return ["L", "L"];
     } else if (Number(rezultat) == Number(Math.abs(gref))) {
       return [" ", "Green"];
     } else {
       return [" ", "Green"];
     }
   },
+
 
   Negativan: function(result, dref, gref) {
     var rezultat = result.replace(/,/g, ".").replace(/</g, "").replace(/>/g, "") 

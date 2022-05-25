@@ -182,7 +182,11 @@ class PDFDocumentWithTables extends PDFDocument {
           this.fillColor("black");
           tempcell1 = cell;
 
-          if (cell.kontrola === "Red") {
+          if (
+            cell.kontrola === "Red" ||
+            cell.kontrola === "L" ||
+            cell.kontrola === "H"
+          ) {
             this.font("PTSansBold")
               .rect(
                 this.x + columnContainerWidth,
@@ -197,15 +201,37 @@ class PDFDocumentWithTables extends PDFDocument {
           } else {
           }
 
-          this.text(
-            cell.rezultat.trim(),
-            startX + i * columnContainerWidth,
-            startY,
-            {
-              width: columnWidth,
-              align: "center",
-            }
-          );
+          if (cell.kontrola === "L" || cell.kontrola === "H") {
+            this.text(
+              cell.rezultat.trim(),
+              startX + i * columnContainerWidth,
+              startY,
+              {
+                width: columnWidth,
+                align: "center",
+              }
+            );
+
+            this.text(
+              cell.kontrola,
+              startX + i * columnContainerWidth,
+              startY,
+              {
+                width: columnWidth,
+                align: "right",
+              }
+            );
+          } else {
+            this.text(
+              cell.rezultat.trim(),
+              startX + i * columnContainerWidth,
+              startY,
+              {
+                width: columnWidth,
+                align: "center",
+              }
+            );
+          }
         }
 
         if (i === 2) {
@@ -498,9 +524,18 @@ class PDFDocumentWithTables extends PDFDocument {
           this.fillColor("black");
           tempcell1 = cell;
 
-          if (cell.kontrola === "Red") {
+          if (
+            cell.kontrola === "Red" ||
+            cell.kontrola === "L" ||
+            cell.kontrola === "H"
+          ) {
             this.font("PTSansBold")
-              .rect( this.x + columnContainerWidth, this.y + shadow - 0.2, columnContainerWidth, -12 - shadow)
+              .rect(
+                this.x + columnContainerWidth,
+                this.y - 0.2,
+                columnContainerWidth,
+                -12
+              )
               .opacity(0.25)
               .fill("#7B8186")
               .fillColor("black")
@@ -508,15 +543,37 @@ class PDFDocumentWithTables extends PDFDocument {
           } else {
           }
 
-          this.text(
-            cell.rezultat.trim(),
-            startX + i * columnContainerWidth,
-            startY,
-            {
-              width: columnWidth,
-              align: "center",
-            }
-          );
+          if (cell.kontrola === "L" || cell.kontrola === "H") {
+            this.text(
+              cell.rezultat.trim(),
+              startX + i * columnContainerWidth,
+              startY,
+              {
+                width: columnWidth,
+                align: "center",
+              }
+            );
+
+            this.text(
+              cell.kontrola,
+              startX + i * columnContainerWidth,
+              startY,
+              {
+                width: columnWidth,
+                align: "right",
+              }
+            );
+          } else {
+            this.text(
+              cell.rezultat.trim(),
+              startX + i * columnContainerWidth,
+              startY,
+              {
+                width: columnWidth,
+                align: "center",
+              }
+            );
+          }
         }
 
         if (i === 2) {
@@ -794,9 +851,18 @@ class PDFDocumentWithTables extends PDFDocument {
           this.fillColor("black");
           tempcell1 = cell;
 
-          if (cell.kontrola === "Red") {
+          if (
+            cell.kontrola === "Red" ||
+            cell.kontrola === "L" ||
+            cell.kontrola === "H"
+          ) {
             this.font("PTSansBold")
-              .rect(176.5, this.y + shadow - 0.2, 385.2, -12 - shadow)
+              .rect(
+                this.x + columnContainerWidth,
+                this.y - 0.2,
+                columnContainerWidth,
+                -12
+              )
               .opacity(0.25)
               .fill("#7B8186")
               .fillColor("black")
@@ -804,15 +870,37 @@ class PDFDocumentWithTables extends PDFDocument {
           } else {
           }
 
-          this.text(
-            cell.rezultat.trim(),
-            startX + i * columnContainerWidth,
-            startY,
-            {
-              width: columnWidth * 3,
-              align: "left",
-            }
-          );
+          if (cell.kontrola === "L" || cell.kontrola === "H") {
+            this.text(
+              cell.rezultat.trim(),
+              startX + i * columnContainerWidth,
+              startY,
+              {
+                width: columnWidth,
+                align: "center",
+              }
+            );
+
+            this.text(
+              cell.kontrola,
+              startX + i * columnContainerWidth,
+              startY,
+              {
+                width: columnWidth,
+                align: "right",
+              }
+            );
+          } else {
+            this.text(
+              cell.rezultat.trim(),
+              startX + i * columnContainerWidth,
+              startY,
+              {
+                width: columnWidth,
+                align: "center",
+              }
+            );
+          }
         }
       });
 
