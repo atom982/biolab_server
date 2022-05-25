@@ -7,7 +7,7 @@ module.exports = {
     let adresa = "";
 
     code = site_data.sifra;
-    adresa_x = 65;
+    adresa_x = 68;
     adresa = "Zmaja od Bosne broj 63, 71000 Sarajevo, tel: +38733645845, email: info@bio-lab.ba, web: www.bio-lab.ba"
     var fs = require("fs");
     PDFDocument = require("pdfkit");
@@ -64,7 +64,14 @@ module.exports = {
 
     // doc.font("PTSansRegular").fontSize(13).fillColor("#7B8186").text("RIQAS certificirana eksterna kontrola kvaliteta", 308, 40);
     doc.font("PTSansRegular").fontSize(12).fillColor("black").text("Prezime i ime: ", 50, nvisina);
-    doc.font("PTSansBold").fontSize(14).text(" " + data.prezime.toUpperCase() + " " + data.ime.toUpperCase(), 142 - 17, nvisina - 2);
+
+    if(data.roditelj.trim() == ""){
+      doc.font("PTSansBold").fontSize(14).text(" " + data.prezime.toUpperCase() + " " + data.ime.toUpperCase(), 142 - 17, nvisina - 2);
+    }else{
+      doc.font("PTSansBold").fontSize(14).text(" " + data.prezime.toUpperCase() + " (" + data.roditelj + ") " + data.ime.toUpperCase(), 142 - 17, nvisina - 2);
+    }
+
+    
 
     if (datRodjenja.includes("01.01") && data.godiste == "1920") {
       doc.font("PTSansRegular").fontSize(12).text("Datum rođenja:", 50, nvisina + 16).text("Nema podataka", 150 - 17, nvisina + 16);
@@ -76,7 +83,7 @@ module.exports = {
 
     doc.font("PTSansRegular").fontSize(12).text("Spol:", 50, nvisina + 32).text(data.spol[0].toUpperCase() + data.spol.slice(1).toLowerCase(), 96 - 17, nvisina + 32).text("Datum: ", 444 + 10, nvisina - 2).text(data.datum, 494 + 10, nvisina - 2);
 
-    if (data.telefon === "NEPOZNATO") {
+    if (data.telefon === "NEPOZNATO" || data.telefon === "Nema podataka" || data.telefon.trim() === "") {
       data.telefon = "";
     } else {
       doc.font("PTSansRegular").fontSize(12).text("Kontakt:", 50, nvisina + 48).text(data.telefon, 150 - 54, nvisina + 48);
@@ -84,11 +91,20 @@ module.exports = {
 
     var uzorkovan = JSON.stringify(report.uzorkovano).substring(1, 11).split("-");
 
-    doc.font("PTSansRegular").text("Vrijeme:", 445 + 10, nvisina + 14).text(data.vrijeme, 506.5 + 10, nvisina + 14);
-    doc.font("PTSansBold", config.nalaz_ptsansbold).fontSize(8).text("Datum i vrijeme uzorkovanja:", 444.5 + 10, nvisina + 32);
-    doc.font("PTSansBold", config.nalaz_ptsansbold).fontSize(8).text(uzorkovan[2] + "." + uzorkovan[1] + "." + uzorkovan[0] + " " + data.uzorkovano_t, 444.5 + 10, nvisina + 42);
-    doc.font("PTSansRegular", config.nalaz_ptsansbold).fontSize(10).text("Redni broj pacijenta: ", 444.5 + 10, nvisina + 55);
-    doc.font("PTSansBold", config.nalaz_ptsansbold).fontSize(10).text(pid, 534 + 10, nvisina + 55);
+    doc.font("PTSansRegular").fontSize(10).text("Izdavanje nalaza:", 444.5 + 10, nvisina + 3 + 15 + 3 - 25);
+      doc.font("PTSansBold").fontSize(10).text(data.datum + " " + data.vrijeme.substring(0, 5), 444.5 + 10, nvisina + 3 + 15 + 3 + 15 - 25);
+      doc.font("PTSansRegular", config.nalaz_ptsansbold).fontSize(10).text("Vrijeme uzorkovanja:", 444.5 + 10, nvisina + 18 + 15 + 3 + 15 - 25);
+      doc.font("PTSansRegular", config.nalaz_ptsansbold).fontSize(10).text(uzorkovan[2] + "." + uzorkovan[1] + "." + uzorkovan[0] + " " + data.uzorkovano_t, 444.5 + 10, nvisina + 33 + 3  + 15  + 15 - 25);
+      
+      doc.font("PTSansRegular").fontSize(10).text("Broj protokola:" , 444.5 + 10, nvisina + 60 - 2);
+      doc.font("PTSansBold").fontSize(10).text(data.protokol, 444.5 + 10, nvisina + 75 - 2);
+
+
+    // doc.font("PTSansRegular").text("Vrijeme:", 445 + 10, nvisina + 14).text(data.vrijeme, 506.5 + 10, nvisina + 14);
+    // doc.font("PTSansBold", config.nalaz_ptsansbold).fontSize(8).text("Datum i vrijeme uzorkovanja:", 444.5 + 10, nvisina + 32);
+    // doc.font("PTSansBold", config.nalaz_ptsansbold).fontSize(8).text(uzorkovan[2] + "." + uzorkovan[1] + "." + uzorkovan[0] + " " + data.uzorkovano_t, 444.5 + 10, nvisina + 42);
+    // doc.font("PTSansRegular", config.nalaz_ptsansbold).fontSize(10).text("Redni broj pacijenta: ", 444.5 + 10, nvisina + 55);
+    // doc.font("PTSansBold", config.nalaz_ptsansbold).fontSize(10).text(pid, 534 + 10, nvisina + 55);
     doc.font("PTSansBold").fontSize(12).text(rowsno, 50, nvisina + 70);
     doc.moveDown(1);
 

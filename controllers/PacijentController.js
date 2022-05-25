@@ -106,34 +106,43 @@ pacijentController.PacijentUpdate = function (req, res) {
           if (typeof req.body.jmbg !== 'undefined' && req.body.jmbg) {
 
             var audit_body = {}
+
             audit_body.jmbg = pacijent.jmbg
             audit_body.ime = pacijent.ime
             audit_body.prezime = pacijent.prezime
+            audit_body.roditelj = pacijent.roditelj
             audit_body.spol = pacijent.spol
-            audit_body.adresa = pacijent.adresa
             audit_body.duhan = pacijent.duhan
             audit_body.dijabetes = pacijent.dijabetes
+            audit_body.lokacija = pacijent.lokacija
+            audit_body.passport = pacijent.passport       
             audit_body.telefon = pacijent.telefon
             audit_body.email = pacijent.email
-            audit_body.created_by = pacijent.created_by
-            audit_bodycreated_at = pacijent.created_at
-            audit_body.updated_by = pacijent.updated_by
+            audit_body.adresa = pacijent.adresa
+            audit_body.site = pacijent.site
+            audit_body.created_at = pacijent.created_at
             audit_body.updated_at = pacijent.updated_at
+            audit_body.created_by = pacijent.created_by
+            audit_body.updated_by = pacijent.updated_by
+
             var audit_pacijent = new Audit_Patients(audit_body)
             audit_pacijent.save()
 
             pacijent.jmbg = req.body.jmbg
             pacijent.ime = req.body.ime
             pacijent.prezime = req.body.prezime
+            pacijent.roditelj = req.body.roditelj
             pacijent.spol = req.body.spol
-            pacijent.adresa = req.body.adresa
-            pacijent.duhan = req.body.duhan
+            pacijent.duhan = req.body.duhan            
             pacijent.dijabetes = req.body.dijabetes
+            pacijent.passport = req.body.passport
             pacijent.telefon = req.body.telefon
             pacijent.email = req.body.email
+            pacijent.adresa = req.body.adresa
             pacijent.updated_by = req.body.decoded.user
             pacijent.updated_at = Date.now()
             pacijent.save()
+            
             res.json({ success: true, message: 'Pacijent izmjenjen' })
           } else {
             pacijent.email = req.body.email

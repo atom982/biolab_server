@@ -1149,12 +1149,20 @@ nalazController.Nalaz = function(req, res) {
 					var god = d.getFullYear();
 
 					Data.pid = rezultati[0].sample.pid;
+
+					Data.protokol = "BLS" + rezultati[0].sample.pid + "/" + rezultati[0].sample.id.substr(rezultati[0].sample.id.length - 5);
+
 					Data.uzorkovano = rezultati[0].sample.datum;
 
 					Data.uzorkovano_t = rezultati[0].sample.datum.substring(11, 16);
 					// console.log(Data.uzorkovano_t)
 
 					Data.ime = rezultati[0].patient.ime;
+
+					Data.roditelj = rezultati[0].patient.roditelj;
+					Data.passport = rezultati[0].patient.passport;
+
+					
 					Data.prezime = rezultati[0].patient.prezime;
 					Data.jmbg = rezultati[0].patient.jmbg;
 					Data.godiste = Data.jmbg.substring(4, 7);

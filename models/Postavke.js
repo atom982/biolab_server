@@ -198,16 +198,29 @@ var SchemaPatients = mongoose.Schema({
   jmbg: { type: String, required: true },
   ime: { type: String, required: true },
   prezime: { type: String, required: true },
+  roditelj: { type: String, default: "" },
+  extid:{ type: String, default: "" },
   spol: { type: String },
-  duhan: { type: String, default: "NEPOZNATO" },
-  dijabetes: { type: String, default: "NEPOZNATO" },
+  duhan: { type: String, default: "Nema podataka" },
+  dijabetes: { type: String, default: "Nema podataka" },
   lokacija: { type: mongoose.Schema.ObjectId, ref: "Lokacija" },
-  telefon: { type: String, default: "NEPOZNATO" },
-  email: { type: String, default: "NEPOZNATO" },
-  adresa: { type: String, default: "NEPOZNATO" },
+  passport: { type: String, default: "" },
+  telefon: { type: String, default: "" },
+  email: { type: String, default: "" },
+  adresa: { type: String, default: "" },
   site: { type: mongoose.Schema.ObjectId, ref: "Site" },
-  created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date, default: null },
+  created_at: {
+    type: Date,
+    default: new Date(
+      new Date().getTime() - new Date().getTimezoneOffset() * 60000
+    ),
+  },
+  updated_at: {
+    type: Date,
+    default: new Date(
+      new Date().getTime() - new Date().getTimezoneOffset() * 60000
+    ),
+  },
   created_by: { type: String, default: null },
   updated_by: { type: String, default: null },
 });
