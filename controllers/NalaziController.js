@@ -1235,6 +1235,7 @@ nalazController.Nalaz = function(req, res) {
 								obj.rows = sekcijeniz;
 								obj.site = req.body.site;
 								obj.created_by = req.body.decoded.user;
+								obj.protokol = Data.protokol;
 
 								obj.uzorci = req.body.uzorci;
 								obj.timestamp = req.body.timestamp;

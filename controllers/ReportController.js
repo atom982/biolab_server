@@ -161,6 +161,344 @@ reportController.KProtokol = function (req, res) {
   } else {
     var range = req.body.range.split("do");
     if (range.length === 2) {
+      to = range[1].trim() + "T23:59:59";
+      to = new Date(to + "Z");
+      from = range[0].trim() + "T00:00:00";
+      from = new Date(from + "Z");
+    } else {
+      to = range[0].trim() + "T23:59:59";
+      to = new Date(to + "Z");
+      from = range[0].trim() + "T00:00:00";
+      from = new Date(from + "Z");
+    }
+
+    var tmpTime = "";
+    if (req.body.range.length > 20) {
+      tmpTime =
+        req.body.range.slice(8, 10) +
+        "." +
+        req.body.range.slice(5, 7) +
+        "." +
+        req.body.range.slice(0, 4) +
+        " do " +
+        req.body.range.slice(22, 24) +
+        "." +
+        req.body.range.slice(19, 21) +
+        "." +
+        req.body.range.slice(14, 18);
+    } else {
+      tmpTime =
+        req.body.range.slice(8, 10) +
+        "." +
+        req.body.range.slice(5, 7) +
+        "." +
+        req.body.range.slice(0, 4);
+    }
+
+    console.log(">> Knjiga protokola");
+    // console.log(req.body.izbor.naziv);
+    // console.log(req.body.izbor._id);
+
+    var uslov = {};
+
+    if (req.body.izbor.naziv === "Kompletan izvještaj") {
+      uslov = {
+        created_at: {
+          $gt: from,
+          $lt: to,
+        },
+        status: true,
+      };
+    } else {
+      uslov = {
+        created_at: {
+          $gt: from,
+          $lt: to,
+        },
+        site: mongoose.Types.ObjectId(req.body.izbor._id),
+        status: true,
+      };
+    }
+
+    console.log(uslov)
+
+    Nalazi.find(uslov)
+      .populate("posiljaoc lokacija patient site")
+      .exec(function (err, nalazi) {
+        if (err) {
+          console.log("Greška:", err);
+        } else {
+          if (nalazi.length) {
+            const doc = new PDFDocumentWithTables({
+              layout: "landscape",
+              bufferPages: true,
+            });
+
+            doc.registerFont("PTSansRegular", config.nalaz_ptsansregular);
+            doc.registerFont("PTSansBold", config.nalaz_ptsansbold);
+            // doc.image(config.nalaz_logo + nalazi[0].site.sifra + '.jpg', 67, 15, {
+            //     fit: [150, 57],
+            //     align: 'center',
+            //     valign: 'center'
+            // })
+            // doc.image(config.nalaz_footer + nalazi[0].site.sifra + '.jpg', 0, 711, {
+            //     fit: [615, 114],
+            //     align: 'center',
+            //     valign: 'center'
+            // })
+            doc
+              .font("PTSansRegular")
+              // .fontSize(20)
+              // .fillColor("#black")
+              // .text("Knjiga protokola: " + tmpTime, 0, 50, { align: "center" });
+            // doc.moveDown();
+
+            var headers = ["Podaci o pacijentu", "Rezultati laboratorijskih pretraga"];
+            var rows = [];
+            var linerow = [];
+            nalazi.forEach((nalaz) => {
+              var godiste = nalaz.patient.jmbg.substring(4, 7);
+              switch (godiste[0]) {
+                case "9":
+                  godiste = "1" + godiste;
+                  break;
+                case "0":
+                  godiste = "2" + godiste;
+                  break;
+                default:
+                  break;
+              }
+
+              var datRodjenja = nalaz.patient.jmbg.substring(0, 2) + "." + nalaz.patient.jmbg.substring(2, 4) + ".";
+              var god = "Nema podataka"
+
+              if (datRodjenja.includes("01.01") && godiste == "1920") {
+                god = "Datum rođenja: Nema podataka" 
+              
+              } else if (!datRodjenja.includes("00.00")) {
+                
+                god = "Datum rođenja: " + datRodjenja + godiste + "."
+              } else {
+               
+                god = "Godište: " + godiste + "."
+
+              }
+
+              linerow = [];
+              analize = "| ";
+
+              // if (!nalaz.patient.prezime.includes("-")) {
+              //   if (
+              //     (
+              //       nalaz.patient.ime +
+              //       " " +
+              //       nalaz.patient.prezime +
+              //       " | Godište: " +
+              //       godiste
+              //     ).trim().length < 33
+              //   ) {
+              //     var ime =
+              //       nalaz.patient.ime.trim() +
+              //       " " +
+              //       nalaz.patient.prezime.trim() +
+              //       " | Godište: " +
+              //       godiste;
+              //   } else {
+              //     var ime =
+              //       nalaz.patient.ime.trim() +
+              //       " " +
+              //       nalaz.patient.prezime.trim() +
+              //       "\n" +
+              //       "Godište: " +
+              //       godiste;
+              //   }
+              // } else {
+              //   var ime =
+              //     nalaz.patient.ime.trim() +
+              //     " " +
+              //     nalaz.patient.prezime.split("-")[0].trim() +
+              //     " -\n" +
+              //     nalaz.patient.prezime.split("-")[1].trim() +
+              //     " | Godište: " +
+              //     godiste;
+              // }
+
+              var loc = "Nema podataka"
+              var doct = "Nema podataka"
+
+              doct = nalaz.patient.adresa
+
+              var uzorkovan = JSON.stringify(nalaz.uzorkovano).substring(1, 11).split("-");
+
+              var uzorkovan2 = uzorkovan[2] + "." + uzorkovan[1] + "." + uzorkovan[0] + " " + JSON.stringify(nalaz.uzorkovano).substring(12, 17)
+              var protokol = "Nema podataka" // nalaz.protokol
+
+              protokol = nalaz.protokol
+              
+
+              var ime = "Uzorkovano: " + uzorkovan2
+
+              
+              
+
+              // JSON.stringify(nalaz.updated_at).slice(9, 11) +
+              //   "." +
+              //   JSON.stringify(nalaz.updated_at).slice(6, 8) +
+              //   "." +
+              //   JSON.stringify(nalaz.updated_at).slice(1, 5)
+
+                     + "\n" +
+                    nalaz.patient.ime.trim() +
+                    " " +
+                    nalaz.patient.prezime.trim() +
+                    "\n" +
+                    god +
+                    // godiste +
+                    "\n" +
+                    "Adresa: " + doct +
+                    "\n" +
+                    "Broj protokola: " + protokol + "\n"
+
+              linerow.push(ime);
+              nalaz.rows.forEach((sekc) => {
+                sekc.forEach((test) => {
+                  if (test.hasOwnProperty("multi")) {
+                    analize += test.test + " (";
+                    test.rezultat.forEach((analit) => {
+                      analize +=
+                        analit[0].trim() +
+                        "=" +
+                        analit[1].rezultat.trim() +
+                        "; ";
+                    });
+                    analize += ") |";
+                  } else {
+                    analize +=
+                      test.rezultat[0].trim() +
+                      "=" +
+                      test.rezultat[1].rezultat.trim() +
+                      " | ";
+                  }
+                });
+              });
+
+              if(analize.length < 110){
+                analize = analize + "\n" + "\n" + "\n" + "\n" + "\n"
+              }else if(analize.length < 220){
+                analize = analize + "\n" + "\n" + "\n"  + "\n"
+              }else if(analize.length < 330){
+                analize = analize + "\n" + "\n" + "\n"
+              }else if(analize.length < 440){
+                analize = analize + "\n" + "\n"
+              }else if(analize.length < 550){
+                analize = analize + "\n"
+              }else{
+
+              }
+
+              linerow.push(analize);
+              rows.push(linerow);
+            });
+
+
+
+            rows.forEach(element => {
+              
+              // console.log(element)
+
+
+              var red = []
+              red.push(element)
+
+
+              doc.table(
+                {
+                  headers: headers,
+                  rows: red,
+                },
+                {
+                  prepareHeader: () => doc.fontSize(8),
+                  prepareRow: (row, i) => doc.fontSize(10),
+                }
+              );
+
+              
+            });
+
+
+            // doc.table(
+            //   {
+            //     headers: headers,
+            //     rows: rows,
+            //   },
+            //   {
+            //     prepareHeader: () => doc.fontSize(8),
+            //     prepareRow: (row, i) => doc.fontSize(10),
+            //   }
+            // );
+
+            const range = doc.bufferedPageRange();
+
+            for (let i = range.start; i < range.start + range.count; i++) {
+              doc.switchToPage(i);
+              doc
+                .font("PTSansRegular")
+                .fontSize(13)
+                .fillColor("#7B8186")
+                .text(req.body.izbor.naziv, 70, 25);
+
+                doc
+                .font("PTSansRegular")
+                .fontSize(13)
+                .fillColor("#7B8186")
+                .text("Knjiga protokola: " + tmpTime, 70, 40);
+
+              doc
+                .font("PTSansRegular")
+                .fontSize(8)
+                .fillColor("#black")
+                .text(
+                  `Stranica ${i + 1} od ${range.count}`,
+                  doc.page.width / 2 - 25,
+                  doc.page.height - 30,
+                  { lineBreak: false }
+                );
+            }
+            doc.end();
+            doc.pipe(
+              fs
+                .createWriteStream(
+                  config.report_path + "protokol/" + req.body.timestamp + ".pdf"
+                )
+                .on("finish", function () {
+                  res.json({
+                    success: true,
+                    message: "Izvještaj uspjesno kreiran",
+                    id: req.body.range,
+                  });
+                })
+            );
+          } else {
+            res.json({
+              success: true,
+              message: "Nema dostupnih podataka.",
+              id: req.body.range,
+            });
+          }
+        }
+      });
+  }
+};
+
+/* reportController.KProtokol = function (req, res) {
+  if (mongoose.connection.readyState != 1) {
+    res.json({
+      success: false,
+      message: "Greška prilikom konekcije na MongoDB.",
+    });
+  } else {
+    var range = req.body.range.split("do");
+    if (range.length === 2) {
       to = range[1].trim() + "T21:59:59";
       to = new Date(to + "Z");
       from = range[0].trim() + "T00:00:00";
@@ -386,7 +724,7 @@ reportController.KProtokol = function (req, res) {
         }
       });
   }
-};
+}; */
 
 class PDFDocumentWithTablesFinansijski extends PDFDocument {
   constructor(options) {

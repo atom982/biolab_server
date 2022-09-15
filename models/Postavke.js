@@ -360,6 +360,7 @@ var SchemaResults = mongoose.Schema({
 
 var SchemaNalazi = mongoose.Schema({
   patient: { type: mongoose.Schema.ObjectId, ref: "Patients" },
+  protokol:"",
   site: { type: mongoose.Schema.ObjectId, ref: "Site" },
   migrated: { type: Boolean, default: false },
   uzorci: { type: Array, default: [] },
