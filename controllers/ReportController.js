@@ -328,6 +328,11 @@ reportController.KProtokol = function (req, res) {
 
               doct = nalaz.patient.adresa
 
+              var uzo = new Date(nalaz.uzorkovano.getTime() - nalaz.uzorkovano.getTimezoneOffset() * 60000).toISOString()
+
+              console.log(uzo)
+
+              
               var uzorkovan = JSON.stringify(nalaz.uzorkovano).substring(1, 11).split("-");
 
               var uzorkovan2 = uzorkovan[2] + "." + uzorkovan[1] + "." + uzorkovan[0] + " " + JSON.stringify(nalaz.uzorkovano).substring(12, 17)
