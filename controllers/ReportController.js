@@ -333,9 +333,9 @@ reportController.KProtokol = function (req, res) {
               console.log(uzo)
 
               
-              var uzorkovan = JSON.stringify(nalaz.uzorkovano).substring(1, 11).split("-");
+              var uzorkovan = JSON.stringify(uzo).substring(1, 11).split("-");
 
-              var uzorkovan2 = uzorkovan[2] + "." + uzorkovan[1] + "." + uzorkovan[0] + " " + JSON.stringify(nalaz.uzorkovano).substring(12, 17)
+              var uzorkovan2 = uzorkovan[2] + "." + uzorkovan[1] + "." + uzorkovan[0] + " " + JSON.stringify(uzo).substring(12, 17)
               var protokol = "Nema podataka" // nalaz.protokol
 
               protokol = nalaz.protokol
