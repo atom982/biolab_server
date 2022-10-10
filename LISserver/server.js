@@ -284,13 +284,13 @@ class lisServer {
         } else {
           console.log('ELMIR - frame analysis checkpoint')
           frame = frame + data;
-          if(frame.indexOf("\u0003") >= 0 && frame.indexOf("\u000D\u000A") >= 0){
-            console.log("Salji ACK")
-            socket.write('\u0006'); //šalji ACK
-          }
-              //   JSON.stringify(frame).forEach(element => {
-              //     console.log(element)
-              // });
+          // if(frame.indexOf("\u0003") >= 0 && frame.indexOf("\u000D\u000A") >= 0){
+          //   console.log("Salji ACK")
+          //   socket.write('\u0006'); //šalji ACK
+          // }
+          // if (JSON.stringify(frame).includes('END_RESULT')) {
+
+          // }
 
             for (var i = frame.length - 1; i >= 0; i--) {
               if (frame[i] === "\u0005") {
