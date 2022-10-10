@@ -83,22 +83,21 @@ module.exports = {
             sid = sid.toUpperCase()
             console.log("SID: " + sid);
             var result = element.split("|");
-            var chunks = result[2].split("^");
-            var sifra_p = chunks[3].split('/')[0]
+            var sifra_p = result[4]
             console.log("Kod: "+sifra_p);
-            var type_of_r = chunks[10];
-            var rezultat_f = parseFloat(result[3]);
+          
+            var rezultat_f = parseFloat(result[5]);
             var rezultat_p = "";
             var dilucija = "";
             var reagens_lot = "";
             var reagens_sn = "";
             var rezultat_i = "";
             var jedinice_p = "";
-            var jedinice_f = result[4];
+            var jedinice_f = result[6];
 
             var vrijeme_rezultata = Date.now();
                
-            var module_sn = "503075";
+            var module_sn = "03301";
 
             console.log("Rezultat: "+rezultat_f + " " + jedinice_f);
 
