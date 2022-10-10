@@ -301,7 +301,9 @@ class lisServer {
             socket.write('\u0006'); //ACK //pošalji ACK
             if(JSON.stringify(frame).includes('L|')){
               ec90 = false
+              console.log(ec90_rec)
               funkcija.parsaj_rezultat(ec90_rec, io);
+              ec90_rec = []
             }
             frame =""
             
