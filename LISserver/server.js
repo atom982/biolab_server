@@ -286,7 +286,7 @@ class lisServer {
           frame = frame + data;
           if(frame.indexOf("\u0003") >= 0 && frame.indexOf("\u000D\u000A") >= 0){
             console.log("Salji ACK")
-
+            socket.write('\u0006'); //šalji ACK
           }
               //   JSON.stringify(frame).forEach(element => {
               //     console.log(element)
@@ -398,6 +398,10 @@ class lisServer {
               case 'R':
                 temp_rec.push(element);
                 message_type = 'rezultat';
+                break;
+              case 'OBX':
+                  temp_rec.push(element);
+                  message_type = 'rezultat';
                 break;
               case 'Q':
                 temp_rec.push(element);
