@@ -284,10 +284,14 @@ class lisServer {
         } else {
           console.log('ELMIR - frame analysis checkpoint')
           frame = frame + data;
+          if(frame.indexOf("\u0003") >= 0 && frame.indexOf("\u000D\u000A") >= 0){
+            console.log("Salji ACK")
 
+          }
               //   JSON.stringify(frame).forEach(element => {
               //     console.log(element)
               // });
+
             for (var i = frame.length - 1; i >= 0; i--) {
               if (frame[i] === "\u0005") {
                 frame = frame.substring(i, frame.length);

@@ -204,6 +204,7 @@ parsaj_rezultat: function (record, io) {
   var erbalyteplus = require("./aparati/erbalyteplus");
   var Access2 = require("./aparati/access2");
   var ecl105 = require("./aparati/ecl105");
+  var ec90 = require("./aparati/ec90");
 
   console.log("Parsanje rezultata...");
   //console.log(record)
@@ -235,7 +236,9 @@ parsaj_rezultat: function (record, io) {
   if (record[0].includes("ACCESS")) {
     sn = "503075"; // Access 2
   }
-  
+  if (record[0].includes("EC90")) {
+    sn = "03301"; // Erba EC90 //634450291be100097dc80fb7
+  }
 console.log(sn)
   switch (sn) {
     case "503075":
@@ -254,6 +257,11 @@ console.log(sn)
     case "111283":
         console.log("Erba lyte plus");
         erbalyteplus.parsaj_rezultat(record, io);
+        break;
+    case "03301":
+          console.log("Erba EC 90");
+          _id = "634450291be100097dc80fb7";
+          ec90.parsaj_rezultat(record, io, _id);
         break;
     case "E0041-11-051216":
       console.log("Erba ECL 105");
