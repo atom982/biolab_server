@@ -43,7 +43,12 @@ module.exports = {
       var temprec = []
         console.log("Usao u ec90 parser")
         record.forEach(element => {
-            temprec.push(element.split('\u0005').pop().split('\u0003')[0])      
+            if(element.indexOf("\u0002") >= 0){
+                temprec.push(element.split('\u0002').pop().split('\u0003')[0]) 
+            }else{
+                temprec.push(element.split('\u0005').pop().split('\u0003')[0]) 
+            }
+                 
         });
         console.log(temprec)
       record.forEach(function (element) {
