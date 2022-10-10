@@ -50,7 +50,9 @@ module.exports = {
             }
                  
         });
-        console.log(temprec)
+        //console.log(temprec)
+        record=temprec
+        temprec =[]
       record.forEach(function (element) {
         record_type = element.charAt(0);
         switch (record_type) {
