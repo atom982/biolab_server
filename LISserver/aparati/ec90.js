@@ -45,9 +45,11 @@ module.exports = {
             element = element.substring(
                 element.indexOf("\u0005") + 1, 
                 element.indexOf("\u0003")
-            );
+            );//.indexOf("\u0002")
+            console.log('updated element')
+            console.log(element)
         });
-        console.log(record)
+        //console.log(record)
       record.forEach(function (element) {
         record_type = element.charAt(0);
         switch (record_type) {
