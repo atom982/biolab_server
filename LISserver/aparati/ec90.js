@@ -44,7 +44,7 @@ module.exports = {
         record.forEach(element => {
             element = element.substring(
                 element.indexOf("\u0005") + 1, 
-                element.lastIndexOf("\u0003")
+                element.indexOf("\u0003")
             );
         });
         console.log(record)
