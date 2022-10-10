@@ -85,6 +85,8 @@ class lisServer {
       var incom_frame_nr = '';
       var emerald = ''
       var eliteframe = ''
+      var ec90 = false
+      var ec90_rec = [];
       //--------------------------------------------CLIENT
   //     var retrying = false;
 
@@ -288,9 +290,22 @@ class lisServer {
           //   console.log("Salji ACK")
           //   socket.write('\u0006'); //šalji ACK
           // }
-          // if (JSON.stringify(frame).includes('END_RESULT')) {
-
-          // }
+          if (JSON.stringify(frame).includes('EC90|03301')) {
+            ec90 = true
+            ec90_rec.push(frame)
+            socket.write('\u0006'); //ACK //pošalji ACK
+            frame =""
+          }else if(ec90){
+           
+            ec90_rec.push(frame)
+            socket.write('\u0006'); //ACK //pošalji ACK
+            if(JSON.stringify(frame).includes('L|')){
+              ec90 = false
+              funkcija.parsaj_rezultat(ec90_rec, io);
+            }
+            frame =""
+            
+          }
 
             for (var i = frame.length - 1; i >= 0; i--) {
               if (frame[i] === "\u0005") {
