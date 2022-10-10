@@ -70,15 +70,18 @@ module.exports = {
             // gender = patient[8];
             // console.log("Gender: " + gender);
             break;
-          case 'O':
+          case 'R':
             console.log("Order: ");
             var order = element.split("|");
             sid = order[2].trim(); // 'S001C90406'
             sid = sid.toUpperCase()
             console.log("SID: " + sid);
             break;
-          case 'R':
-            
+          case 'O':
+            var order = element.split("|");
+            sid = order[2].trim(); // 'S001C90406'
+            sid = sid.toUpperCase()
+            console.log("SID: " + sid);
             var result = element.split("|");
             var chunks = result[2].split("^");
             var sifra_p = chunks[3].split('/')[0]
