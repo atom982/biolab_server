@@ -47,9 +47,9 @@ module.exports = {
                 element.indexOf("\u0005") + 1, 
                 element.indexOf("\u0003")
             );//.indexOf("\u0002")
-            temprec.push(element.substring(element.indexOf("\u0005") + 1, element.indexOf("\u0003")))
+            temprec.push(element.substring(element.indexOf('\u0005')+1,element.indexOf('\u0003')))
             //console.log('updated element')
-       
+                
         });
         console.log(temprec)
       record.forEach(function (element) {
