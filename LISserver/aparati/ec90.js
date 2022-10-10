@@ -40,16 +40,18 @@ module.exports = {
       var jmbg = '';
       var tpsa = "";
       var fe = "";
+      var temprec = []
         console.log("Usao u ec90 parser")
         record.forEach(element => {
             element = element.substring(
                 element.indexOf("\u0005") + 1, 
                 element.indexOf("\u0003")
             );//.indexOf("\u0002")
-            console.log('updated element')
-            console.log(element)
+            temprec.push(element.substring(element.indexOf("\u0005") + 1, element.indexOf("\u0003")))
+            //console.log('updated element')
+       
         });
-        //console.log(record)
+        console.log(temprec)
       record.forEach(function (element) {
         record_type = element.charAt(0);
         switch (record_type) {
