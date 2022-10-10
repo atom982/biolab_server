@@ -390,6 +390,9 @@ class lisServer {
               case 'O':
                 temp_rec.push(element);
                 break;
+              case 'OBR':
+                  temp_rec.push(element);
+                break;
               case 'C':
                 //temp_rec.push(element);
                 var comment = element.split('|')
