@@ -40,7 +40,14 @@ module.exports = {
       var jmbg = '';
       var tpsa = "";
       var fe = "";
-  
+        console.log("Usao u ec90 parser")
+        record.forEach(element => {
+            element = element.substring(
+                element.indexOf("\u0005") + 1, 
+                element.lastIndexOf("\u0003")
+            );
+        });
+        console.log(record)
       record.forEach(function (element) {
         record_type = element.charAt(0);
         switch (record_type) {
