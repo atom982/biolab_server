@@ -119,6 +119,7 @@ module.exports = {
 
     var alergije = false;
     var Inhalation30 = ""
+    var Food30 = ""
 
     sekcijeniz.forEach(element => {
       if (!element[0].mikrobiologija) {
@@ -192,6 +193,15 @@ module.exports = {
                 Inhalation30 = "INHALATORNI ALERGO TEST (IgE) - 30 alergena\n" +
                 "gx7 g03 / g04 / g05 / g06 / g08 / g13 - Polen ježevice, Polen livadskog vijuka, Polen Ljulja,\nPolen mačijeg repka, Polen livadarke, Polen medunike\n" +
                 "ex10 e71 / e82 / e84 - Epitel miša, Epitel Zeca, Epitel hrčka\n" +
+                "k202 CCD - Unakrsno reaktivne determinante ugljenih hidrata iz Bromelaina"
+              } 
+
+              if (mul.naslov.slice(4).includes("NUTRITIVNI ALERGO TEST (IgE) - 30 alergena")) {
+                Food30 = "NUTRITIVNI ALERGO TEST (IgE) - 30 alergena\n" +
+                "fx69 f86 / f277 / f276 - Peršun, Mirođija, Komorač\n" +
+                "fx4 f03 / f40 / f41 - Codfish, Tuna/Yellofin, Salmon\n" +
+                "fx76 f23 / f24 / f37 - Rak, škampi, Plava ostriga\n" +
+                "fx29 f208 / f306 / f33 / f302 - Limun, Limeta, Narandža, Mandarina\n" +
                 "k202 CCD - Unakrsno reaktivne determinante ugljenih hidrata iz Bromelaina"
               } 
 
@@ -413,8 +423,6 @@ module.exports = {
     }
 
     if(alergije === true){
-      console.log(Inhalation30)
-      // Inhalation30
 
       if (Inhalation30.trim() != "") {
         doc.moveDown(0.3);
@@ -422,6 +430,20 @@ module.exports = {
       }
       doc.font("PTSansRegular");
       eachLine = Inhalation30.split("\n");
+  
+      for (var i = 0, l = eachLine.length; i < l; i++) {
+        doc.text(eachLine[i], { width: 465, align: "left" });
+        if (eachLine[i].length === 0) {
+          doc.moveDown(1);
+        }
+      }
+
+      if (Food30.trim() != "") {
+        doc.moveDown(0.3);
+        doc.fontSize(10).text("", 50);
+      }
+      doc.font("PTSansRegular");
+      eachLine = Food30.split("\n");
   
       for (var i = 0, l = eachLine.length; i < l; i++) {
         doc.text(eachLine[i], { width: 465, align: "left" });
