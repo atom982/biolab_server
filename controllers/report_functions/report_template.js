@@ -190,9 +190,9 @@ module.exports = {
 
               if (mul.naslov.slice(4).includes("INHALATORNI ALERGO TEST (IgE) - 30 alergena")) {
                 Inhalation30 = "INHALATORNI ALERGO TEST (IgE) - 30 alergena\n" +
-                "gx7 g03 / g04 / g05 / g06 / g08 / g13 - Polen ježevice, Polen livadskog vijuka, Polen Ljulja, Polen mačijeg repka, Polen livadarke, Polen medunike\n" +
+                "gx7 g03 / g04 / g05 / g06 / g08 / g13 - Polen ježevice, Polen livadskog vijuka, Polen Ljulja,\nPolen mačijeg repka, Polen livadarke, Polen medunike\n" +
                 "ex10 e71 / e82 / e84 - Epitel miša, Epitel Zeca, Epitel hrčka\n" +
-                "k202 CCD - Unakrsno reaktivne determinante ugljenih hidrata iz Bromelaina\n"
+                "k202 CCD - Unakrsno reaktivne determinante ugljenih hidrata iz Bromelaina"
               } 
 
 
