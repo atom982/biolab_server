@@ -118,6 +118,7 @@ module.exports = {
     var reset = 0;
 
     var alergije = false;
+    var Inhalation30 = ""
 
     sekcijeniz.forEach(element => {
       if (!element[0].mikrobiologija) {
@@ -185,6 +186,13 @@ module.exports = {
 
               if (mul.naslov.slice(4).toLowerCase().includes("alergo test")) {
                 alergije = true;
+              } 
+
+              if (mul.naslov.slice(4).toLowerCase().includes("INHALATORNI ALERGO TEST (IgE) - 30 alergena")) {
+                Inhalation30 = "INHALATORNI ALERGO TEST (IgE) - 30 alergena\n" +
+                "gx7 g03 / g04 / g05 / g06 / g08 / g13 - Polen ježevice, Polen livadskog vijuka, Polen Ljulja, Polen mačijeg repka, Polen livadarke, Polen medunike\n" +
+                "ex10 e71 / e82 / e84 - Epitel miša, Epitel Zeca, Epitel hrčka\n" +
+                "k202 CCD - Unakrsno reaktivne determinante ugljenih hidrata iz Bromelaina\n"
               } 
 
 
@@ -406,6 +414,21 @@ module.exports = {
 
     if(alergije === true){
       // console.log("Alergije")
+      // Inhalation30
+
+      if (Inhalation30.trim() != "") {
+        doc.moveDown(0.3);
+        doc.fontSize(10).text("", 50);
+      }
+      doc.font("PTSansRegular");
+      eachLine = Inhalation30.split("\n");
+  
+      for (var i = 0, l = eachLine.length; i < l; i++) {
+        doc.text(eachLine[i], { width: 465, align: "left" });
+        if (eachLine[i].length === 0) {
+          doc.moveDown(1);
+        }
+      }
 
       temp = 60;
       
