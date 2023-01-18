@@ -183,10 +183,43 @@ nalazController.Mail = function(req, res) {
 								transporter.sendMail(mailOptions, function(error, info) {
 									if (error) {
 										console.log('Greška:', error);
-										res.json({
-											success: false,
-											message: 'Greška prilikom slanja maila.'
+
+										var outbox = new Outbox({
+											to: req.body.email,
+											subject: mailOptions.subject,
+											nalaz: nalaz._id,
+											naziv: req.body.naziv,
+											patient: nalaz.patient._id,
+											migrated: false,
+											delivered: false,
+                      						err: JSON.stringify(error),
+											site: nalaz.site._id,
+											created_at: new Date(
+												new Date().getTime() -
+												  new Date().getTimezoneOffset() * 60000
+											  ),
+											created_by: req.body.decoded.user,
+											
 										});
+
+										
+										// console.log(outbox);
+										outbox.save(function(err) {
+											if (err) {
+												console.log('Greška:', err);
+												res.json({
+													success: false,
+													message: err
+												});
+											} else {
+												res.json({
+													success: false,
+													message: 'Greška prilikom slanja maila.'
+												});
+											}
+										});
+
+										
 									} else {
 										// console.log(info.response);
 										// console.log(info.messageId)
@@ -196,10 +229,19 @@ nalazController.Mail = function(req, res) {
 											nalaz: nalaz._id,
 											naziv: req.body.naziv,
 											patient: nalaz.patient._id,
+											migrated: false,
+											delivered: true,
+											err: "",
 											site: nalaz.site._id,
+											created_at: new Date(
+												new Date().getTime() -
+												  new Date().getTimezoneOffset() * 60000
+											  ),
 											created_by: req.body.decoded.user,
-											created_at: Date.now()
+											
 										});
+
+										
 										// console.log(outbox);
 										outbox.save(function(err) {
 											if (err) {
@@ -1183,6 +1225,7 @@ nalazController.Nalaz = function(req, res) {
 					Data.duhan = rezultati[0].patient.duhan;
 					Data.dijabetes = rezultati[0].patient.dijabetes;
 					Data.datum = dan + '.' + mjesec + '.' + god;
+					Data.copy = false
 					Data.patient = rezultati[0].patient._id;
 					Data.telefon = rezultati[0].patient.telefon;
 					var sat = d.getHours();
@@ -1272,6 +1315,7 @@ nalazController.Nalaz = function(req, res) {
 										baseConfig.nalaz_logo = config.nalaz_logo;
 										baseConfig.nalaz_references = config.nalaz_references;
 										baseConfig.nalaz_footer = config.nalaz_footer;
+										baseConfig.user = req.body.decoded.user;
 
 										report_template.create_report(
 											report,
@@ -1328,6 +1372,34 @@ nalazController.Nalaz = function(req, res) {
 										baseConfig.nalaz_logo = config.nalaz_logo;
 										baseConfig.nalaz_references = config.nalaz_references;
 										baseConfig.nalaz_footer = config.nalaz_footer;
+										baseConfig.user = req.body.decoded.user;
+
+										var day_start = new Date(new Date(nalaz.created_at).toString().substring(4, 15));
+										var day_end = new Date(new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toString().substring(4, 15));
+										var total_days = (day_end - day_start) / (1000 * 60 * 60 * 24);
+
+										if (total_days > 0) {
+											console.log("Nalaz je stariji od 0 dana.")
+											console.log(total_days)
+					  
+											Data.datum =
+											  JSON.stringify(nalaz.created_at).slice(9, 11) +
+											  "." +
+											  JSON.stringify(nalaz.created_at).slice(6, 8) +
+											  "." +
+											  JSON.stringify(nalaz.created_at).slice(1, 5);
+											Data.vrijeme = JSON.stringify(nalaz.created_at).substring(12, 17);
+											Data.copy = true
+					  
+											
+					  
+										  } else {
+											console.log("Nalaz nije stariji od 0 dana.")
+											console.log(total_days)
+					  
+											Data.copy = false
+					  
+										  }
 
 										report_template.create_report(
 											report,

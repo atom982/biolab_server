@@ -1,4 +1,6 @@
 var mongoose = require("mongoose");
+const config = require("../config/index");
+const fs = require("fs");
 
 var apiUrlController = {};
 
@@ -932,12 +934,40 @@ apiUrlController.apiUrlNalaziPregled = function (req, res) {
           niz.forEach((uzorak) => {
             if (uzorak.status || i > 0) {
               if (uzorak.timestamp != "MIGRATED") {
+
+                var pdf = config.nalaz_path;
+              var exists = false;
+              var file = pdf + uzorak.timestamp + ".pdf";
+
+              try {
+                if (fs.existsSync(file)) {
+                  exists = true;
+                } else {
+                  exists = false;
+                }
+              } catch (err) {
+                console.error(err);
+              }
+
+              if (exists) {
+
                 var nalaz =
                   "<button style='white-space: nowrap;' id='" +
                   uzorak.timestamp +
                   "' class='btn btn-primary btn-micro'><span id='" +
                   uzorak.timestamp +
                   "' class='glyphicon glyphicon-search'></span> NALAZ</button>";
+
+              }else {
+                var nalaz =
+                  "<button style='white-space: nowrap;' id='" +
+                  "ERROR" +
+                  "' class='btn btn-pale btn-micro'><span id='" +
+                  "' class='glyphicon glyphicon-search'></span> NALAZ</button>";
+
+                
+              }
+                
               } else {
                 var nalaz =
                   "<button style='white-space: nowrap;' id='" +
@@ -946,6 +976,8 @@ apiUrlController.apiUrlNalaziPregled = function (req, res) {
                   uzorak._id +
                   "' class='glyphicon glyphicon-search'></span> NALAZ</button>";
               }
+
+              // console.log(file)
 
               var tmp_time = new Date(
                 new Date(uzorak.updated_at).getTime() -
@@ -960,25 +992,55 @@ apiUrlController.apiUrlNalaziPregled = function (req, res) {
                 JSON.stringify(uzorak.created_at).slice(1, 5);
               var time = JSON.stringify(tmp_time).substring(12, 17);
               var uzorci = [];
+              var uzorci_disabled = [];
+
+
               uzorak.uzorci.forEach((element) => {
-                uzorci.push(element.sid);
+                var pdf2 = config.nalaz_path + "samples/";
+                var exists2 = false;
+                var file2 = pdf2 + element.sid + ".pdf";
+
+                // console.log(file2)
+
+                try {
+                  if (fs.existsSync(file2)) {
+                    exists2 = true;
+                    uzorci.push(element.sid);
+                  } else {
+                    exists2 = false;
+                    uzorci_disabled.push(element.sid);
+                  }
+                } catch (err) {
+                  console.error(err);
+                }
+
+                
               });
+
+              // console.log(uzorci)
+              // console.log(uzorci_disabled)
 
               var pacijent = uzorak.patient.ime + " " + uzorak.patient.prezime;
 
-              if (uzorci.length > 1) {
+             
+
+              if (uzorci.length + uzorci_disabled.length > 1) {
                 var partials =
                   "<i name='" +
                   pacijent +
                   "' id='" +
                   uzorci +
+                  "' title='" +
+                  uzorci_disabled +
                   "' style='color:#4ae387;' class='vuestic-icon vuestic-icon-files'></i>";
-              } else if (uzorci.length == 1) {
+              } else if (uzorci.length + uzorci_disabled.length == 1) {
                 var partials =
                   "<i name='" +
                   pacijent +
                   "' id='" +
                   uzorci +
+                  "' title='" +
+                  uzorci_disabled +
                   "' style='color:#d9d9d9;' class='vuestic-icon vuestic-icon-files'></i>";
               } else {
                 var partials = "";
@@ -997,6 +1059,7 @@ apiUrlController.apiUrlNalaziPregled = function (req, res) {
                 status: "<strong>VERIFICIRAN</strong>",
                 jmbg: uzorak.patient.jmbg,
                 uzorci: uzorci,
+                uzorci_disabled: uzorci_disabled,
                 partials: partials,
 
                 time: time,
@@ -1091,7 +1154,17 @@ apiUrlController.apiUrlNalaziOutbox = function (req, res) {
         if (err) {
           console.log("Greška:", err);
         } else {
+
+          // console.log(parametar)
           switch (parametar) {
+
+            case "adresa":
+              nalazi = nalazi.filter(function (result) {
+                return result.to
+                    .toLowerCase()
+                    .includes(req.query.filter.toLowerCase());
+              });
+              break;
             case "ime":
               nalazi = nalazi.filter(function (result) {
                 return result.patient.ime
@@ -1171,6 +1244,27 @@ apiUrlController.apiUrlNalaziOutbox = function (req, res) {
                 });
               }
               break;
+
+              case "adresa":
+              if (order === "asc") {
+                nalazi.sort(function (a, b) {
+                  return a.to == b.to
+                    ? 0
+                    : +(a.to > b.to) || -1;
+                });
+              }
+              if (order === "desc") {
+                nalazi.sort(function (a, b) {
+                  return a.to == b.to
+                    ? 0
+                    : +(a.to < b.to) || -1;
+                });
+              }
+              break;
+
+
+
+
             case "jmbg":
               if (order === "asc") {
                 nalazi.sort(function (a, b) {
@@ -1239,13 +1333,46 @@ apiUrlController.apiUrlNalaziOutbox = function (req, res) {
             if (uzorak.status || i > 0) {
               if (uzorak.nalaz._id != null && uzorak.nalaz._id != undefined) {
                 if (uzorak.timestamp != "MIGRATED") {
-                  var nalaz =
+
+
+              var pdf = config.nalaz_path + "emails/";
+              var exists = false;
+              var file = pdf + uzorak.naziv + ".pdf";
+
+              try {
+                if (fs.existsSync(file)) {
+                  exists = true;
+                } else {
+                  exists = false;
+                }
+              } catch (err) {
+                console.error(err);
+              }
+
+              if (exists) {
+
+                var nalaz =
                     "<button style='white-space: nowrap;' id='" +
                     uzorak.naziv +
                     "' class='btn btn-primary btn-micro'><span id='" +
                     uzorak.naziv +
                     "' class='fa fa-envelope-o'></span> NALAZ</button>";
+
+              }else {
+                var nalaz =
+                  "<button style='white-space: nowrap;' id='" +
+                  "ERROR" +
+                  "' class='btn btn-pale btn-micro'><span id='" +
+                  "' class='fa fa-envelope-o'></span> NALAZ</button>";
+
+                
+              }
+
+              // console.log(file)
+
+                  
                 } else {
+                  
                   var nalaz =
                     "<button style='white-space: nowrap;' id='" +
                     uzorak.nalaz._id +
@@ -1312,16 +1439,46 @@ apiUrlController.apiUrlNalaziOutbox = function (req, res) {
                     break;
                 }
 
+                // var datum =
+                //   dan +
+                //   "." +
+                //   mjesec +
+                //   "." +
+                //   godina +
+                //   " " +
+                //   uzorak.created_at.toString().substring(16, 21);
+
                 var datum =
-                  dan +
+                  JSON.stringify(
+                    JSON.stringify(uzorak.created_at).substring(1, 11)
+                  ).slice(9, 11) +
                   "." +
-                  mjesec +
+                  JSON.stringify(
+                    JSON.stringify(uzorak.created_at).substring(1, 11)
+                  ).slice(6, 8) +
                   "." +
-                  godina +
+                  JSON.stringify(
+                    JSON.stringify(uzorak.created_at).substring(1, 11)
+                  ).slice(1, 5) +
                   " " +
-                  uzorak.created_at.toString().substring(16, 21);
+                  JSON.stringify(uzorak.created_at).substring(12, 17);
 
                 // console.log(datum);
+
+                if (uzorak.delivered === true) {
+                  var delivered =
+                    '<span style="font-size: 12px; color:#4ae387;" class="fa fa-check"></span>';
+                } else {
+
+                  var nalaz =
+                  "<button style='white-space: nowrap;' id='" +
+                  "ERROR" +
+                  "' class='btn btn-pale btn-micro'><span id='" +
+                  "' class='fa fa-envelope-o'></span> NALAZ</button>";
+
+                  var delivered =
+                    '<span style="font-size: 12px; color:#e34a4a;" class="fa fa-warning"></span>';
+                }
 
                 json.data.push({
                   outbox: nalaz,
@@ -1330,8 +1487,9 @@ apiUrlController.apiUrlNalaziOutbox = function (req, res) {
                   jmbg: uzorak.patient.jmbg,
                   izmjena: datum,
                   brisanjeOutbox: brisanje,
-                  to: uzorak.to,
+                  adresa: uzorak.to,
                   datum: datum,
+                  delivered: delivered,
                 });
               }
             }

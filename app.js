@@ -155,7 +155,7 @@ function validateUser(req, res, next) {
     var token = req.body.token || req.query.token;
     jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
       if (err) {
-        if (config.baseURL.includes(".com")) {
+        if (config.baseURL.includes(".com") || config.baseURL.includes("ilab.ba")) {
           res.redirect(config.baseURL);
         } else {
           res.json({

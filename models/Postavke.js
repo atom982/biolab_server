@@ -285,8 +285,18 @@ var SchemaSamples = mongoose.Schema({
       status_t: { type: String, default: "ZAPRIMLJEN" },
     },
   ],
-  created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date, default: Date.now },
+  created_at: {
+    type: Date,
+    default: new Date(
+      new Date().getTime() - new Date().getTimezoneOffset() * 60000
+    ),
+  },
+  updated_at: {
+    type: Date,
+    default: new Date(
+      new Date().getTime() - new Date().getTimezoneOffset() * 60000
+    ),
+  },
   created_by: { type: String, default: "" },
   updated_by: { type: String, default: "" },
 });
@@ -352,10 +362,20 @@ var SchemaResults = mongoose.Schema({
   multi: { type: Array, default: [] },
   controlmulti: { type: Boolean, default: false },
   site: { type: mongoose.Schema.ObjectId, ref: "Site" },
-  created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date, default: Date.now },
+  created_at: {
+    type: Date,
+    default: new Date(
+      new Date().getTime() - new Date().getTimezoneOffset() * 60000
+    ),
+  },
+  updated_at: {
+    type: Date,
+    default: new Date(
+      new Date().getTime() - new Date().getTimezoneOffset() * 60000
+    ),
+  },
   created_by: { type: String, default: "" },
-  updated_by: { type: String, default: Date.now },
+  updated_by: { type: String, default: "" },
 });
 
 var SchemaNalazi = mongoose.Schema({
@@ -371,9 +391,6 @@ var SchemaNalazi = mongoose.Schema({
   height: { type: String, default: "0" },
   komentar: { type: String, default: "" },
   status: { type: Boolean, default: false },
-  created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date, default: Date.now },
-  created_by: { type: String, default: "" },
   headers: { type: Array, default: [] },
   headersa: { type: Array, default: [] },
   rows: { type: Array, default: [] },
@@ -381,6 +398,20 @@ var SchemaNalazi = mongoose.Schema({
   specificni: { type: Array, default: [] },
   uzorkovano: { type: Date, default: Date.now },
   pid: { type: String, default: "1" },
+  created_at: {
+    type: Date,
+    default: new Date(
+      new Date().getTime() - new Date().getTimezoneOffset() * 60000
+    ),
+  },
+  updated_at: {
+    type: Date,
+    default: new Date(
+      new Date().getTime() - new Date().getTimezoneOffset() * 60000
+    ),
+  },
+  created_by: { type: String, default: "" },
+  updated_by: { type: String, default: "" },
 });
 
 var SchemaPaneli = mongoose.Schema({
@@ -434,8 +465,15 @@ var SchemaOutbox = mongoose.Schema({
   nalaz: { type: mongoose.Schema.ObjectId, ref: "Nalazi" },
   patient: { type: mongoose.Schema.ObjectId, ref: "Patients" },
   migrated: { type: Boolean, default: false },
+  delivered: { type: Boolean, default: true },
+  err: { type: String, default: "" },
   site: { type: mongoose.Schema.ObjectId, ref: "Site" },
-  created_at: { type: Date, default: Date.now },
+  created_at: {
+    type: Date,
+    default: new Date(
+      new Date().getTime() - new Date().getTimezoneOffset() * 60000
+    ),
+  },
   created_by: { type: String, default: "" },
 });
 

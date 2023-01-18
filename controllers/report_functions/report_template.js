@@ -503,7 +503,45 @@ module.exports = {
 
     for (let i = range.start; i < range.start + range.count; i++) {
       doc.switchToPage(i);
-      doc.font("PTSansRegular").fontSize(10).fillColor("#7B8186").text(adresa, adresa_x, 760, { lineBreak: false }).fontSize(8).fillColor("black").text(`Stranica ${i + 1} od ${range.count}`, doc.page.width / 2 - 25, doc.page.height - 18, { lineBreak: false });
+
+      doc
+        .fontSize(8)
+        .fillColor("#7B8186")
+        .moveTo(0, 754 - 15)
+        .lineTo(612, 754 - 15)
+        .fillAndStroke("#7B8186", "#7B8186");
+
+      // NAPOMENA: Ovaj dokument je validan u elektronskoj formi bez potpisa i pečata.
+      doc
+        .font("PTSansBold")
+        .fontSize(8)
+        .fillColor("black")
+        .text(
+          "NAPOMENA: Ovaj dokument je validan u elektronskoj formi bez potpisa i pečata.",
+          50,
+          770 - 30 - 15,
+          { lineBreak: false }
+        );
+
+        if(data.copy == true){
+          doc
+        .font("PTSansBold")
+        .fontSize(8)
+        .fillColor("#7B8186")
+        .text("Kopija nalaza", 50, 760 - 20, {
+          lineBreak: false,
+        });
+        }
+
+      doc
+        .font("PTSansBold")
+        .fontSize(8)
+        .fillColor("#7B8186")
+        .text("ATOM Laboratory Software", 470, 760 - 20, {
+          lineBreak: false,
+        });
+     
+      doc.font("PTSansRegular").fontSize(10).fillColor("#7B8186").text(adresa, adresa_x, 758, { lineBreak: false }).fontSize(8).fillColor("black").text(`Stranica ${i + 1} od ${range.count}`, doc.page.width / 2 - 25, doc.page.height - 18, { lineBreak: false });
     }
     doc.end();
   }

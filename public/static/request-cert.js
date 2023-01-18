@@ -1,2 +1,2 @@
-const cert = "https://biolab.atom-lis.com/cert";
-const request = "https://biolab.atom-lis.com/sign-message?request=";
+const cert = "https://biolab.ilab.ba/cert";
+const request = "https://biolab.ilab.ba/sign-message?request=";
