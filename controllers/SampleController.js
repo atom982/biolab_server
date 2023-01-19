@@ -3294,9 +3294,16 @@ sampleController.Update = function (req, res) {
                       result.multi = novirezultatimulti;
 
                       if (result.rezultati.length) {
-                        result.sample.updated_at = Date.now();
+                        result.sample.updated_at = new Date(
+                          new Date().getTime() -
+                            new Date().getTimezoneOffset() * 60000
+                        );
                         result.sample.updated_by = req.body.decoded.user;
-                        result.updated_at = Date.now();
+    
+                        result.updated_at = new Date(
+                          new Date().getTime() -
+                            new Date().getTimezoneOffset() * 60000
+                        );
                         result.updated_by = req.body.decoded.user;
                         result.save();
                         var newsample = new Samples(nSamp);
@@ -3353,10 +3360,16 @@ sampleController.Update = function (req, res) {
 
                   if (counter === req.body.testovi.length) {
                     result.sample.tests = sampleTeststemp;
-                    result.sample.updated_at = Date.now();
+                    result.sample.updated_at = new Date(
+                      new Date().getTime() -
+                        new Date().getTimezoneOffset() * 60000
+                    );
                     result.sample.updated_by = req.body.decoded.user;
 
-                    result.updated_at = Date.now();
+                    result.updated_at = new Date(
+                      new Date().getTime() -
+                        new Date().getTimezoneOffset() * 60000
+                    );
                     result.updated_by = req.body.decoded.user;
                     result.status = "U OBRADI";
                     //REDNI BROJ PACIJENTA
@@ -3398,9 +3411,16 @@ sampleController.Update = function (req, res) {
                       result.multi = novirezultatimulti;
 
                       if (result.rezultati.length) {
-                        result.sample.updated_at = Date.now();
+                        result.sample.updated_at = new Date(
+                          new Date().getTime() -
+                            new Date().getTimezoneOffset() * 60000
+                        );
                         result.sample.updated_by = req.body.decoded.user;
-                        result.updated_at = Date.now();
+    
+                        result.updated_at = new Date(
+                          new Date().getTime() -
+                            new Date().getTimezoneOffset() * 60000
+                        );
                         result.updated_by = req.body.decoded.user;
 
                         result.save();
