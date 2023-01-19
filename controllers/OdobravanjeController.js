@@ -955,8 +955,8 @@ odobravanjeController.StatusNalaza = function(req, res) {
       } else {
         if (nalaz) {
           nalaz.status = req.body.status;
-          nalaz.updated_by = req.body.decoded.user;
-          nalaz.updated_at = Date.now();
+          // nalaz.updated_by = req.body.decoded.user;
+          // nalaz.updated_at = Date.now();
           nalaz.save();
           res.json({
             success: true,
