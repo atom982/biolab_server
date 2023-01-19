@@ -1397,6 +1397,8 @@ nalazController.Nalaz = function(req, res) {
 										baseConfig.nalaz_footer = config.nalaz_footer;
 										baseConfig.user = req.body.decoded.user;
 
+										// LINE 941: OdobravanjeController.js
+
 										var day_start = new Date(new Date(nalaz.created_at).toString().substring(4, 15));
 										var day_end = new Date(new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toString().substring(4, 15));
 										var total_days = (day_end - day_start) / (1000 * 60 * 60 * 24);
