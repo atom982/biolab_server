@@ -28,66 +28,66 @@ var sampleController = {};
 
 // SampleController.js
 
-sampleController.LokacijeList = function(req, res) {
+sampleController.LokacijeList = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     Lokacija.find({
-      site: mongoose.Types.ObjectId(req.query.site)
-    }).exec(function(err, lokacije) {
+      site: mongoose.Types.ObjectId(req.query.site),
+    }).exec(function (err, lokacije) {
       if (err) {
         console.log("Greška:", err);
         res.json({
           success: false,
-          message: err
+          message: err,
         });
       } else {
         res.json({
           success: true,
           message: "Sve lokacije",
-          lokacije
+          lokacije,
         });
       }
     });
   }
 };
 
-sampleController.CustomersList = function(req, res) {
+sampleController.CustomersList = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
-    Customers.find({}).exec(function(err, customers) {
+    Customers.find({}).exec(function (err, customers) {
       if (err) {
         console.log("Greška:", err);
         res.json({
           success: false,
-          message: err
+          message: err,
         });
       } else {
         res.json({
           success: true,
           message: "Customers",
-          customers
+          customers,
         });
       }
     });
   }
 };
 
-sampleController.TestsBySection = function(req, res) {
+sampleController.TestsBySection = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
-    LabAssays.find({}).exec(function(err, testovi) {
+    LabAssays.find({}).exec(function (err, testovi) {
       if (err) {
         console.log("Greška:", err);
       } else {
@@ -95,7 +95,7 @@ sampleController.TestsBySection = function(req, res) {
           var aparat = [];
           var calc = [];
           var manual = [];
-          testovi.forEach(test => {
+          testovi.forEach((test) => {
             if (!test.manual && !test.calculated) {
               aparat.push(test);
             }
@@ -110,17 +110,17 @@ sampleController.TestsBySection = function(req, res) {
               manual.push(test);
             }
           });
-          aparat.sort(function(a, b) {
+          aparat.sort(function (a, b) {
             return a.naziv.toLowerCase() == b.naziv.toLowerCase()
               ? 0
               : +(a.naziv.toLowerCase() > b.naziv.toLowerCase()) || -1;
           });
-          calc.sort(function(a, b) {
+          calc.sort(function (a, b) {
             return a.naziv.toLowerCase() == b.naziv.toLowerCase()
               ? 0
               : +(a.naziv.toLowerCase() > b.naziv.toLowerCase()) || -1;
           });
-          manual.sort(function(a, b) {
+          manual.sort(function (a, b) {
             return a.naziv.toLowerCase() == b.naziv.toLowerCase()
               ? 0
               : +(a.naziv.toLowerCase() > b.naziv.toLowerCase()) || -1;
@@ -129,14 +129,14 @@ sampleController.TestsBySection = function(req, res) {
           res.json({
             success: true,
             message: "Lista testova za " + req.body.sekcija + " sekciju",
-            testovi
+            testovi,
           });
         } else {
           res.json({
             success: true,
             message:
               "Lista testova za " + req.body.sekcija + " sekciju je prazna",
-            testovi
+            testovi,
           });
         }
       }
@@ -144,18 +144,18 @@ sampleController.TestsBySection = function(req, res) {
   }
 };
 
-sampleController.ListByLAbAssayType = function(req, res) {
+sampleController.ListByLAbAssayType = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     AnaAssays.find({
-      site: mongoose.Types.ObjectId(req.body.site)
+      site: mongoose.Types.ObjectId(req.body.site),
     })
       .populate("test")
-      .exec(function(err, anaassays) {
+      .exec(function (err, anaassays) {
         if (err) {
           console.log("Greška:", err);
         } else {
@@ -165,12 +165,12 @@ sampleController.ListByLAbAssayType = function(req, res) {
             var manual = [];
             var testovi = [];
 
-            anaassays.forEach(anaassay => {
+            anaassays.forEach((anaassay) => {
               if (anaassay.test.tip === req.body.tip) {
                 // console.log(anaassay.test.naziv)
                 if (!anaassay.test.manual && !anaassay.test.calculated) {
                   if (
-                    !aparat.filter(test => test._id === anaassay.test._id)
+                    !aparat.filter((test) => test._id === anaassay.test._id)
                       .length > 0
                   ) {
                     aparat.push(anaassay.test);
@@ -178,7 +178,7 @@ sampleController.ListByLAbAssayType = function(req, res) {
                 }
                 if (anaassay.test.calculated) {
                   if (
-                    !calc.filter(test => test._id === anaassay.test._id)
+                    !calc.filter((test) => test._id === anaassay.test._id)
                       .length > 0
                   ) {
                     calc.push(anaassay.test);
@@ -186,7 +186,7 @@ sampleController.ListByLAbAssayType = function(req, res) {
                 }
                 if (anaassay.test.manual) {
                   if (
-                    !manual.filter(test => test._id === anaassay.test._id)
+                    !manual.filter((test) => test._id === anaassay.test._id)
                       .length > 0
                   ) {
                     manual.push(anaassay.test);
@@ -194,17 +194,17 @@ sampleController.ListByLAbAssayType = function(req, res) {
                 }
               }
             });
-            aparat.sort(function(a, b) {
+            aparat.sort(function (a, b) {
               return a.naziv.toLowerCase() == b.naziv.toLowerCase()
                 ? 0
                 : +(a.naziv.toLowerCase() > b.naziv.toLowerCase()) || -1;
             });
-            calc.sort(function(a, b) {
+            calc.sort(function (a, b) {
               return a.naziv.toLowerCase() == b.naziv.toLowerCase()
                 ? 0
                 : +(a.naziv.toLowerCase() > b.naziv.toLowerCase()) || -1;
             });
-            manual.sort(function(a, b) {
+            manual.sort(function (a, b) {
               return a.naziv.toLowerCase() == b.naziv.toLowerCase()
                 ? 0
                 : +(a.naziv.toLowerCase() > b.naziv.toLowerCase()) || -1;
@@ -213,14 +213,14 @@ sampleController.ListByLAbAssayType = function(req, res) {
             res.json({
               success: true,
               message: "Lista testova za " + req.body.sekcija + " sekciju",
-              testovi
+              testovi,
             });
           } else {
             res.json({
               success: true,
               message:
                 "Lista testova za " + req.body.sekcija + " sekciju je prazna",
-              testovi
+              testovi,
             });
           }
         }
@@ -228,18 +228,18 @@ sampleController.ListByLAbAssayType = function(req, res) {
   }
 };
 
-sampleController.ListBySection = function(req, res) {
+sampleController.ListBySection = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     AnaAssays.find({
-      site: mongoose.Types.ObjectId(req.body.site)
+      site: mongoose.Types.ObjectId(req.body.site),
     })
       .populate("test")
-      .exec(function(err, anaassays) {
+      .exec(function (err, anaassays) {
         if (err) {
           console.log("Greška:", err);
         } else {
@@ -249,15 +249,15 @@ sampleController.ListBySection = function(req, res) {
             var manual = [];
             var testovi = [];
 
-            anaassays.forEach(anaassay => {
-              anaassay.tipoviUzorka.forEach(tip => {
+            anaassays.forEach((anaassay) => {
+              anaassay.tipoviUzorka.forEach((tip) => {
                 if (
                   tip === req.body.tip.toUpperCase() ||
                   tip === req.body.tip
                 ) {
                   if (!anaassay.test.manual && !anaassay.test.calculated) {
                     if (
-                      !aparat.filter(test => test._id === anaassay.test._id)
+                      !aparat.filter((test) => test._id === anaassay.test._id)
                         .length > 0
                     ) {
                       aparat.push(anaassay.test);
@@ -265,7 +265,7 @@ sampleController.ListBySection = function(req, res) {
                   }
                   if (anaassay.test.calculated) {
                     if (
-                      !calc.filter(test => test._id === anaassay.test._id)
+                      !calc.filter((test) => test._id === anaassay.test._id)
                         .length > 0
                     ) {
                       calc.push(anaassay.test);
@@ -277,7 +277,7 @@ sampleController.ListBySection = function(req, res) {
                     !anaassay.test.naziv.includes("Kl-Krea")
                   ) {
                     if (
-                      !manual.filter(test => test._id === anaassay.test._id)
+                      !manual.filter((test) => test._id === anaassay.test._id)
                         .length > 0
                     ) {
                       manual.push(anaassay.test);
@@ -286,17 +286,17 @@ sampleController.ListBySection = function(req, res) {
                 }
               });
             });
-            aparat.sort(function(a, b) {
+            aparat.sort(function (a, b) {
               return a.naziv.toLowerCase() == b.naziv.toLowerCase()
                 ? 0
                 : +(a.naziv.toLowerCase() > b.naziv.toLowerCase()) || -1;
             });
-            calc.sort(function(a, b) {
+            calc.sort(function (a, b) {
               return a.naziv.toLowerCase() == b.naziv.toLowerCase()
                 ? 0
                 : +(a.naziv.toLowerCase() > b.naziv.toLowerCase()) || -1;
             });
-            manual.sort(function(a, b) {
+            manual.sort(function (a, b) {
               return a.naziv.toLowerCase() == b.naziv.toLowerCase()
                 ? 0
                 : +(a.naziv.toLowerCase() > b.naziv.toLowerCase()) || -1;
@@ -305,14 +305,14 @@ sampleController.ListBySection = function(req, res) {
             res.json({
               success: true,
               message: "Lista testova za " + req.body.sekcija + " sekciju",
-              testovi
+              testovi,
             });
           } else {
             res.json({
               success: true,
               message:
                 "Lista testova za " + req.body.sekcija + " sekciju je prazna",
-              testovi
+              testovi,
             });
           }
         }
@@ -320,18 +320,18 @@ sampleController.ListBySection = function(req, res) {
   }
 };
 
-sampleController.ListBySectionP = function(req, res) {
+sampleController.ListBySectionP = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     AnaAssays.find({
-      site: mongoose.Types.ObjectId(req.body.site)
+      site: mongoose.Types.ObjectId(req.body.site),
     })
       .populate("test")
-      .exec(function(err, anaassays) {
+      .exec(function (err, anaassays) {
         if (err) {
           console.log("Greška:", err);
         } else {
@@ -341,10 +341,10 @@ sampleController.ListBySectionP = function(req, res) {
             var manual = [];
             var testovi = [];
 
-            anaassays.forEach(anaassay => {
+            anaassays.forEach((anaassay) => {
               if (!anaassay.test.manual && !anaassay.test.calculated) {
                 if (
-                  !aparat.filter(test => test._id === anaassay.test._id)
+                  !aparat.filter((test) => test._id === anaassay.test._id)
                     .length > 0
                 ) {
                   aparat.push(anaassay.test);
@@ -352,8 +352,8 @@ sampleController.ListBySectionP = function(req, res) {
               }
               if (anaassay.test.calculated) {
                 if (
-                  !calc.filter(test => test._id === anaassay.test._id).length >
-                  0
+                  !calc.filter((test) => test._id === anaassay.test._id)
+                    .length > 0
                 ) {
                   calc.push(anaassay.test);
                 }
@@ -364,24 +364,24 @@ sampleController.ListBySectionP = function(req, res) {
                 !anaassay.test.naziv.includes("Kl-Krea")
               ) {
                 if (
-                  !manual.filter(test => test._id === anaassay.test._id)
+                  !manual.filter((test) => test._id === anaassay.test._id)
                     .length > 0
                 ) {
                   manual.push(anaassay.test);
                 }
               }
             });
-            aparat.sort(function(a, b) {
+            aparat.sort(function (a, b) {
               return a.naziv.toLowerCase() == b.naziv.toLowerCase()
                 ? 0
                 : +(a.naziv.toLowerCase() > b.naziv.toLowerCase()) || -1;
             });
-            calc.sort(function(a, b) {
+            calc.sort(function (a, b) {
               return a.naziv.toLowerCase() == b.naziv.toLowerCase()
                 ? 0
                 : +(a.naziv.toLowerCase() > b.naziv.toLowerCase()) || -1;
             });
-            manual.sort(function(a, b) {
+            manual.sort(function (a, b) {
               return a.naziv.toLowerCase() == b.naziv.toLowerCase()
                 ? 0
                 : +(a.naziv.toLowerCase() > b.naziv.toLowerCase()) || -1;
@@ -390,14 +390,14 @@ sampleController.ListBySectionP = function(req, res) {
             res.json({
               success: true,
               message: "Lista testova za " + req.body.sekcija + " sekciju",
-              testovi
+              testovi,
             });
           } else {
             res.json({
               success: true,
               message:
                 "Lista testova za " + req.body.sekcija + " sekciju je prazna",
-              testovi
+              testovi,
             });
           }
         }
@@ -405,18 +405,18 @@ sampleController.ListBySectionP = function(req, res) {
   }
 };
 
-sampleController.SaveP = function(req, res) {
+sampleController.SaveP = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     AnaAssays.find({
-      site: mongoose.Types.ObjectId(req.body.site)
+      site: mongoose.Types.ObjectId(req.body.site),
     })
       .populate("test")
-      .exec(function(err, anaassays) {
+      .exec(function (err, anaassays) {
         if (err) {
           console.log("Greška:", err);
         } else {
@@ -436,8 +436,8 @@ sampleController.SaveP = function(req, res) {
             var izljev_pleuralni = [];
             var punktat = [];
             var urin24 = [];
-            anaassays.forEach(anaassay => {
-              req.body.testovi.forEach(test => {
+            anaassays.forEach((anaassay) => {
+              req.body.testovi.forEach((test) => {
                 if (
                   mongoose.Types.ObjectId(test.labassay).equals(
                     anaassay.test._id
@@ -520,17 +520,17 @@ sampleController.SaveP = function(req, res) {
             uslov = {
               created_at: {
                 $gt: from,
-                $lt: to
+                $lt: to,
               },
-              site: mongoose.Types.ObjectId(req.body.site)
+              site: mongoose.Types.ObjectId(req.body.site),
             };
             Samples.find(uslov)
               .populate("patient")
               .sort({
-                created_at: -1
+                created_at: -1,
               })
               .limit(1)
-              .exec(function(err, uzorak) {
+              .exec(function (err, uzorak) {
                 if (err) {
                   console.log("Greška:", err);
                 } else {
@@ -545,224 +545,224 @@ sampleController.SaveP = function(req, res) {
                       uzorci.push({
                         niz: serum,
                         tip: "Serum",
-                        pid: pid
+                        pid: pid,
                       });
                     }
                     if (krv.length) {
                       uzorci.push({
                         niz: krv,
                         tip: "Krv",
-                        pid: pid
+                        pid: pid,
                       });
                     }
                     if (plazma.length) {
                       uzorci.push({
                         niz: plazma,
                         tip: "Plazma",
-                        pid: pid
+                        pid: pid,
                       });
                     }
                     if (urin.length) {
                       uzorci.push({
                         niz: urin,
                         tip: "Urin",
-                        pid: pid
+                        pid: pid,
                       });
                     }
                     if (feces.length) {
                       uzorci.push({
                         niz: feces,
                         tip: "Feces",
-                        pid: pid
+                        pid: pid,
                       });
                     }
                     if (likvor.length) {
                       uzorci.push({
                         niz: likvor,
                         tip: "Likvor",
-                        pid: pid
+                        pid: pid,
                       });
                     }
                     if (ascites.length) {
                       uzorci.push({
                         niz: ascites,
                         tip: "Ascites",
-                        pid: pid
+                        pid: pid,
                       });
                     }
                     if (dren.length) {
                       uzorci.push({
                         niz: dren,
                         tip: "Dren",
-                        pid: pid
+                        pid: pid,
                       });
                     }
                     if (znoj.length) {
                       uzorci.push({
                         niz: znoj,
                         tip: "Znoj",
-                        pid: pid
+                        pid: pid,
                       });
                     }
                     if (arterijska_krv.length) {
                       uzorci.push({
                         niz: arterijska_krv,
                         tip: "arterijska krv",
-                        pid: pid
+                        pid: pid,
                       });
                     }
                     if (venska_krv.length) {
                       uzorci.push({
                         niz: venska_krv,
                         tip: "venska krv",
-                        pid: pid
+                        pid: pid,
                       });
                     }
                     if (kapilarna_krv.length) {
                       uzorci.push({
                         niz: kapilarna_krv,
                         tip: "kapilarna krv",
-                        pid: pid
+                        pid: pid,
                       });
                     }
                     if (izljev_pleuralni.length) {
                       uzorci.push({
                         niz: izljev_pleuralni,
                         tip: "izljev pleuralni",
-                        pid: pid
+                        pid: pid,
                       });
                     }
                     if (punktat.length) {
                       uzorci.push({
                         niz: punktat,
                         tip: "punktat",
-                        pid: pid
+                        pid: pid,
                       });
                     }
                     if (urin24.length) {
                       uzorci.push({
                         niz: urin24,
                         tip: "urin 24",
-                        pid: pid
+                        pid: pid,
                       });
                     }
 
                     res.json({
                       success: true,
                       message: "Lista testova za uzoraka",
-                      data: uzorci
+                      data: uzorci,
                     });
                   } else {
                     if (serum.length) {
                       uzorci.push({
                         niz: serum,
                         tip: "Serum",
-                        pid: "1"
+                        pid: "1",
                       });
                     }
                     if (krv.length) {
                       uzorci.push({
                         niz: krv,
                         tip: "Krv",
-                        pid: "1"
+                        pid: "1",
                       });
                     }
                     if (plazma.length) {
                       uzorci.push({
                         niz: plazma,
                         tip: "Plazma",
-                        pid: "1"
+                        pid: "1",
                       });
                     }
                     if (urin.length) {
                       uzorci.push({
                         niz: urin,
                         tip: "Urin",
-                        pid: "1"
+                        pid: "1",
                       });
                     }
                     if (feces.length) {
                       uzorci.push({
                         niz: feces,
                         tip: "Feces",
-                        pid: "1"
+                        pid: "1",
                       });
                     }
                     if (likvor.length) {
                       uzorci.push({
                         niz: likvor,
                         tip: "Likvor",
-                        pid: "1"
+                        pid: "1",
                       });
                     }
                     if (ascites.length) {
                       uzorci.push({
                         niz: ascites,
                         tip: "Ascites",
-                        pid: "1"
+                        pid: "1",
                       });
                     }
                     if (dren.length) {
                       uzorci.push({
                         niz: dren,
                         tip: "Dren",
-                        pid: "1"
+                        pid: "1",
                       });
                     }
                     if (znoj.length) {
                       uzorci.push({
                         niz: znoj,
                         tip: "Znoj",
-                        pid: "1"
+                        pid: "1",
                       });
                     }
                     if (arterijska_krv.length) {
                       uzorci.push({
                         niz: arterijska_krv,
                         tip: "arterijska krv",
-                        pid: "1"
+                        pid: "1",
                       });
                     }
                     if (venska_krv.length) {
                       uzorci.push({
                         niz: venska_krv,
                         tip: "venska krv",
-                        pid: "1"
+                        pid: "1",
                       });
                     }
                     if (kapilarna_krv.length) {
                       uzorci.push({
                         niz: kapilarna_krv,
                         tip: "kapilarna krv",
-                        pid: "1"
+                        pid: "1",
                       });
                     }
                     if (izljev_pleuralni.length) {
                       uzorci.push({
                         niz: izljev_pleuralni,
                         tip: "izljev pleuralni",
-                        pid: "1"
+                        pid: "1",
                       });
                     }
                     if (punktat.length) {
                       uzorci.push({
                         niz: punktat,
                         tip: "punktat",
-                        pid: "1"
+                        pid: "1",
                       });
                     }
                     if (urin24.length) {
                       uzorci.push({
                         niz: urin24,
                         tip: "urin 24",
-                        pid: "1"
+                        pid: "1",
                       });
                     }
 
                     res.json({
                       success: true,
                       message: "Lista testova za uzoraka",
-                      data: uzorci
+                      data: uzorci,
                     });
                   }
                 }
@@ -770,7 +770,7 @@ sampleController.SaveP = function(req, res) {
           } else {
             res.json({
               success: true,
-              message: "Lista uzoraka je  je prazna"
+              message: "Lista uzoraka je  je prazna",
             });
           }
         }
@@ -778,7 +778,7 @@ sampleController.SaveP = function(req, res) {
   }
 };
 
-sampleController.Save = function(req, res) {
+sampleController.Save = function (req, res) {
   var age = null;
   var current = null;
   var starost = null;
@@ -833,7 +833,7 @@ sampleController.Save = function(req, res) {
   rezultat.rezultati = [];
   rezultat.multi = [];
   var manual = false;
-  req.body.testovi.forEach(test => {
+  req.body.testovi.forEach((test) => {
     if (test.manual) {
       manual = true;
     }
@@ -846,27 +846,27 @@ sampleController.Save = function(req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     Patients.findOne({
       jmbg: req.body.jmbg,
-      site: mongoose.Types.ObjectId(req.body.site)
+      site: mongoose.Types.ObjectId(req.body.site),
     })
       .lean()
-      .exec(function(err, patientFound) {
+      .exec(function (err, patientFound) {
         if (err) {
           console.log("Greška:", err);
         } else {
           if (!patientFound) {
             var pacijent = new Patients(req.body);
 
-            pacijent.save(function(err, patient) {
+            pacijent.save(function (err, patient) {
               if (err) {
                 console.log("Greška:", err);
                 res.json({
                   success: false,
-                  message: err
+                  message: err,
                 });
               } else {
                 rezultat.patient = patient;
@@ -875,13 +875,13 @@ sampleController.Save = function(req, res) {
                 var refd = null;
                 var refg = null;
                 var zadnji = 0;
-                req.body.testovi.forEach(test => {
+                req.body.testovi.forEach((test) => {
                   AnaAssays.findOne({
                     test: mongoose.Types.ObjectId(test.labassay),
-                    site: mongoose.Types.ObjectId(req.body.site)
+                    site: mongoose.Types.ObjectId(req.body.site),
                   })
                     .populate("test")
-                    .exec(function(err, testm) {
+                    .exec(function (err, testm) {
                       if (err) {
                         console.log("Greška:", err);
                       } else {
@@ -891,12 +891,12 @@ sampleController.Save = function(req, res) {
 
                             tests.push({
                               labassay: mongoose.Types.ObjectId(test.labassay),
-                              status_t: "U OBRADI"
+                              status_t: "U OBRADI",
                             });
                             if (testm.test.multi) {
-                              testm.test.multiparam.forEach(param => {
+                              testm.test.multiparam.forEach((param) => {
                                 set = {};
-                                testm.reference.forEach(ref => {
+                                testm.reference.forEach((ref) => {
                                   if (
                                     param._id.equals(
                                       mongoose.Types.ObjectId(ref.analit)
@@ -950,7 +950,7 @@ sampleController.Save = function(req, res) {
                                   rezultat_i: "",
                                   odobren: false,
                                   created_at: Date.now(),
-                                  created_by: req.body.decoded.user
+                                  created_by: req.body.decoded.user,
                                 });
                                 komplet.push({
                                   labassay: mongoose.Types.ObjectId(param._id),
@@ -964,7 +964,7 @@ sampleController.Save = function(req, res) {
                                   extend: extend,
                                   refd: refd,
                                   refg: refg,
-                                  rezultat: multiresult
+                                  rezultat: multiresult,
                                 });
                               });
                               rezultat.multi.push(komplet);
@@ -996,25 +996,25 @@ sampleController.Save = function(req, res) {
                                     rezultat_i: "",
                                     odobren: false,
                                     created_at: Date.now(),
-                                    created_by: req.body.decoded.user
-                                  }
-                                ]
+                                    created_by: req.body.decoded.user,
+                                  },
+                                ],
                               });
                               rezultat.controlmulti = true;
                               komplet = [];
                             } else {
                               // Kraj ako je rucni test sa analitima, pocetak ako je klasicni rucni test
                               set = {};
-                              testm.reference = testm.reference.sort(function(
+                              testm.reference = testm.reference.sort(function (
                                 a,
                                 b
                               ) {
                                 return a.dDob.localeCompare(b.dDob, undefined, {
                                   numeric: true,
-                                  sensitivity: "base"
+                                  sensitivity: "base",
                                 });
                               });
-                              testm.reference.forEach(element => {
+                              testm.reference.forEach((element) => {
                                 set = reference.get(
                                   testm.test.naziv,
                                   req.body.menopauza,
@@ -1072,21 +1072,21 @@ sampleController.Save = function(req, res) {
                                     rezultat_i: "",
                                     odobren: false,
                                     created_at: Date.now(),
-                                    created_by: req.body.decoded.user
-                                  }
-                                ]
+                                    created_by: req.body.decoded.user,
+                                  },
+                                ],
                               });
                             }
                           } // End if test rucni
                           else {
                             // Ako je test aparatski
                             tests.push({
-                              labassay: mongoose.Types.ObjectId(test.labassay)
+                              labassay: mongoose.Types.ObjectId(test.labassay),
                             });
                             if (testm.test.multi) {
-                              testm.test.multiparam.forEach(param => {
+                              testm.test.multiparam.forEach((param) => {
                                 set = {};
-                                testm.reference.forEach(ref => {
+                                testm.reference.forEach((ref) => {
                                   if (
                                     param._id.equals(
                                       mongoose.Types.ObjectId(ref.analit)
@@ -1139,7 +1139,7 @@ sampleController.Save = function(req, res) {
                                   rezultat_i: "",
                                   odobren: false,
                                   created_at: Date.now(),
-                                  created_by: req.body.decoded.user
+                                  created_by: req.body.decoded.user,
                                 });
                                 komplet.push({
                                   labassay: mongoose.Types.ObjectId(param._id),
@@ -1153,7 +1153,7 @@ sampleController.Save = function(req, res) {
                                   extend: extend,
                                   refd: refd,
                                   refg: refg,
-                                  rezultat: multiresult
+                                  rezultat: multiresult,
                                 });
                               });
                               rezultat.multi.push(komplet);
@@ -1185,23 +1185,23 @@ sampleController.Save = function(req, res) {
                                     rezultat_i: "",
                                     odobren: false,
                                     created_at: Date.now(),
-                                    created_by: req.body.decoded.user
-                                  }
-                                ]
+                                    created_by: req.body.decoded.user,
+                                  },
+                                ],
                               });
                               komplet = [];
                             } else {
                               set = {};
-                              testm.reference = testm.reference.sort(function(
+                              testm.reference = testm.reference.sort(function (
                                 a,
                                 b
                               ) {
                                 return a.dDob.localeCompare(b.dDob, undefined, {
                                   numeric: true,
-                                  sensitivity: "base"
+                                  sensitivity: "base",
                                 });
                               });
-                              testm.reference.forEach(element => {
+                              testm.reference.forEach((element) => {
                                 set = reference.get(
                                   testm.test.naziv,
                                   req.body.menopauza,
@@ -1258,9 +1258,9 @@ sampleController.Save = function(req, res) {
                                     rezultat_i: "",
                                     odobren: false,
                                     created_at: Date.now(),
-                                    created_by: req.body.decoded.user
-                                  }
-                                ]
+                                    created_by: req.body.decoded.user,
+                                  },
+                                ],
                               });
                             }
                           } // Kraj ako je test aparatski
@@ -1302,14 +1302,14 @@ sampleController.Save = function(req, res) {
                                   "[0-9]{3}" +
                                   req.body.siteSifra +
                                   datum
-                              )
+                              ),
                             })
                               .populate("patient")
                               .sort({
-                                created_at: -1
+                                created_at: -1,
                               })
                               .limit(1)
-                              .exec(function(err, uzorak) {
+                              .exec(function (err, uzorak) {
                                 if (err) {
                                   console.log("Greška:", err);
                                 } else {
@@ -1343,9 +1343,9 @@ sampleController.Save = function(req, res) {
                                         textxalign: "center", // Always good to set this
                                         paddingheight: 10,
                                         paddingwidth: 10,
-                                        backgroundcolor: "FFFFFF"
+                                        backgroundcolor: "FFFFFF",
                                       },
-                                      function(err, png) {
+                                      function (err, png) {
                                         if (err) {
                                         } else {
                                           var file =
@@ -1357,9 +1357,9 @@ sampleController.Save = function(req, res) {
                                             file,
                                             png.toString("base64"),
                                             {
-                                              encoding: "base64"
+                                              encoding: "base64",
                                             },
-                                            function(err) {
+                                            function (err) {
                                               if (err) {
                                                 console.log(err);
                                               } else {
@@ -1368,14 +1368,14 @@ sampleController.Save = function(req, res) {
                                                 var sample = new Samples(
                                                   req.body
                                                 );
-                                                sample.save(function(
+                                                sample.save(function (
                                                   err,
                                                   sample
                                                 ) {
                                                   if (err) {
                                                     res.json({
                                                       success: false,
-                                                      message: err
+                                                      message: err,
                                                     });
                                                   } else {
                                                     var data = {};
@@ -1408,7 +1408,7 @@ sampleController.Save = function(req, res) {
                                                       success: true,
                                                       message:
                                                         "Uzorak uspješno sačuvan",
-                                                      data
+                                                      data,
                                                     });
                                                   }
                                                 });
@@ -1436,9 +1436,9 @@ sampleController.Save = function(req, res) {
                                         textxalign: "center", // Always good to set this
                                         paddingheight: 10,
                                         paddingwidth: 10,
-                                        backgroundcolor: "FFFFFF"
+                                        backgroundcolor: "FFFFFF",
                                       },
-                                      function(err, png) {
+                                      function (err, png) {
                                         if (err) {
                                         } else {
                                           var file =
@@ -1449,9 +1449,9 @@ sampleController.Save = function(req, res) {
                                             file,
                                             png.toString("base64"),
                                             {
-                                              encoding: "base64"
+                                              encoding: "base64",
                                             },
-                                            function(err) {
+                                            function (err) {
                                               if (err) {
                                                 console.log(err);
                                               } else {
@@ -1460,14 +1460,14 @@ sampleController.Save = function(req, res) {
                                                 var sample = new Samples(
                                                   req.body
                                                 );
-                                                sample.save(function(
+                                                sample.save(function (
                                                   err,
                                                   sample
                                                 ) {
                                                   if (err) {
                                                     res.json({
                                                       success: false,
-                                                      message: err
+                                                      message: err,
                                                     });
                                                   } else {
                                                     var data = {};
@@ -1500,7 +1500,7 @@ sampleController.Save = function(req, res) {
                                                       success: true,
                                                       message:
                                                         "Uzorak uspješno sačuvan",
-                                                      data
+                                                      data,
                                                     });
                                                   }
                                                 });
@@ -1528,13 +1528,13 @@ sampleController.Save = function(req, res) {
             var refd = null;
             var refg = null;
             var zadnji = 0;
-            req.body.testovi.forEach(test => {
+            req.body.testovi.forEach((test) => {
               AnaAssays.findOne({
                 test: mongoose.Types.ObjectId(test.labassay),
-                site: mongoose.Types.ObjectId(req.body.site)
+                site: mongoose.Types.ObjectId(req.body.site),
               })
                 .populate("test")
-                .exec(function(err, testm) {
+                .exec(function (err, testm) {
                   if (err) {
                     console.log("Greška:", err);
                   } else {
@@ -1543,12 +1543,12 @@ sampleController.Save = function(req, res) {
                         rezultat.created_at = Date.now();
                         tests.push({
                           labassay: mongoose.Types.ObjectId(test.labassay),
-                          status_t: "U OBRADI"
+                          status_t: "U OBRADI",
                         });
                         if (testm.test.multi) {
-                          testm.test.multiparam.forEach(param => {
+                          testm.test.multiparam.forEach((param) => {
                             set = {};
-                            testm.reference.forEach(ref => {
+                            testm.reference.forEach((ref) => {
                               if (
                                 param._id.equals(
                                   mongoose.Types.ObjectId(ref.analit)
@@ -1602,7 +1602,7 @@ sampleController.Save = function(req, res) {
                               rezultat_i: "",
                               odobren: false,
                               created_at: Date.now(),
-                              created_by: req.body.decoded.user
+                              created_by: req.body.decoded.user,
                             });
                             komplet.push({
                               labassay: mongoose.Types.ObjectId(param._id),
@@ -1614,7 +1614,7 @@ sampleController.Save = function(req, res) {
                               extend: extend,
                               refd: refd,
                               refg: refg,
-                              rezultat: multiresult
+                              rezultat: multiresult,
                             });
                           });
                           rezultat.multi.push(komplet);
@@ -1644,25 +1644,25 @@ sampleController.Save = function(req, res) {
                                 rezultat_i: "",
                                 odobren: false,
                                 created_at: Date.now(),
-                                created_by: req.body.decoded.user
-                              }
-                            ]
+                                created_by: req.body.decoded.user,
+                              },
+                            ],
                           });
                           rezultat.controlmulti = true;
                           komplet = [];
                         } else {
                           // Kraj ako je rucni test sa analitima, pocetak ako je klasicni rucni test
                           set = {};
-                          testm.reference = testm.reference.sort(function(
+                          testm.reference = testm.reference.sort(function (
                             a,
                             b
                           ) {
                             return a.dDob.localeCompare(b.dDob, undefined, {
                               numeric: true,
-                              sensitivity: "base"
+                              sensitivity: "base",
                             });
                           });
-                          testm.reference.forEach(element => {
+                          testm.reference.forEach((element) => {
                             set = reference.get(
                               testm.test.naziv,
                               req.body.menopauza,
@@ -1718,21 +1718,21 @@ sampleController.Save = function(req, res) {
                                 rezultat_i: "",
                                 odobren: false,
                                 created_at: Date.now(),
-                                created_by: req.body.decoded.user
-                              }
-                            ]
+                                created_by: req.body.decoded.user,
+                              },
+                            ],
                           });
                         }
                       } // End if test rucni
                       else {
                         // Ako je test aparatski
                         tests.push({
-                          labassay: mongoose.Types.ObjectId(test.labassay)
+                          labassay: mongoose.Types.ObjectId(test.labassay),
                         });
                         if (testm.test.multi) {
-                          testm.test.multiparam.forEach(param => {
+                          testm.test.multiparam.forEach((param) => {
                             set = {};
-                            testm.reference.forEach(ref => {
+                            testm.reference.forEach((ref) => {
                               if (
                                 param._id.equals(
                                   mongoose.Types.ObjectId(ref.analit)
@@ -1785,7 +1785,7 @@ sampleController.Save = function(req, res) {
                               rezultat_i: "",
                               odobren: false,
                               created_at: Date.now(),
-                              created_by: req.body.decoded.user
+                              created_by: req.body.decoded.user,
                             });
                             komplet.push({
                               labassay: mongoose.Types.ObjectId(param._id),
@@ -1797,7 +1797,7 @@ sampleController.Save = function(req, res) {
                               extend: extend,
                               refd: refd,
                               refg: refg,
-                              rezultat: multiresult
+                              rezultat: multiresult,
                             });
                           });
                           rezultat.multi.push(komplet);
@@ -1827,23 +1827,23 @@ sampleController.Save = function(req, res) {
                                 rezultat_i: "",
                                 odobren: false,
                                 created_at: Date.now(),
-                                created_by: req.body.decoded.user
-                              }
-                            ]
+                                created_by: req.body.decoded.user,
+                              },
+                            ],
                           });
                           komplet = [];
                         } else {
                           set = {};
-                          testm.reference = testm.reference.sort(function(
+                          testm.reference = testm.reference.sort(function (
                             a,
                             b
                           ) {
                             return a.dDob.localeCompare(b.dDob, undefined, {
                               numeric: true,
-                              sensitivity: "base"
+                              sensitivity: "base",
                             });
                           });
-                          testm.reference.forEach(element => {
+                          testm.reference.forEach((element) => {
                             set = reference.get(
                               testm.test.naziv,
                               req.body.menopauza,
@@ -1898,9 +1898,9 @@ sampleController.Save = function(req, res) {
                                 rezultat_i: "",
                                 odobren: false,
                                 created_at: Date.now(),
-                                created_by: req.body.decoded.user
-                              }
-                            ]
+                                created_by: req.body.decoded.user,
+                              },
+                            ],
                           });
                         }
                       } // Kraj ako je test aparatski
@@ -1943,14 +1943,14 @@ sampleController.Save = function(req, res) {
                               "[0-9]{3}" +
                               req.body.siteSifra +
                               datum
-                          )
+                          ),
                         })
                           .populate("patient")
                           .sort({
-                            created_at: -1
+                            created_at: -1,
                           })
                           .limit(1)
-                          .exec(function(err, uzorak) {
+                          .exec(function (err, uzorak) {
                             if (err) {
                               console.log("Greška:", err);
                             } else {
@@ -1984,9 +1984,9 @@ sampleController.Save = function(req, res) {
                                     textxalign: "center", // Always good to set this
                                     paddingheight: 10,
                                     paddingwidth: 10,
-                                    backgroundcolor: "FFFFFF"
+                                    backgroundcolor: "FFFFFF",
                                   },
-                                  function(err, png) {
+                                  function (err, png) {
                                     if (err) {
                                       console.log(err);
                                     } else {
@@ -2000,20 +2000,20 @@ sampleController.Save = function(req, res) {
                                         file,
                                         png.toString("base64"),
                                         {
-                                          encoding: "base64"
+                                          encoding: "base64",
                                         },
-                                        function(err) {
+                                        function (err) {
                                           if (err) {
                                             console.log(err);
                                           } else {
                                             req.body.created_by =
                                               req.body.decoded.user;
                                             var sample = new Samples(req.body);
-                                            sample.save(function(err, sample) {
+                                            sample.save(function (err, sample) {
                                               if (err) {
                                                 res.json({
                                                   success: false,
-                                                  message: err
+                                                  message: err,
                                                 });
                                               } else {
                                                 var data = {};
@@ -2044,7 +2044,7 @@ sampleController.Save = function(req, res) {
                                                   success: true,
                                                   message:
                                                     "Uzorak uspješno sačuvan",
-                                                  data
+                                                  data,
                                                 });
                                               }
                                             });
@@ -2072,9 +2072,9 @@ sampleController.Save = function(req, res) {
                                     textxalign: "center", // Always good to set this
                                     paddingheight: 10,
                                     paddingwidth: 10,
-                                    backgroundcolor: "FFFFFF"
+                                    backgroundcolor: "FFFFFF",
                                   },
-                                  function(err, png) {
+                                  function (err, png) {
                                     if (err) {
                                     } else {
                                       var file =
@@ -2085,20 +2085,20 @@ sampleController.Save = function(req, res) {
                                         file,
                                         png.toString("base64"),
                                         {
-                                          encoding: "base64"
+                                          encoding: "base64",
                                         },
-                                        function(err) {
+                                        function (err) {
                                           if (err) {
                                             console.log(err);
                                           } else {
                                             req.body.created_by =
                                               req.body.decoded.user;
                                             var sample = new Samples(req.body);
-                                            sample.save(function(err, sample) {
+                                            sample.save(function (err, sample) {
                                               if (err) {
                                                 res.json({
                                                   success: false,
-                                                  message: err
+                                                  message: err,
                                                 });
                                               } else {
                                                 var data = {};
@@ -2129,7 +2129,7 @@ sampleController.Save = function(req, res) {
                                                   success: true,
                                                   message:
                                                     "Uzorak uspješno sačuvan",
-                                                  data
+                                                  data,
                                                 });
                                               }
                                             });
@@ -2154,35 +2154,35 @@ sampleController.Save = function(req, res) {
   }
 };
 
-sampleController.Patient = function(req, res) {
+sampleController.Patient = function (req, res) {
   Patients.findOne({
     jmbg: req.body.jmbg,
-    site: mongoose.Types.ObjectId(req.body.site)
-  }).exec(function(err, pacijent) {
+    site: mongoose.Types.ObjectId(req.body.site),
+  }).exec(function (err, pacijent) {
     if (err) {
       console.log("Greška:", err);
       res.json({
         success: false,
-        message: "Greška prilikom pretraživanja baze"
+        message: "Greška prilikom pretraživanja baze",
       });
     } else {
       if (pacijent) {
         res.json({
           success: true,
           message: "Pacijent postoji",
-          pacijent
+          pacijent,
         });
       } else {
         res.json({
           success: false,
-          message: "Pacijent ne postoji"
+          message: "Pacijent ne postoji",
         });
       }
     }
   });
 };
 
-sampleController.List = function(req, res) {
+sampleController.List = function (req, res) {
   var danasnjiDatum = new Date();
   danasnjiDatum.setDate(danasnjiDatum.getDate());
   var trenutniMjesec = danasnjiDatum.getMonth() + 1;
@@ -2221,27 +2221,27 @@ sampleController.List = function(req, res) {
   uslov = {
     created_at: {
       $gt: from,
-      $lt: to
+      $lt: to,
     },
-    site: mongoose.Types.ObjectId(req.query.site)
+    site: mongoose.Types.ObjectId(req.query.site),
   };
   if (!req.query.filter) {
     req.query.filter = "";
   }
   Samples.find(uslov)
     .populate("patient tests.labassay")
-    .exec(function(err, samples) {
+    .exec(function (err, samples) {
       if (err) {
         console.log("Greška:", err);
       } else {
         var selectedsamples = [];
         var sectionExist = false;
-        samples.forEach(sample => {
+        samples.forEach((sample) => {
           if (sample.patient === null) {
             // console.log(sample.id)
           }
           sectionExist = false;
-          sample.tests.forEach(test => {
+          sample.tests.forEach((test) => {
             if (test.labassay.sekcija === req.params.section) {
               sectionExist = true;
             }
@@ -2253,28 +2253,28 @@ sampleController.List = function(req, res) {
         samples = selectedsamples;
         switch (parametar) {
           case "ime":
-            uzorci = samples.filter(function(sample) {
+            uzorci = samples.filter(function (sample) {
               return sample.patient.ime
                 .toLowerCase()
                 .includes(req.query.filter.toLowerCase());
             });
             break;
           case "prezime":
-            uzorci = samples.filter(function(sample) {
+            uzorci = samples.filter(function (sample) {
               return sample.patient.prezime
                 .toLowerCase()
                 .includes(req.query.filter.toLowerCase());
             });
             break;
           case "id":
-            uzorci = samples.filter(function(sample) {
+            uzorci = samples.filter(function (sample) {
               return sample.id
                 .toLowerCase()
                 .includes(req.query.filter.toLowerCase());
             });
             break;
           default:
-            uzorci = samples.filter(function(sample) {
+            uzorci = samples.filter(function (sample) {
               return (
                 sample.patient.ime
                   .toLowerCase()
@@ -2294,14 +2294,14 @@ sampleController.List = function(req, res) {
         switch (parametar) {
           case "ime":
             if (order === "asc") {
-              uzorci.sort(function(a, b) {
+              uzorci.sort(function (a, b) {
                 return a.patient.ime == b.patient.ime
                   ? 0
                   : +(a.patient.ime > b.patient.ime) || -1;
               });
             }
             if (order === "desc") {
-              uzorci.sort(function(a, b) {
+              uzorci.sort(function (a, b) {
                 return a.patient.ime == b.patient.ime
                   ? 0
                   : +(a.patient.ime < b.patient.ime) || -1;
@@ -2310,14 +2310,14 @@ sampleController.List = function(req, res) {
             break;
           case "prezime":
             if (order === "asc") {
-              uzorci.sort(function(a, b) {
+              uzorci.sort(function (a, b) {
                 return a.patient.prezime == b.patient.prezime
                   ? 0
                   : +(a.patient.prezime > b.patient.prezime) || -1;
               });
             }
             if (order === "desc") {
-              uzorci.sort(function(a, b) {
+              uzorci.sort(function (a, b) {
                 return a.patient.prezime == b.patient.prezime
                   ? 0
                   : +(a.patient.prezime < b.patient.prezime) || -1;
@@ -2326,18 +2326,18 @@ sampleController.List = function(req, res) {
             break;
           case "id":
             if (order === "asc") {
-              uzorci.sort(function(a, b) {
+              uzorci.sort(function (a, b) {
                 return a.id == b.id ? 0 : +(a.id > b.id) || -1;
               });
             }
             if (order === "desc") {
-              uzorci.sort(function(a, b) {
+              uzorci.sort(function (a, b) {
                 return a.id == b.id ? 0 : +(a.id < b.id) || -1;
               });
             }
             break;
           default:
-            uzorci.sort(function(a, b) {
+            uzorci.sort(function (a, b) {
               return Date.parse(a.updated_at) == Date.parse(b.updated_at)
                 ? 0
                 : +(Date.parse(a.updated_at) < Date.parse(b.updated_at)) || -1;
@@ -2346,7 +2346,7 @@ sampleController.List = function(req, res) {
         }
 
         var niz = uzorci;
-        niz.forEach(uzorak => {
+        niz.forEach((uzorak) => {
           var uslov = 0;
           var nacekanju = 0;
           var realizovan = 0;
@@ -2354,7 +2354,7 @@ sampleController.List = function(req, res) {
           var statusuzorka = uzorak.status;
           var deletable = false;
 
-          uzorak.tests.forEach(element => {
+          uzorak.tests.forEach((element) => {
             uslov++;
             if (element.labassay.manual && element.status_t != "U OBRADI") {
               deletable = true;
@@ -2519,7 +2519,7 @@ sampleController.List = function(req, res) {
               status: uzorak.status,
               izbrisi: izbrisi,
               badge: badge,
-              uredi: uredi
+              uredi: uredi,
             });
           }
           if (req.query.datum === "U OBRADI" && uzorak.status === "U OBRADI") {
@@ -2533,7 +2533,7 @@ sampleController.List = function(req, res) {
               status: uzorak.status,
               izbrisi: izbrisi,
               badge: badge,
-              uredi: uredi
+              uredi: uredi,
             });
           }
           if (
@@ -2550,7 +2550,7 @@ sampleController.List = function(req, res) {
               status: uzorak.status,
               izbrisi: izbrisi,
               badge: badge,
-              uredi: uredi
+              uredi: uredi,
             });
           }
           if (req.query.datum === "OBRAĐEN" && uzorak.status === "OBRAĐEN") {
@@ -2564,7 +2564,7 @@ sampleController.List = function(req, res) {
               status: uzorak.status,
               izbrisi: izbrisi,
               badge: badge,
-              uredi: uredi
+              uredi: uredi,
             });
           }
           if (req.query.datum === "Svi Rezultati") {
@@ -2578,7 +2578,7 @@ sampleController.List = function(req, res) {
               status: uzorak.status,
               izbrisi: izbrisi,
               badge: badge,
-              uredi: uredi
+              uredi: uredi,
             });
           }
           if (req.query.datum === "DANAS") {
@@ -2592,7 +2592,7 @@ sampleController.List = function(req, res) {
               status: uzorak.status,
               izbrisi: izbrisi,
               badge: badge,
-              uredi: uredi
+              uredi: uredi,
             });
           }
         });
@@ -2628,34 +2628,34 @@ sampleController.List = function(req, res) {
     });
 };
 
-sampleController.Show = function(req, res) {
+sampleController.Show = function (req, res) {
   Samples.findOne({
-    id: req.params.id
+    id: req.params.id,
   })
     .populate("tests.labassay patient lokacija")
     .lean()
-    .exec(function(err, uzorak) {
+    .exec(function (err, uzorak) {
       if (err) {
         console.log("Greška:", err);
       } else {
         if (!uzorak)
           res.send({
             success: false,
-            message: "Uzorak nije pronađen."
+            message: "Uzorak nije pronađen.",
           });
         else {
           Results.findOne({
-            id: req.params.id
+            id: req.params.id,
           })
             .populate("rezultati.labassay")
-            .exec(function(err, rezultat) {
+            .exec(function (err, rezultat) {
               if (err) {
                 console.log("Greška:", err);
               } else {
                 if (!rezultat)
                   res.send({
                     success: false,
-                    message: "Rezultat nije pronađen."
+                    message: "Rezultat nije pronađen.",
                   });
                 else {
                   uzorak.datum = uzorak.datum.toString();
@@ -2663,7 +2663,7 @@ sampleController.Show = function(req, res) {
                     success: true,
                     message: "Rezultat  pronađen.",
                     rezultat: rezultat,
-                    uzorak: uzorak
+                    uzorak: uzorak,
                   });
                 }
               }
@@ -2673,39 +2673,39 @@ sampleController.Show = function(req, res) {
     });
 };
 
-sampleController.Delete = function(req, res) {
+sampleController.Delete = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     Samples.findOne({
       //_id: req.body.id
-      id: req.body.id
-    }).exec(function(err, id) {
+      id: req.body.id,
+    }).exec(function (err, id) {
       if (err) {
         console.log("Greška:", err);
       } else {
         if (!id) {
           res.json({
             success: false,
-            message: "Nije pronađen uzorak za brisanje."
+            message: "Nije pronađen uzorak za brisanje.",
           });
         } else {
           Results.findOne({
-            id: id.id
-          }).exec(function(err, rezultat) {
+            id: id.id,
+          }).exec(function (err, rezultat) {
             Samples.remove(
               {
-                _id: id._id
+                _id: id._id,
               },
-              function(err) {
+              function (err) {
                 if (err) {
                   console.log("Greška:", err);
                   res.json({
                     success: false,
-                    message: "Nije moguće izbrisati uzorak."
+                    message: "Nije moguće izbrisati uzorak.",
                   });
                 } else {
                   var del = {};
@@ -2734,7 +2734,7 @@ sampleController.Delete = function(req, res) {
                   res.json({
                     success: true,
                     message: "Uzorak izbrisan.",
-                    id
+                    id,
                   });
                 }
               }
@@ -2742,9 +2742,9 @@ sampleController.Delete = function(req, res) {
 
             Results.remove(
               {
-                _id: rezultat._id
+                _id: rezultat._id,
               },
-              function(err) {
+              function (err) {
                 if (err) {
                   console.log("Greška:", err);
                 } else {
@@ -2772,39 +2772,38 @@ sampleController.Delete = function(req, res) {
   }
 };
 
-sampleController.SectionList = function(req, res) {
-  Sekcija.find({}).exec(function(err, sections) {
+sampleController.SectionList = function (req, res) {
+  Sekcija.find({}).exec(function (err, sections) {
     if (err) {
       console.log("Greška:", err);
     } else {
       var sekcije = [];
 
-      sections.sort(function(a, b) {
+      sections.sort(function (a, b) {
         return a.order == b.order ? 0 : +(a.order > b.order) || -1;
       });
 
-      sections.forEach(element => {
+      sections.forEach((element) => {
         sekcije.push(element.sekcija);
       });
 
       res.json({
         success: true,
         message: "Lista sekcija",
-        sekcije
+        sekcije,
       });
     }
   });
 };
 
-sampleController.Update = function(req, res) {
+sampleController.Update = function (req, res) {
   var controlSave = false;
   Results.findOne({
-    id: req.body.sid
+    id: req.body.sid,
   })
     .populate("sample patient")
-    .exec(function(err, result) {
+    .exec(function (err, result) {
       if (result) {
-
         var Created = result.created_at;
 
         var delr = {};
@@ -2863,13 +2862,13 @@ sampleController.Update = function(req, res) {
         }
         starost = parseFloat(current) - parseFloat(age);
 
-        req.body.testovi.forEach(test => {
+        req.body.testovi.forEach((test) => {
           AnaAssays.findOne({
             test: mongoose.Types.ObjectId(test.labassay),
-            site: mongoose.Types.ObjectId(req.body.site)
+            site: mongoose.Types.ObjectId(req.body.site),
           })
             .populate("test")
-            .exec(function(err, testm) {
+            .exec(function (err, testm) {
               if (err) {
                 console.log("Greška:", err);
               } else {
@@ -2878,7 +2877,7 @@ sampleController.Update = function(req, res) {
                   status_t = "U OBRADI";
                 }
                 zaunos = true;
-                result.sample.tests.forEach(element => {
+                result.sample.tests.forEach((element) => {
                   if (
                     element.labassay.equals(
                       mongoose.Types.ObjectId(test.labassay)
@@ -2888,24 +2887,23 @@ sampleController.Update = function(req, res) {
                   }
                 });
                 if (
-                  !result.sample.tests.filter(e =>
+                  !result.sample.tests.filter((e) =>
                     e.labassay.equals(mongoose.Types.ObjectId(test.labassay))
                   ).length > 0
                 ) {
                   sampleTeststemp.push({
                     status_r: false,
                     status_t: status_t,
-                    labassay: mongoose.Types.ObjectId(test.labassay)
+                    labassay: mongoose.Types.ObjectId(test.labassay),
                   });
                   if (testm) {
                     if (test.manual) {
-                      
                       result.created_at = Created;
 
                       if (testm.test.multi) {
-                        testm.test.multiparam.forEach(param => {
+                        testm.test.multiparam.forEach((param) => {
                           set = {};
-                          testm.reference.forEach(ref => {
+                          testm.reference.forEach((ref) => {
                             if (
                               param._id.equals(
                                 mongoose.Types.ObjectId(ref.analit)
@@ -2957,7 +2955,7 @@ sampleController.Update = function(req, res) {
                             rezultat_p: "",
                             jedinice_p: "",
                             rezultat_i: "",
-                            odobren: false
+                            odobren: false,
                           });
                           komplet.push({
                             labassay: mongoose.Types.ObjectId(param._id),
@@ -2969,7 +2967,7 @@ sampleController.Update = function(req, res) {
                             extend: extend,
                             refd: refd,
                             refg: refg,
-                            rezultat: multiresult
+                            rezultat: multiresult,
                           });
                         });
                         result.multi.push(komplet);
@@ -2997,21 +2995,21 @@ sampleController.Update = function(req, res) {
                               rezultat_p: "",
                               jedinice_p: "",
                               rezultat_i: "",
-                              odobren: false
-                            }
-                          ]
+                              odobren: false,
+                            },
+                          ],
                         });
                         result.controlmulti = true;
                         komplet = [];
                       } else {
                         set = {};
-                        testm.reference = testm.reference.sort(function(a, b) {
+                        testm.reference = testm.reference.sort(function (a, b) {
                           return a.dDob.localeCompare(b.dDob, undefined, {
                             numeric: true,
-                            sensitivity: "base"
+                            sensitivity: "base",
                           });
                         });
-                        testm.reference.forEach(element => {
+                        testm.reference.forEach((element) => {
                           set = reference.get(
                             testm.test.naziv,
                             req.body.menopauza,
@@ -3065,16 +3063,16 @@ sampleController.Update = function(req, res) {
                               rezultat_p: "",
                               jedinice_p: "",
                               rezultat_i: "",
-                              odobren: false
-                            }
-                          ]
+                              odobren: false,
+                            },
+                          ],
                         });
                       }
                     } else {
                       if (testm.test.multi) {
-                        testm.test.multiparam.forEach(param => {
+                        testm.test.multiparam.forEach((param) => {
                           set = {};
-                          testm.reference.forEach(ref => {
+                          testm.reference.forEach((ref) => {
                             if (
                               param._id.equals(
                                 mongoose.Types.ObjectId(ref.analit)
@@ -3125,7 +3123,7 @@ sampleController.Update = function(req, res) {
                             rezultat_p: "",
                             jedinice_p: "",
                             rezultat_i: "",
-                            odobren: false
+                            odobren: false,
                           });
                           komplet.push({
                             labassay: mongoose.Types.ObjectId(param._id),
@@ -3137,7 +3135,7 @@ sampleController.Update = function(req, res) {
                             extend: extend,
                             refd: refd,
                             refg: refg,
-                            rezultat: multiresult
+                            rezultat: multiresult,
                           });
                         });
                         result.multi.push(komplet);
@@ -3165,20 +3163,20 @@ sampleController.Update = function(req, res) {
                               rezultat_p: "",
                               jedinice_p: "",
                               rezultat_i: "",
-                              odobren: false
-                            }
-                          ]
+                              odobren: false,
+                            },
+                          ],
                         });
                         komplet = [];
                       } else {
                         set = {};
-                        testm.reference = testm.reference.sort(function(a, b) {
+                        testm.reference = testm.reference.sort(function (a, b) {
                           return a.dDob.localeCompare(b.dDob, undefined, {
                             numeric: true,
-                            sensitivity: "base"
+                            sensitivity: "base",
                           });
                         });
-                        testm.reference.forEach(element => {
+                        testm.reference.forEach((element) => {
                           set = reference.get(
                             testm.test.naziv,
                             req.body.menopauza,
@@ -3233,9 +3231,9 @@ sampleController.Update = function(req, res) {
                               rezultat_i: "",
                               odobren: false,
                               created_at: Date.now(),
-                              created_by: req.body.decoded.user
-                            }
-                          ]
+                              created_by: req.body.decoded.user,
+                            },
+                          ],
                         });
                       }
                     } // Kraj ako je test aparatski
@@ -3253,7 +3251,7 @@ sampleController.Update = function(req, res) {
                     result.status = "U OBRADI";
                     //REDNI BROJ PACIJENTA
                     var newsample = new Samples(result.sample);
-                    newsample.save(function(err, nSamp) {
+                    newsample.save(function (err, nSamp) {
                       var zabrisanje = true;
                       var novisamples = [];
                       var novirezultati = [];
@@ -3261,9 +3259,9 @@ sampleController.Update = function(req, res) {
                       novisamples = result.sample.tests;
                       novirezultati = result.rezultati;
                       novirezultatimulti = result.multi;
-                      result.sample.tests.forEach(element => {
+                      result.sample.tests.forEach((element) => {
                         zabrisanje = true;
-                        req.body.testovi.forEach(test => {
+                        req.body.testovi.forEach((test) => {
                           if (
                             element.labassay.equals(
                               mongoose.Types.ObjectId(test.labassay)
@@ -3274,13 +3272,13 @@ sampleController.Update = function(req, res) {
                         });
                         if (zabrisanje) {
                           novisamples = novisamples.filter(
-                            el => !el.labassay.equals(element.labassay)
+                            (el) => !el.labassay.equals(element.labassay)
                           );
                           novirezultati = novirezultati.filter(
-                            el => !el.labassay.equals(element.labassay)
+                            (el) => !el.labassay.equals(element.labassay)
                           );
                           novirezultatimulti = novirezultatimulti.filter(
-                            el => !el[0].labtest.equals(element.labassay)
+                            (el) => !el[0].labtest.equals(element.labassay)
                           );
                         }
                       });
@@ -3339,7 +3337,7 @@ sampleController.Update = function(req, res) {
                       }
                       res.json({
                         success: true,
-                        message: "Uzorak uspjesno izmjenjen"
+                        message: "Uzorak uspjesno izmjenjen",
                       });
                     });
                     //REDNI BROJ PACIJENTA
@@ -3357,7 +3355,7 @@ sampleController.Update = function(req, res) {
                     result.status = "U OBRADI";
                     //REDNI BROJ PACIJENTA
                     var newsample = new Samples(result.sample);
-                    newsample.save(function(err, nSamp) {
+                    newsample.save(function (err, nSamp) {
                       var zabrisanje = true;
                       var novisamples = [];
                       var novirezultati = [];
@@ -3365,9 +3363,9 @@ sampleController.Update = function(req, res) {
                       novisamples = result.sample.tests;
                       novirezultati = result.rezultati;
                       novirezultatimulti = result.multi;
-                      result.sample.tests.forEach(element => {
+                      result.sample.tests.forEach((element) => {
                         zabrisanje = true;
-                        req.body.testovi.forEach(test => {
+                        req.body.testovi.forEach((test) => {
                           if (
                             element.labassay.equals(
                               mongoose.Types.ObjectId(test.labassay)
@@ -3378,13 +3376,13 @@ sampleController.Update = function(req, res) {
                         });
                         if (zabrisanje) {
                           novisamples = novisamples.filter(
-                            el => !el.labassay.equals(element.labassay)
+                            (el) => !el.labassay.equals(element.labassay)
                           );
                           novirezultati = novirezultati.filter(
-                            el => !el.labassay.equals(element.labassay)
+                            (el) => !el.labassay.equals(element.labassay)
                           );
                           novirezultatimulti = novirezultatimulti.filter(
-                            el => !el[0].labtest.equals(element.labassay)
+                            (el) => !el[0].labtest.equals(element.labassay)
                           );
                         }
                       });
@@ -3445,7 +3443,7 @@ sampleController.Update = function(req, res) {
                       }
                       res.json({
                         success: true,
-                        message: "Uzorak uspješno izmjenjen"
+                        message: "Uzorak uspješno izmjenjen",
                       });
                     });
                     // REDNI BROJ PACIJENTA
@@ -3495,11 +3493,11 @@ sampleController.Update = function(req, res) {
           delResult.save();
           result.remove();
           var newsample = new Samples(result.sample);
-          newsample.save(function(err, nSamp) {
+          newsample.save(function (err, nSamp) {
             nSamp.remove();
             res.json({
               success: true,
-              message: "Uzorak uspješno izmjenjen"
+              message: "Uzorak uspješno izmjenjen",
             });
           });
         }
@@ -3507,11 +3505,11 @@ sampleController.Update = function(req, res) {
     });
 };
 
-sampleController.Racuni = function(req, res) {
+sampleController.Racuni = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     var danasnjiDatum = new Date();
@@ -3549,9 +3547,9 @@ sampleController.Racuni = function(req, res) {
     uslov = {
       updated_at: {
         $gt: from,
-        $lt: to
+        $lt: to,
       },
-      site: req.query.site
+      site: req.query.site,
     };
     if (!req.query.filter) {
       req.query.filter = "";
@@ -3559,13 +3557,13 @@ sampleController.Racuni = function(req, res) {
 
     Samples.find(uslov)
       .populate("patient tests.labassay")
-      .exec(function(err, results) {
+      .exec(function (err, results) {
         if (err) {
           console.log("Greška:", err);
         } else {
           switch (parametar) {
             case "ime":
-              results = results.filter(function(result) {
+              results = results.filter(function (result) {
                 return result.patient.ime
                   .toLowerCase()
                   .includes(req.query.filter.toLowerCase());
@@ -3573,21 +3571,21 @@ sampleController.Racuni = function(req, res) {
               break;
 
             case "prezime":
-              results = results.filter(function(result) {
+              results = results.filter(function (result) {
                 return result.patient.prezime
                   .toLowerCase()
                   .includes(req.query.filter.toLowerCase());
               });
               break;
             case "jmbg":
-              results = results.filter(function(result) {
+              results = results.filter(function (result) {
                 return result.patient.jmbg
                   .toLowerCase()
                   .includes(req.query.filter.toLowerCase());
               });
               break;
             default:
-              results = results.filter(function(result) {
+              results = results.filter(function (result) {
                 return (
                   result.patient.ime
                     .toLowerCase()
@@ -3602,14 +3600,14 @@ sampleController.Racuni = function(req, res) {
           switch (parametar) {
             case "ime":
               if (order === "asc") {
-                results.sort(function(a, b) {
+                results.sort(function (a, b) {
                   return a.patient.ime == b.patient.ime
                     ? 0
                     : +(a.patient.ime > b.patient.ime) || -1;
                 });
               }
               if (order === "desc") {
-                results.sort(function(a, b) {
+                results.sort(function (a, b) {
                   return a.patient.ime == b.patient.ime
                     ? 0
                     : +(a.patient.ime < b.patient.ime) || -1;
@@ -3618,14 +3616,14 @@ sampleController.Racuni = function(req, res) {
               break;
             case "prezime":
               if (order === "asc") {
-                results.sort(function(a, b) {
+                results.sort(function (a, b) {
                   return a.patient.prezime == b.patient.prezime
                     ? 0
                     : +(a.patient.prezime > b.patient.prezime) || -1;
                 });
               }
               if (order === "desc") {
-                results.sort(function(a, b) {
+                results.sort(function (a, b) {
                   return a.patient.prezime == b.patient.prezime
                     ? 0
                     : +(a.patient.prezime < b.patient.prezime) || -1;
@@ -3634,14 +3632,14 @@ sampleController.Racuni = function(req, res) {
               break;
             case "jmbg":
               if (order === "asc") {
-                results.sort(function(a, b) {
+                results.sort(function (a, b) {
                   return a.patient.jmbg == b.patient.jmbg
                     ? 0
                     : +(a.patient.jmbg > b.patient.jmbg) || -1;
                 });
               }
               if (order === "desc") {
-                results.sort(function(a, b) {
+                results.sort(function (a, b) {
                   return a.patient.jmbg == b.patient.jmbg
                     ? 0
                     : +(a.patient.jmbg < b.patient.jmbg) || -1;
@@ -3649,7 +3647,7 @@ sampleController.Racuni = function(req, res) {
               }
               break;
             default:
-              results.sort(function(a, b) {
+              results.sort(function (a, b) {
                 return Date.parse(a.updated_at) == Date.parse(b.updated_at)
                   ? 0
                   : +(Date.parse(a.updated_at) < Date.parse(b.updated_at)) ||
@@ -3660,11 +3658,11 @@ sampleController.Racuni = function(req, res) {
           var i = 0;
           var noviNiz = [];
 
-          results.forEach(element => {
+          results.forEach((element) => {
             i++;
             if (
               !noviNiz.filter(
-                rezultat => rezultat.patient._id === element.patient._id
+                (rezultat) => rezultat.patient._id === element.patient._id
               ).length > 0
             ) {
               noviNiz.push(element);
@@ -3702,7 +3700,7 @@ sampleController.Racuni = function(req, res) {
           noviNiz = noviNiz.slice(json.from - 1, json.to);
           var niz = noviNiz;
 
-          niz.forEach(uzorak => {
+          niz.forEach((uzorak) => {
             if (uzorak.status === "ODOBREN" || i > 0) {
               var nalaz =
                 "<button title='Ispis predračuna za pacijenta' id='" +
@@ -3716,7 +3714,7 @@ sampleController.Racuni = function(req, res) {
                 ime: uzorak.patient.ime,
                 prezime: uzorak.patient.prezime,
                 jmbg: uzorak.patient.jmbg,
-                izmjena: akcija
+                izmjena: akcija,
               });
             }
           });
@@ -3726,21 +3724,21 @@ sampleController.Racuni = function(req, res) {
   }
 };
 
-sampleController.selectSample = function(req, res) {
+sampleController.selectSample = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     Samples.find({
       patient: mongoose.Types.ObjectId(req.params.id),
-      site: req.body.site
+      site: req.body.site,
     })
       .populate("patient")
-      .exec(function(err, results) {
+      .exec(function (err, results) {
         if (results.length) {
-          results.sort(function(a, b) {
+          results.sort(function (a, b) {
             return Date.parse(a.updated_at) == Date.parse(b.updated_at)
               ? 0
               : +(Date.parse(a.updated_at) < Date.parse(b.updated_at)) || -1;
@@ -3757,19 +3755,19 @@ sampleController.selectSample = function(req, res) {
   }
 };
 
-sampleController.BarData = function(req, res) {
+sampleController.BarData = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     Samples.findOne({
       id: req.params.id,
-      site: req.query.site
+      site: req.query.site,
     })
       .populate("patient tests.labassay")
-      .exec(function(err, result) {
+      .exec(function (err, result) {
         if (result) {
           // Uslov za upit
 
@@ -3812,10 +3810,7 @@ sampleController.BarData = function(req, res) {
             "." +
             trenutniMjesec +
             "." +
-            temp
-              .getFullYear()
-              .toString()
-              .substring(2, 4) +
+            temp.getFullYear().toString().substring(2, 4) +
             sat +
             ":" +
             min;
@@ -3850,11 +3845,11 @@ sampleController.BarData = function(req, res) {
   }
 };
 
-sampleController.ListSve = function(req, res) {
+sampleController.ListSve = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     var danasnjiDatum = new Date();
@@ -3895,43 +3890,43 @@ sampleController.ListSve = function(req, res) {
     uslov = {
       created_at: {
         $gt: from,
-        $lt: to
+        $lt: to,
       },
-      site: mongoose.Types.ObjectId(req.query.site)
+      site: mongoose.Types.ObjectId(req.query.site),
     };
     if (!req.query.filter) {
       req.query.filter = "";
     }
     Samples.find(uslov)
       .populate("patient tests.labassay")
-      .exec(function(err, samples) {
+      .exec(function (err, samples) {
         if (err) {
           console.log("Greška:", err);
         } else {
           switch (parametar) {
             case "ime":
-              samples = samples.filter(function(sample) {
+              samples = samples.filter(function (sample) {
                 return sample.patient.ime
                   .toLowerCase()
                   .includes(req.query.filter.toLowerCase());
               });
               break;
             case "prezime":
-              samples = samples.filter(function(sample) {
+              samples = samples.filter(function (sample) {
                 return sample.patient.prezime
                   .toLowerCase()
                   .includes(req.query.filter.toLowerCase());
               });
               break;
             case "id":
-              samples = samples.filter(function(sample) {
+              samples = samples.filter(function (sample) {
                 return sample.id
                   .toLowerCase()
                   .includes(req.query.filter.toLowerCase());
               });
               break;
             default:
-              samples = samples.filter(function(sample) {
+              samples = samples.filter(function (sample) {
                 return (
                   sample.patient.ime
                     .toLowerCase()
@@ -3951,14 +3946,14 @@ sampleController.ListSve = function(req, res) {
           switch (parametar) {
             case "ime":
               if (order === "asc") {
-                samples.sort(function(a, b) {
+                samples.sort(function (a, b) {
                   return a.patient.ime == b.patient.ime
                     ? 0
                     : +(a.patient.ime > b.patient.ime) || -1;
                 });
               }
               if (order === "desc") {
-                samples.sort(function(a, b) {
+                samples.sort(function (a, b) {
                   return a.patient.ime == b.patient.ime
                     ? 0
                     : +(a.patient.ime < b.patient.ime) || -1;
@@ -3967,14 +3962,14 @@ sampleController.ListSve = function(req, res) {
               break;
             case "prezime":
               if (order === "asc") {
-                samples.sort(function(a, b) {
+                samples.sort(function (a, b) {
                   return a.patient.prezime == b.patient.prezime
                     ? 0
                     : +(a.patient.prezime > b.patient.prezime) || -1;
                 });
               }
               if (order === "desc") {
-                samples.sort(function(a, b) {
+                samples.sort(function (a, b) {
                   return a.patient.prezime == b.patient.prezime
                     ? 0
                     : +(a.patient.prezime < b.patient.prezime) || -1;
@@ -3983,18 +3978,18 @@ sampleController.ListSve = function(req, res) {
               break;
             case "id":
               if (order === "asc") {
-                samples.sort(function(a, b) {
+                samples.sort(function (a, b) {
                   return a.id == b.id ? 0 : +(a.id > b.id) || -1;
                 });
               }
               if (order === "desc") {
-                samples.sort(function(a, b) {
+                samples.sort(function (a, b) {
                   return a.id == b.id ? 0 : +(a.id < b.id) || -1;
                 });
               }
               break;
             default:
-              samples.sort(function(a, b) {
+              samples.sort(function (a, b) {
                 return Date.parse(a.updated_at) == Date.parse(b.updated_at)
                   ? 0
                   : +(Date.parse(a.updated_at) < Date.parse(b.updated_at)) ||
@@ -4004,7 +3999,7 @@ sampleController.ListSve = function(req, res) {
           }
 
           var niz = samples;
-          niz.forEach(uzorak => {
+          niz.forEach((uzorak) => {
             var uslov = 0;
             var nacekanju = 0;
             var realizovan = 0;
@@ -4012,7 +4007,7 @@ sampleController.ListSve = function(req, res) {
             var statusuzorka = uzorak.status;
             var deletable = false;
 
-            uzorak.tests.forEach(element => {
+            uzorak.tests.forEach((element) => {
               uslov++;
               // console.log(uzorak.id)
               // console.log(element.labassay.naziv)
@@ -4183,7 +4178,7 @@ sampleController.ListSve = function(req, res) {
                 status: uzorak.status,
                 izbrisi: izbrisi,
                 badge: badge,
-                uredi: uredi
+                uredi: uredi,
               });
             }
             if (
@@ -4201,7 +4196,7 @@ sampleController.ListSve = function(req, res) {
                 status: uzorak.status,
                 izbrisi: izbrisi,
                 badge: badge,
-                uredi: uredi
+                uredi: uredi,
               });
             }
             if (
@@ -4219,7 +4214,7 @@ sampleController.ListSve = function(req, res) {
                 status: uzorak.status,
                 izbrisi: izbrisi,
                 badge: badge,
-                uredi: uredi
+                uredi: uredi,
               });
             }
             if (req.query.datum === "OBRAĐEN" && uzorak.status === "OBRAĐEN") {
@@ -4234,7 +4229,7 @@ sampleController.ListSve = function(req, res) {
                 status: uzorak.status,
                 izbrisi: izbrisi,
                 badge: badge,
-                uredi: uredi
+                uredi: uredi,
               });
             }
             if (req.query.datum === "Svi Rezultati") {
@@ -4249,7 +4244,7 @@ sampleController.ListSve = function(req, res) {
                 status: uzorak.status,
                 izbrisi: izbrisi,
                 badge: badge,
-                uredi: uredi
+                uredi: uredi,
               });
             }
             if (req.query.datum === "DANAS") {
@@ -4264,7 +4259,7 @@ sampleController.ListSve = function(req, res) {
                 status: uzorak.status,
                 izbrisi: izbrisi,
                 badge: badge,
-                uredi: uredi
+                uredi: uredi,
               });
             }
           });
@@ -4301,51 +4296,51 @@ sampleController.ListSve = function(req, res) {
   }
 };
 
-sampleController.getKomentar = function(req, res) {
+sampleController.getKomentar = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     Samples.findOne({
       id: req.params.id,
-      site: req.query.site
+      site: req.query.site,
     })
       .populate("patient tests.labassay")
-      .exec(function(err, result) {
+      .exec(function (err, result) {
         if (result) {
           // Uslov za upit
           // console.log('ruta komentar get')
           res.json({
             success: true,
             message: "Komentar uspješno dohvaćen",
-            komentar: result.komentar
+            komentar: result.komentar,
           });
         } else {
           res.json({
             success: true,
             message: "Nema pronadjenih rezultata",
-            result: []
+            result: [],
           });
         }
       });
   }
 };
 
-sampleController.setKomentar = function(req, res) {
+sampleController.setKomentar = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     Samples.findOne({
       id: req.params.id,
-      site: req.query.site
+      site: req.query.site,
     })
       .populate("patient tests.labassay")
-      .exec(function(err, result) {
+      .exec(function (err, result) {
         if (result) {
           // Uslov za upit
           // console.log('ruta komentar set')
@@ -4355,24 +4350,24 @@ sampleController.setKomentar = function(req, res) {
           res.json({
             success: true,
             message: "Komentar uspješno sačuvan",
-            komentar: req.body.komentar
+            komentar: req.body.komentar,
           });
         } else {
           res.json({
             success: true,
             message: "Nema pronadjenih rezultata",
-            result: []
+            result: [],
           });
         }
       });
   }
 };
 
-sampleController.apiUrlPatients = function(req, res) {
+sampleController.apiUrlPatients = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     var param = req.query.sort.slice(0, req.query.sort.indexOf("|")).trim();
@@ -4383,33 +4378,33 @@ sampleController.apiUrlPatients = function(req, res) {
     // console.log(req.query)
 
     Patients.find({
-      site: mongoose.Types.ObjectId(req.query.site)
-    }).exec(function(err, patients) {
+      site: mongoose.Types.ObjectId(req.query.site),
+    }).exec(function (err, patients) {
       if (err) {
         console.log("Greška:", err);
         res.json({
           success: false,
-          message: err
+          message: err,
         });
       } else {
         if (patients.length) {
           switch (param) {
             case "ime":
-              patients = patients.filter(function(patient) {
+              patients = patients.filter(function (patient) {
                 return patient.ime
                   .toLowerCase()
                   .includes(req.query.filter.toLowerCase());
               });
               break;
             case "prezime":
-              patients = patients.filter(function(patient) {
+              patients = patients.filter(function (patient) {
                 return patient.prezime
                   .toLowerCase()
                   .includes(req.query.filter.toLowerCase());
               });
               break;
             case "jmbg":
-              patients = patients.filter(function(patient) {
+              patients = patients.filter(function (patient) {
                 return patient.jmbg.includes(req.query.filter);
               });
               break;
@@ -4418,7 +4413,7 @@ sampleController.apiUrlPatients = function(req, res) {
               if (full.length === 2) {
                 var name = full[0];
                 var surname = full[1];
-                patients = patients.filter(function(patient) {
+                patients = patients.filter(function (patient) {
                   return (
                     (patient.ime.toLowerCase().includes(name) &&
                       patient.prezime.toLowerCase().includes(surname)) ||
@@ -4429,7 +4424,7 @@ sampleController.apiUrlPatients = function(req, res) {
               }
               if (full.length === 1) {
                 var name = full[0];
-                patients = patients.filter(function(patient) {
+                patients = patients.filter(function (patient) {
                   return (
                     patient.ime.toLowerCase().includes(name) ||
                     patient.prezime.toLowerCase().includes(name)
@@ -4474,26 +4469,26 @@ sampleController.apiUrlPatients = function(req, res) {
           switch (param) {
             case "ime":
               if (order === "asc") {
-                patients.sort(function(a, b) {
+                patients.sort(function (a, b) {
                   return a.ime == b.ime ? 0 : +(a.ime > b.ime) || -1;
                 });
               }
               if (order === "desc") {
-                patients.sort(function(a, b) {
+                patients.sort(function (a, b) {
                   return a.ime == b.ime ? 0 : +(a.ime < b.ime) || -1;
                 });
               }
               break;
             case "prezime":
               if (order === "asc") {
-                patients.sort(function(a, b) {
+                patients.sort(function (a, b) {
                   return a.prezime == b.prezime
                     ? 0
                     : +(a.prezime > b.prezime) || -1;
                 });
               }
               if (order === "desc") {
-                patients.sort(function(a, b) {
+                patients.sort(function (a, b) {
                   return a.prezime == b.prezime
                     ? 0
                     : +(a.prezime < b.prezime) || -1;
@@ -4502,24 +4497,24 @@ sampleController.apiUrlPatients = function(req, res) {
               break;
             case "jmbg":
               if (order === "asc") {
-                patients = patients.sort(function(a, b) {
+                patients = patients.sort(function (a, b) {
                   return a.jmbg.localeCompare(b.jmbg, undefined, {
                     numeric: true,
-                    sensitivity: "base"
+                    sensitivity: "base",
                   });
                 });
               }
               if (order === "desc") {
-                patients = patients.sort(function(a, b) {
+                patients = patients.sort(function (a, b) {
                   return b.jmbg.localeCompare(a.jmbg, undefined, {
                     numeric: true,
-                    sensitivity: "base"
+                    sensitivity: "base",
                   });
                 });
               }
               break;
             default:
-              patients.sort(function(a, b) {
+              patients.sort(function (a, b) {
                 return Date.parse(a.created_at) == Date.parse(b.created_at)
                   ? 0
                   : +(Date.parse(a.created_at) < Date.parse(b.created_at)) ||
@@ -4530,7 +4525,7 @@ sampleController.apiUrlPatients = function(req, res) {
 
           var pat = patients.slice(json.from - 1, json.to);
 
-          pat.forEach(element => {
+          pat.forEach((element) => {
             switch (element.spol) {
               case "MUŠKI":
                 element.badge = '<span class="circle badge-info"></span>';
@@ -4553,7 +4548,7 @@ sampleController.apiUrlPatients = function(req, res) {
               edit:
                 '<span style="font-size: 20px;" id="' +
                 element._id +
-                '" class="fa fa-edit"/>'
+                '" class="fa fa-edit"/>',
             });
           });
 
@@ -4562,7 +4557,7 @@ sampleController.apiUrlPatients = function(req, res) {
           res.json({
             success: true,
             message: "Ne postoji niti jedan pacijent.",
-            patients
+            patients,
           });
         }
       }
@@ -4570,34 +4565,34 @@ sampleController.apiUrlPatients = function(req, res) {
   }
 };
 
-sampleController.patientDetails = function(req, res) {
+sampleController.patientDetails = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     Patients.findOne({
       _id: req.params.id,
-      site: mongoose.Types.ObjectId(req.query.site)
-    }).exec(function(err, patient) {
+      site: mongoose.Types.ObjectId(req.query.site),
+    }).exec(function (err, patient) {
       if (err) {
         console.log("Greška:", err);
         res.json({
           success: false,
-          message: err
+          message: err,
         });
       } else {
         if (patient) {
           res.json({
             success: true,
             message: "Pacijent postoji.",
-            patient
+            patient,
           });
         } else {
           res.json({
             success: false,
-            message: "Pacijent nije pronađen."
+            message: "Pacijent nije pronađen.",
           });
         }
       }
@@ -4605,33 +4600,33 @@ sampleController.patientDetails = function(req, res) {
   }
 };
 
-sampleController.prijemLabassays = function(req, res) {
+sampleController.prijemLabassays = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     LabAssays.find({
-      active: true
-    }).exec(function(err, testovi) {
+      active: true,
+    }).exec(function (err, testovi) {
       if (err) {
         console.log("Greška:", err);
         res.json({
           success: false,
-          message: err
+          message: err,
         });
       } else {
         if (testovi.length) {
           res.json({
             success: true,
             message: "Uspješno pronadjeni testovi",
-            testovi
+            testovi,
           });
         } else {
           res.json({
             success: false,
-            message: "Nijedan test nije pronadjen."
+            message: "Nijedan test nije pronadjen.",
           });
         }
       }
@@ -4639,11 +4634,11 @@ sampleController.prijemLabassays = function(req, res) {
   }
 };
 
-sampleController.sacuvajUzorke = function(req, res) {
+sampleController.sacuvajUzorke = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     //
@@ -4659,9 +4654,9 @@ sampleController.sacuvajUzorke = function(req, res) {
     uslov = {
       created_at: {
         $gt: from,
-        $lt: to
+        $lt: to,
       },
-      site: mongoose.Types.ObjectId(req.body.site)
+      site: mongoose.Types.ObjectId(req.body.site),
     };
 
     var age = starost.get(req.body.uzorci[0].patient.jmbg);
@@ -4683,21 +4678,20 @@ sampleController.sacuvajUzorke = function(req, res) {
 
     Samples.find(uslov)
       .lean()
-      .exec(function(err, uzorci) {
+      .exec(function (err, uzorci) {
         if (err) {
           console.log("Greška:", err);
         } else {
           //----------GET PID and SID------------*
           var pidAll = [];
-          uzorci.forEach(uzorakBack => {
+          uzorci.forEach((uzorakBack) => {
             pidAll.push(uzorakBack.pid);
-            
           });
           pidAll.push("0");
-          pidAll.sort(function(a, b) {
+          pidAll.sort(function (a, b) {
             return b.localeCompare(a, undefined, {
               numeric: true,
-              sensitivity: "base"
+              sensitivity: "base",
             });
           });
           //
@@ -4711,8 +4705,8 @@ sampleController.sacuvajUzorke = function(req, res) {
           var typeNrUrin = 0;
           var typeNrFeces = 0;
           var typeNrEjakulat = 0;
-         
-          req.body.uzorci.forEach(uzorakFront => {
+
+          req.body.uzorci.forEach((uzorakFront) => {
             uzorakFront.all = [];
 
             if (uzorakFront.ime[0] === "S") {
@@ -4804,15 +4798,15 @@ sampleController.sacuvajUzorke = function(req, res) {
               );
             }
 
-            uzorci.forEach(uzorakBack => {
+            uzorci.forEach((uzorakBack) => {
               if (uzorakFront.ime[0] === uzorakBack.type[0]) {
                 uzorakFront.all.push(uzorakBack.id);
               }
             });
           });
-  
-          req.body.uzorci.forEach(uzorakFront => {
-            uzorakFront.all.sort(function(a, b) {
+
+          req.body.uzorci.forEach((uzorakFront) => {
+            uzorakFront.all.sort(function (a, b) {
               return a == b ? 0 : +(a < b) || -1;
             });
             uzorakFront.pid = String(parseFloat(pidAll[0], 10) + 1);
@@ -4823,7 +4817,7 @@ sampleController.sacuvajUzorke = function(req, res) {
             if (req.body.pid != "" && req.body.complete.length) {
               uzorakFront.pid = req.body.pid;
 
-              req.body.complete.forEach(element => {
+              req.body.complete.forEach((element) => {
                 if (element.pid == req.body.pid) {
                   uzorakFront.timestamp = element.timestamp;
                 }
@@ -5310,10 +5304,10 @@ sampleController.sacuvajUzorke = function(req, res) {
             //---------END GET PID and SID---------*
             //********************SINGLE SAMPLE SAVE******************************
             tests = [];
-            uzorakFront.testovi.forEach(test => {
+            uzorakFront.testovi.forEach((test) => {
               tests.push({
                 labassay: mongoose.Types.ObjectId(test._id),
-                status_t: "ZAPRIMLJEN"
+                status_t: "ZAPRIMLJEN",
               });
             });
 
@@ -5337,7 +5331,7 @@ sampleController.sacuvajUzorke = function(req, res) {
               let b = Array.from(new Set(uzorakFront.code));
               uzorakFront.code = b.slice(0);
 
-              uzorakFront.code.forEach(element => {
+              uzorakFront.code.forEach((element) => {
                 codeStr = codeStr + ", " + element;
               });
 
@@ -5350,20 +5344,26 @@ sampleController.sacuvajUzorke = function(req, res) {
 
             uzorakFront.anticoag = req.body.anticoag;
 
-            // Partneri - Pošiljaoc, Naručioc i Izvršioc 
+            // Partneri - Pošiljaoc, Naručioc i Izvršioc
             uzorakFront.narucioc = req.body.narucioc;
             uzorakFront.posiljaoc = req.body.posiljaoc;
 
             uzorakFront.tip = uzorakFront.tip;
+
+            uzorakFront.created_at = new Date(
+              new Date().getTime() - new Date().getTimezoneOffset() * 60000
+            );
+            uzorakFront.updated_at = null;
             uzorakFront.created_by = req.body.decoded.user;
+            uzorakFront.updated_by = null;
 
             var newsample = new Samples(uzorakFront);
-            newsample.save(function(err, sample) {
+            newsample.save(function (err, sample) {
               if (err) {
                 // console.log('Cuvanje err:'+uzorcicount+err)
                 res.json({
                   success: false,
-                  message: err
+                  message: err,
                 });
               } else {
                 //+++++++++++++++++++REZULTAT++++++++++++++++++++
@@ -5377,23 +5377,23 @@ sampleController.sacuvajUzorke = function(req, res) {
                 var refg = null;
                 var zadnji = 0;
                 // console.log('Checkpoint SAVE 1')
-                sample.tests.forEach(test => {
+                sample.tests.forEach((test) => {
                   // console.log('Annaasay :'+test.labassay)
                   AnaAssays.findOne({
                     test: mongoose.Types.ObjectId(test.labassay),
-                    site: mongoose.Types.ObjectId(req.body.site)
+                    site: mongoose.Types.ObjectId(req.body.site),
                   })
                     .populate("test")
-                    .exec(function(err, testm) {
+                    .exec(function (err, testm) {
                       if (err) {
                         console.log("Greška:", err);
                       } else {
                         if (testm) {
                           if (test.manual) {
                             if (testm.test.multi) {
-                              testm.test.multiparam.forEach(param => {
+                              testm.test.multiparam.forEach((param) => {
                                 set = {};
-                                testm.reference.forEach(ref => {
+                                testm.reference.forEach((ref) => {
                                   if (
                                     param._id.equals(
                                       mongoose.Types.ObjectId(ref.analit)
@@ -5450,7 +5450,7 @@ sampleController.sacuvajUzorke = function(req, res) {
                                   rezultat_i: "",
                                   odobren: false,
                                   created_at: Date.now(),
-                                  created_by: req.body.decoded.user
+                                  created_by: req.body.decoded.user,
                                 });
                                 komplet.push({
                                   labassay: mongoose.Types.ObjectId(param._id),
@@ -5464,7 +5464,7 @@ sampleController.sacuvajUzorke = function(req, res) {
                                   extend: extend,
                                   refd: refd,
                                   refg: refg,
-                                  rezultat: multiresult
+                                  rezultat: multiresult,
                                 });
                               });
                               rezultat.multi.push(komplet);
@@ -5496,25 +5496,25 @@ sampleController.sacuvajUzorke = function(req, res) {
                                     rezultat_i: "",
                                     odobren: false,
                                     created_at: Date.now(),
-                                    created_by: req.body.decoded.user
-                                  }
-                                ]
+                                    created_by: req.body.decoded.user,
+                                  },
+                                ],
                               });
                               rezultat.controlmulti = true;
                               komplet = [];
                             } else {
                               // Kraj ako je rucni test sa analitima, pocetak ako je klasicni rucni test
                               set = {};
-                              testm.reference = testm.reference.sort(function(
+                              testm.reference = testm.reference.sort(function (
                                 a,
                                 b
                               ) {
                                 return a.dDob.localeCompare(b.dDob, undefined, {
                                   numeric: true,
-                                  sensitivity: "base"
+                                  sensitivity: "base",
                                 });
                               });
-                              testm.reference.forEach(element => {
+                              testm.reference.forEach((element) => {
                                 set = reference.get(
                                   testm.test.naziv,
                                   "",
@@ -5574,18 +5574,18 @@ sampleController.sacuvajUzorke = function(req, res) {
                                     rezultat_i: "",
                                     odobren: false,
                                     created_at: Date.now(),
-                                    created_by: req.body.decoded.user
-                                  }
-                                ]
+                                    created_by: req.body.decoded.user,
+                                  },
+                                ],
                               });
                             }
                           } // End if test rucni
                           else {
                             // Ako je test aparatski
                             if (testm.test.multi) {
-                              testm.test.multiparam.forEach(param => {
+                              testm.test.multiparam.forEach((param) => {
                                 set = {};
-                                testm.reference.forEach(ref => {
+                                testm.reference.forEach((ref) => {
                                   if (
                                     param._id.equals(
                                       mongoose.Types.ObjectId(ref.analit)
@@ -5640,7 +5640,7 @@ sampleController.sacuvajUzorke = function(req, res) {
                                   rezultat_i: "",
                                   odobren: false,
                                   created_at: Date.now(),
-                                  created_by: req.body.decoded.user
+                                  created_by: req.body.decoded.user,
                                 });
                                 komplet.push({
                                   labassay: mongoose.Types.ObjectId(param._id),
@@ -5654,7 +5654,7 @@ sampleController.sacuvajUzorke = function(req, res) {
                                   extend: extend,
                                   refd: refd,
                                   refg: refg,
-                                  rezultat: multiresult
+                                  rezultat: multiresult,
                                 });
                               });
                               rezultat.multi.push(komplet);
@@ -5686,23 +5686,23 @@ sampleController.sacuvajUzorke = function(req, res) {
                                     rezultat_i: "",
                                     odobren: false,
                                     created_at: Date.now(),
-                                    created_by: req.body.decoded.user
-                                  }
-                                ]
+                                    created_by: req.body.decoded.user,
+                                  },
+                                ],
                               });
                               komplet = [];
                             } else {
                               set = {};
-                              testm.reference = testm.reference.sort(function(
+                              testm.reference = testm.reference.sort(function (
                                 a,
                                 b
                               ) {
                                 return a.dDob.localeCompare(b.dDob, undefined, {
                                   numeric: true,
-                                  sensitivity: "base"
+                                  sensitivity: "base",
                                 });
                               });
-                              testm.reference.forEach(element => {
+                              testm.reference.forEach((element) => {
                                 set = reference.get(
                                   testm.test.naziv,
                                   "",
@@ -5760,9 +5760,9 @@ sampleController.sacuvajUzorke = function(req, res) {
                                     rezultat_i: "",
                                     odobren: false,
                                     created_at: Date.now(),
-                                    created_by: req.body.decoded.user
-                                  }
-                                ]
+                                    created_by: req.body.decoded.user,
+                                  },
+                                ],
                               });
                             }
                           } // Kraj ako je test aparatski
@@ -5784,9 +5784,9 @@ sampleController.sacuvajUzorke = function(req, res) {
                                 textxalign: "center", // Always good to set this
                                 paddingheight: 10,
                                 paddingwidth: 10,
-                                backgroundcolor: "FFFFFF"
+                                backgroundcolor: "FFFFFF",
                               },
-                              function(err, png) {
+                              function (err, png) {
                                 if (err) {
                                   // console.log(err)
                                 } else {
@@ -5798,9 +5798,9 @@ sampleController.sacuvajUzorke = function(req, res) {
                                     file,
                                     png.toString("base64"),
                                     {
-                                      encoding: "base64"
+                                      encoding: "base64",
                                     },
-                                    function(err) {
+                                    function (err) {
                                       if (err) {
                                         // console.log(err)
                                       } else {
@@ -5814,7 +5814,7 @@ sampleController.sacuvajUzorke = function(req, res) {
                                         // Partneri - Pošiljaoc, Naručioc i Izvršioc
                                         rezultat.narucioc = req.body.narucioc;
                                         rezultat.posiljaoc = req.body.posiljaoc;
-                                        
+
                                         rezultat.id = sample.id;
                                         if (
                                           req.body.protokol !== undefined &&
@@ -5827,20 +5827,23 @@ sampleController.sacuvajUzorke = function(req, res) {
                                         rezultat.patient = sample.patient;
 
                                         if (req.body.klijent != null) {
-                                          rezultat.customer = mongoose.Types.ObjectId(
-                                            req.body.klijent._id
-                                          );
+                                          rezultat.customer =
+                                            mongoose.Types.ObjectId(
+                                              req.body.klijent._id
+                                            );
                                         }
 
                                         rezultat.status = "U OBRADI";
 
                                         if (req.body.pid != "") {
-                                          req.body.complete.forEach(element => {
-                                            if (element.pid == req.body.pid) {
-                                              rezultat.timestamp =
-                                                element.timestamp;
+                                          req.body.complete.forEach(
+                                            (element) => {
+                                              if (element.pid == req.body.pid) {
+                                                rezultat.timestamp =
+                                                  element.timestamp;
+                                              }
                                             }
-                                          });
+                                          );
                                         } else {
                                           rezultat.timestamp =
                                             req.body.timestamp;
@@ -5849,20 +5852,31 @@ sampleController.sacuvajUzorke = function(req, res) {
                                         rezultat.created_by =
                                           req.body.decoded.user;
                                         rezultat.site = req.body.site;
+
+                                        rezultat.created_at = new Date(
+                                          new Date().getTime() -
+                                            new Date().getTimezoneOffset() *
+                                              60000
+                                        );
+                                        rezultat.updated_at = null;
+                                        rezultat.created_by =
+                                          req.body.decoded.user;
+                                        rezultat.updated_by = null;
+
                                         var newresult = new Results(rezultat);
-                                        newresult.save(function(err, result) {
+                                        newresult.save(function (err, result) {
                                           if (err) {
                                             res.json({
                                               success: false,
-                                              message: err
+                                              message: err,
                                             });
                                           } else {
                                             uzorcicount++;
                                             data.push({
-                                              jmbg:
-                                                req.body.uzorci[0].patient.jmbg,
-                                              spol:
-                                                req.body.uzorci[0].patient.spol,
+                                              jmbg: req.body.uzorci[0].patient
+                                                .jmbg,
+                                              spol: req.body.uzorci[0].patient
+                                                .spol,
                                               code: sample.code,
                                               sid: result.id,
                                               pid: sample.pid,
@@ -5876,7 +5890,7 @@ sampleController.sacuvajUzorke = function(req, res) {
                                                 "images/barcodes/" +
                                                 result.id +
                                                 ".png"),
-                                              uzorci: result.rezultati
+                                              uzorci: result.rezultati,
                                             });
                                             if (
                                               uzorcicount ===
@@ -5886,7 +5900,7 @@ sampleController.sacuvajUzorke = function(req, res) {
                                                 success: true,
                                                 message:
                                                   "Uzorci uspješno sačuvani",
-                                                data
+                                                data,
                                               });
                                             }
                                           }
