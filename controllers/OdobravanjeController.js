@@ -954,6 +954,26 @@ odobravanjeController.StatusNalaza = function(req, res) {
         console.log("Greška:", err);
       } else {
         if (nalaz) {
+
+          /*
+
+          var bftStartDt = "01-07-2007"; // This is a string with value "01-Jul-2007"
+          var bftEndDt = "01-07-1942"; // This is a string with value "01-Jul-1942"
+
+          var strtDt = new Date(bftStartDt);
+          var endDt = new Date(bftEndDt);
+          var flag = 0; // false
+
+          if (endDt <= strtDt){
+            flag = 1; // true
+          }
+
+          if(flag === 1) {
+            console.log("It worked.");
+          }
+
+          */
+
           nalaz.status = req.body.status;
           nalaz.updated_at = new Date(
             new Date().getTime() -
