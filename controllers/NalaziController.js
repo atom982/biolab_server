@@ -1370,13 +1370,13 @@ nalazController.Nalaz = function(req, res) {
 								nalaz.rows = sekcijeniz;
 
 								
-								nalaz.updated_at = new Date(
-									new Date().getTime() -
-									  new Date().getTimezoneOffset() *
-										60000
-								  );
-								// console.log(nalaz.updated_at)
-								nalaz.updated_by = req.body.decoded.user;
+								// nalaz.updated_at = new Date(
+								// 	new Date().getTime() -
+								// 	  new Date().getTimezoneOffset() *
+								// 		60000
+								//   );
+								// // console.log(nalaz.updated_at)
+								// nalaz.updated_by = req.body.decoded.user;
 
 								nalaz.specificni = specificni;
 								nalaz.uzorkovano = Data.uzorkovano;

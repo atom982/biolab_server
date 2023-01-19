@@ -955,8 +955,13 @@ odobravanjeController.StatusNalaza = function(req, res) {
       } else {
         if (nalaz) {
           nalaz.status = req.body.status;
-          // nalaz.updated_by = req.body.decoded.user;
-          // nalaz.updated_at = Date.now();
+          nalaz.updated_at = new Date(
+            new Date().getTime() -
+              new Date().getTimezoneOffset() *
+              60000
+            );
+          // console.log(nalaz.updated_at)
+          nalaz.updated_by = req.body.decoded.user;
           nalaz.save();
           res.json({
             success: true,
