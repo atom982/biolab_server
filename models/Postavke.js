@@ -396,7 +396,7 @@ var SchemaNalazi = mongoose.Schema({
   rows: { type: Array, default: [] },
   legenda: { type: Array, default: [] },
   specificni: { type: Array, default: [] },
-  uzorkovano: { type: Date, default: Date.now },
+  uzorkovano: { type: String, default: "" },
   pid: { type: String, default: "1" },
   created_at: {
     type: Date,
