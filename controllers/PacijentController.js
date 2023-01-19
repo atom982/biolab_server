@@ -163,7 +163,10 @@ pacijentController.PacijentUpdate = function (req, res) {
             pacijent.email = req.body.email;
             pacijent.adresa = req.body.adresa;
             pacijent.updated_by = req.body.decoded.user;
-            pacijent.updated_at = Date.now();
+            pacijent.updated_at = new Date(
+              new Date().getTime() - new Date().getTimezoneOffset() * 60000
+            );
+            
             pacijent.save();
 
             res.json({ success: true, message: "Pacijent izmjenjen" });
