@@ -199,7 +199,7 @@ var SchemaPatients = mongoose.Schema({
   ime: { type: String, required: true },
   prezime: { type: String, required: true },
   roditelj: { type: String, default: "" },
-  extid:{ type: String, default: "" },
+  extid: { type: String, default: "" },
   spol: { type: String },
   duhan: { type: String, default: "Nema podataka" },
   dijabetes: { type: String, default: "Nema podataka" },
@@ -217,9 +217,7 @@ var SchemaPatients = mongoose.Schema({
   },
   updated_at: {
     type: Date,
-    default: new Date(
-      new Date().getTime() - new Date().getTimezoneOffset() * 60000
-    ),
+    default: null,
   },
   created_by: { type: String, default: null },
   updated_by: { type: String, default: null },
@@ -276,9 +274,12 @@ var SchemaSamples = mongoose.Schema({
   komentar: { type: String, default: "" },
   tests: [
     {
-
       // Partneri - Pošiljaoc, Naručioc i Izvršioc
-      izvrsioc: { type: mongoose.Schema.ObjectId, ref: "Partneri", default: null },
+      izvrsioc: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Partneri",
+        default: null,
+      },
 
       labassay: { type: mongoose.Schema.ObjectId, ref: "LabAssays" },
       status_r: { type: Boolean, default: false },
@@ -320,10 +321,13 @@ var SchemaResults = mongoose.Schema({
   protokol: { type: String, default: "" },
   rezultati: [
     {
-
       // Partneri - Pošiljaoc, Naručioc i Izvršioc
-      izvrsioc: { type: mongoose.Schema.ObjectId, ref: "Partneri", default: null },
-      
+      izvrsioc: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Partneri",
+        default: null,
+      },
+
       labassay: { type: mongoose.Schema.ObjectId, ref: "LabAssays" }, // link na kks
       status: { type: String, default: "U OBRADI" }, // ostaje
       retest: { type: Boolean, default: false }, // retest treba i za analite
@@ -380,7 +384,7 @@ var SchemaResults = mongoose.Schema({
 
 var SchemaNalazi = mongoose.Schema({
   patient: { type: mongoose.Schema.ObjectId, ref: "Patients" },
-  protokol:"",
+  protokol: "",
   site: { type: mongoose.Schema.ObjectId, ref: "Site" },
   migrated: { type: Boolean, default: false },
   uzorci: { type: Array, default: [] },
@@ -527,10 +531,9 @@ var SchemaIntegration = mongoose.Schema({
 // Partneri - Pošiljaoc, Naručioc i Izvršioc
 
 var SchemaPartneri = mongoose.Schema({
-  
   naziv: { type: String, default: "Nema podataka" },
   opis: { type: String, default: "Nema podataka" },
-  jib: { type: String, default: "Nema podataka" }, 
+  jib: { type: String, default: "Nema podataka" },
   adresa: { type: String, default: "Nema podataka" },
   odgovornoLice: { type: String, default: "Nema podataka" },
   telefon: { type: String, default: "Nema podataka" },
@@ -539,13 +542,13 @@ var SchemaPartneri = mongoose.Schema({
   web: { type: String, default: "Nema podataka" },
   postavke: {
     type: Object,
-    default: { posiljaoc: false, narucioc: false, izvrsioc: false}
+    default: { posiljaoc: false, narucioc: false, izvrsioc: false },
   },
 
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },
   created_by: { type: String, default: "Nema podataka" },
-  updated_by: { type: String, default: "Nema podataka" }
+  updated_by: { type: String, default: "Nema podataka" },
 });
 
 const models = [
@@ -553,10 +556,8 @@ const models = [
   (tehnologijaAparata = mongoose.model("tehnologijaAparata", SchemaTehno)),
   (tipUzorka = mongoose.model("tipUzorka", SchemaTipUzorka)),
   (Lokacija = mongoose.model("Lokacija", SchemaLokacija)),
-
   // Partneri - Pošiljaoc, Naručioc i Izvršioc
   (Partneri = mongoose.model("Partneri", SchemaPartneri)),
-
   (Customers = mongoose.model("Customers", SchemaCustomers)),
   (Doktor = mongoose.model("Doktor", SchemaDoktor)),
   (Sekcija = mongoose.model("Sekcija", SchemaSekcija)),
