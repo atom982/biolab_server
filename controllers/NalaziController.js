@@ -1376,6 +1376,7 @@ nalazController.Nalaz = function(req, res) {
 									  new Date().getTimezoneOffset() *
 										60000
 								  );
+								  console.log(nalaz.updated_at)
 								  nalaz.updated_by = req.body.decoded.user;
 
 								nalaz.specificni = specificni;
