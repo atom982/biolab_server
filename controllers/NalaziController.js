@@ -1258,6 +1258,9 @@ nalazController.Nalaz = function(req, res) {
 							console.log('Greška:', err);
 						} else {
 							if (!nalaz) {
+
+								// Ne postoji nalaz u bazi - prvo kreiranje
+								
 								var obj = {};
 								obj.patient = Data.patient;
 								obj.komentar = komentar_za_ispis;
@@ -1298,6 +1301,16 @@ nalazController.Nalaz = function(req, res) {
 								obj.uzorkovano = Data.uzorkovano;
 								obj.pid = Data.pid;
 
+								obj.created_at = new Date(
+									new Date().getTime() -
+									  new Date().getTimezoneOffset() *
+										60000
+								  );
+								obj.updated_at = null;
+								obj.created_by =
+									req.body.decoded.user;
+								obj.updated_by = null;
+
 								var novi = new Nalazi(obj);
 
 								novi.save(function(err, report) {
@@ -1335,6 +1348,9 @@ nalazController.Nalaz = function(req, res) {
 									}
 								});
 							} else {
+
+								// Već postoji nalaz u bazi - Moguće da se radi o korekciji greške ili kreiranju kopije nalaza
+
 								var obj = {};
 								nalaz.patient = Data.patient;
 								nalaz.komentar = komentar_za_ispis;
@@ -1353,8 +1369,15 @@ nalazController.Nalaz = function(req, res) {
 									'Referentni interval'
 								];
 								nalaz.rows = sekcijeniz;
-								nalaz.updated_by = req.body.decoded.user;
-								nalaz.updated_at = Date.now();
+
+								
+								nalaz.updated_at = new Date(
+									new Date().getTime() -
+									  new Date().getTimezoneOffset() *
+										60000
+								  );
+								  nalaz.updated_by = req.body.decoded.user;
+
 								nalaz.specificni = specificni;
 								nalaz.uzorkovano = Data.uzorkovano;
 								nalaz.save(function(err, report) {

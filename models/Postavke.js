@@ -406,12 +406,10 @@ var SchemaNalazi = mongoose.Schema({
   },
   updated_at: {
     type: Date,
-    default: new Date(
-      new Date().getTime() - new Date().getTimezoneOffset() * 60000
-    ),
+    default: null,
   },
-  created_by: { type: String, default: "" },
-  updated_by: { type: String, default: "" },
+  created_by: { type: String, default: null },
+  updated_by: { type: String, default: null },
 });
 
 var SchemaPaneli = mongoose.Schema({
