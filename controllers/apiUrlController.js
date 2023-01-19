@@ -979,10 +979,7 @@ apiUrlController.apiUrlNalaziPregled = function (req, res) {
 
               // console.log(file)
 
-              var tmp_time = new Date(
-                new Date(uzorak.updated_at).getTime() -
-                  new Date(uzorak.updated_at).getTimezoneOffset() * 60000
-              ).toISOString();
+              var tmp_time = uzorak.updated_at
 
               var akcija =
                 JSON.stringify(uzorak.created_at).slice(9, 11) +
