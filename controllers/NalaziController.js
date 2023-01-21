@@ -1415,7 +1415,7 @@ nalazController.Nalaz = function(req, res) {
 											  JSON.stringify(nalaz.created_at).slice(6, 8) +
 											  "." +
 											  JSON.stringify(nalaz.created_at).slice(1, 5);
-											Data.vrijeme = JSON.stringify(nalaz.created_at).substring(12, 17);
+											Data.vrijeme = JSON.stringify(new Date(nalaz.created_at).setHours(1)).substring(12, 17);
 											Data.copy = true
 
 											console.log("Kreiranje kopije nalaza...")
