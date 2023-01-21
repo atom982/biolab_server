@@ -1149,8 +1149,8 @@ apiUrlController.apiUrlNalaziOutbox = function (req, res) {
       }
     }
 
-    console.log("Outbox")
-    console.log(uslov)
+    // console.log("Outbox")
+    // console.log(uslov)
 
     Outbox.find(uslov)
       .populate("patient nalaz")
@@ -1338,6 +1338,8 @@ apiUrlController.apiUrlNalaziOutbox = function (req, res) {
               if (uzorak.nalaz._id != null && uzorak.nalaz._id != undefined) {
                 if (uzorak.timestamp != "MIGRATED") {
 
+                  
+
 
               var pdf = config.nalaz_path + "emails/";
               var exists = false;
@@ -1469,20 +1471,33 @@ apiUrlController.apiUrlNalaziOutbox = function (req, res) {
 
                 // console.log(datum);
 
-                if (uzorak.delivered === true) {
-                  var delivered =
-                    '<span style="font-size: 12px; color:#4ae387;" class="fa fa-check"></span>';
-                } else {
-
-                  var nalaz =
-                  "<button style='white-space: nowrap;' id='" +
-                  "ERROR" +
-                  "' class='btn btn-pale btn-micro'><span id='" +
-                  "' class='fa fa-envelope-o'></span> NALAZ</button>";
+                if(uzorak.migrated === true){
 
                   var delivered =
-                    '<span style="font-size: 12px; color:#e34a4a;" class="fa fa-warning"></span>';
+                      '<span style="font-size: 12px; color:#d9d9d9;" class="fa fa-database"></span>';
+
+                }else{
+
+                  if (uzorak.delivered === true) {
+                    var delivered =
+                      '<span style="font-size: 12px; color:#4ae387;" class="fa fa-check"></span>';
+                  } else {
+  
+                    var nalaz =
+                    "<button style='white-space: nowrap;' id='" +
+                    "ERROR" +
+                    "' class='btn btn-pale btn-micro'><span id='" +
+                    "' class='fa fa-envelope-o'></span> NALAZ</button>";
+  
+                    var delivered =
+                      '<span style="font-size: 12px; color:#e34a4a;" class="fa fa-warning"></span>';
+                  }
+
+                  
                 }
+
+
+                
 
                 json.data.push({
                   outbox: nalaz,
