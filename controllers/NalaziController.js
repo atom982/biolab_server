@@ -1403,34 +1403,26 @@ nalazController.Nalaz = function(req, res) {
 										var day_end = new Date(new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toString().substring(4, 15));
 										var total_days = (day_end - day_start) / (1000 * 60 * 60 * 24);
 
-										if (total_days > 0) {
-											console.log("Nalaz je stariji od 0 dana.")
-											console.log(total_days)
-					  
-											Data.datum =
-											  JSON.stringify(nalaz.created_at).slice(9, 11) +
-											  "." +
-											  JSON.stringify(nalaz.created_at).slice(6, 8) +
-											  "." +
-											  JSON.stringify(nalaz.created_at).slice(1, 5);
-											Data.vrijeme = JSON.stringify(nalaz.created_at).substring(12, 17);
-											Data.copy = true
-					  
-											
-					  
-										  } else {
-											
-											console.log(total_days)
-					  
-											Data.copy = false
-					  
-										  }
+										
 
 										  if(nalaz.migrated === true){
 
-											console.log("Kreiranje kopije nalaza...")
+											// .setHours(1)
+
+											Data.datum =
+											  JSON.stringify(nalaz.created_at.setHours(1)).slice(9, 11) +
+											  "." +
+											  JSON.stringify(nalaz.created_at.setHours(1)).slice(6, 8) +
+											  "." +
+											  JSON.stringify(nalaz.created_at.setHours(1)).slice(1, 5);
+											Data.vrijeme = JSON.stringify(nalaz.created_at.setHours(1)).substring(12, 17);
 											Data.copy = true
-											
+
+											console.log("Kreiranje kopije nalaza...")
+											console.log(Data.datum)
+											console.log(Data.vrijeme)
+											Data.copy = true
+
 										  }else{
 											
 											Data.copy = false

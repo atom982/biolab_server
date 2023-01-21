@@ -972,7 +972,7 @@ odobravanjeController.StatusNalaza = function (req, res) {
 
           if (nalaz.migrated === true) {
             nalaz.status = req.body.status;
-            console.log("Kopija nalaza - DO NOT CHANGE PARAMETAR \"updated_at\"");
+            console.log("Kopija nalaza - DO NOT CHANGE PARAMETER \"updated_at\"");
           } else {
             nalaz.status = req.body.status;
             nalaz.updated_at = new Date(
