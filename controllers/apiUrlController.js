@@ -1475,6 +1475,11 @@ apiUrlController.apiUrlNalaziOutbox = function (req, res) {
 
                   var delivered =
                       '<span style="font-size: 12px; color:#d9d9d9;" class="fa fa-database"></span>';
+                      var nalaz =
+                    "<button style='white-space: nowrap;' id='" +
+                    "ERROR" +
+                    "' class='btn btn-pale btn-micro'><span id='" +
+                    "' class='fa fa-envelope-o'></span> NALAZ</button>";
 
                 }else{
 
