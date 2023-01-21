@@ -771,8 +771,8 @@ apiUrlController.apiUrlNalaziPregled = function (req, res) {
       }
     }
 
-  console.log("Nalazi")
-  console.log(uslov)
+    // console.log("Nalazi")
+    // console.log(uslov)
 
     Nalazi.find(uslov)
       .populate("patient")
@@ -1116,8 +1116,7 @@ apiUrlController.apiUrlNalaziOutbox = function (req, res) {
     var uslov = {};
     uslov = {
       created_at: {
-        $gt: from,
-        $lt: to,
+        $gt: new Date(from.setHours(1)),
       },
       patient: {
         $exists: true,
@@ -1139,8 +1138,8 @@ apiUrlController.apiUrlNalaziOutbox = function (req, res) {
         to = new Date(req.query.dateRangeMax + "T23:59:59");
         uslov = {
           created_at: {
-            $gt: new Date(from.setHours(2)),
-            $lt: new Date(to.setHours(25, 59, 59)),
+            $gt: new Date(from.setHours(1)),
+            $lt: new Date(to.setHours(24, 59, 59)),
           },
           patient: {
             $exists: true,
@@ -1149,6 +1148,9 @@ apiUrlController.apiUrlNalaziOutbox = function (req, res) {
         };
       }
     }
+
+    console.log("Outbox")
+    console.log(uslov)
 
     Outbox.find(uslov)
       .populate("patient nalaz")
