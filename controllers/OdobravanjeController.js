@@ -9,11 +9,11 @@ var odobravanjeController = {};
 
 // OdobravanjeController.js
 
-odobravanjeController.getPID = function(req, res) {
+odobravanjeController.getPID = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     var datum = new Date(
@@ -30,45 +30,44 @@ odobravanjeController.getPID = function(req, res) {
     uslov = {
       created_at: {
         $gt: new Date(from.setHours(2)),
-        $lt: new Date(to.setHours(25, 59, 59))
+        $lt: new Date(to.setHours(25, 59, 59)),
       },
-      site: mongoose.Types.ObjectId(req.query.site)
+      site: mongoose.Types.ObjectId(req.query.site),
     };
 
     Samples.find(uslov)
       .lean()
-      .exec(function(err, uzorci) {
+      .exec(function (err, uzorci) {
         if (err) {
           res.json({
             success: false,
-            message: err
+            message: err,
           });
         } else {
           if (uzorci.length) {
             var pids = [""];
             var total = ["0"];
             var complete = [];
-            
 
-            uzorci.forEach(uzorak => {
+            uzorci.forEach((uzorak) => {
               total.push(uzorak.pid);
               if (uzorak.patient == req.query.patient) {
                 pids.push(uzorak.pid);
-                complete.push({pid: uzorak.pid, timestamp: uzorak.timestamp});
+                complete.push({ pid: uzorak.pid, timestamp: uzorak.timestamp });
               }
             });
 
-            total.sort(function(a, b) {
+            total.sort(function (a, b) {
               return a.localeCompare(b, undefined, {
                 numeric: true,
-                sensitivity: "base"
+                sensitivity: "base",
               });
             });
 
-            pids.sort(function(a, b) {
+            pids.sort(function (a, b) {
               return a.localeCompare(b, undefined, {
                 numeric: true,
-                sensitivity: "base"
+                sensitivity: "base",
               });
             });
 
@@ -80,16 +79,15 @@ odobravanjeController.getPID = function(req, res) {
               message: "Success.",
               pids: uniq,
               all_pids: all_pids,
-              complete: complete
+              complete: complete,
             });
-
           } else {
             res.json({
               success: false,
               message: "Nema podataka.",
               pids: [""],
               all_pids: ["0"],
-              complete: []
+              complete: [],
             });
           }
         }
@@ -97,31 +95,31 @@ odobravanjeController.getPID = function(req, res) {
   }
 };
 
-odobravanjeController.EvaluationSingle = function(req, res) {
+odobravanjeController.EvaluationSingle = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     Results.find({
       patient: mongoose.Types.ObjectId(req.query.patient),
-      site: mongoose.Types.ObjectId(req.query.site)
+      site: mongoose.Types.ObjectId(req.query.site),
     })
       .populate("patient")
-      .exec(function(err, results) {
+      .exec(function (err, results) {
         if (err) {
           console.log("Greška:", err);
           res.json({
             success: false,
-            message: err
+            message: err,
           });
         } else {
           if (results.length) {
             var count = 0;
             var Results = [];
 
-            results.forEach(element => {
+            results.forEach((element) => {
               count++;
               if (element.verificiran) {
                 Results.push(element);
@@ -131,7 +129,7 @@ odobravanjeController.EvaluationSingle = function(req, res) {
                 res.json({
                   success: true,
                   message: "Success.",
-                  Results
+                  Results,
                 });
               }
             });
@@ -140,7 +138,7 @@ odobravanjeController.EvaluationSingle = function(req, res) {
             res.json({
               success: false,
               message: "Nema podataka.",
-              Results
+              Results,
             });
           }
         }
@@ -148,11 +146,11 @@ odobravanjeController.EvaluationSingle = function(req, res) {
   }
 };
 
-odobravanjeController.LabAssayEvalSingle = function(req, res) {
+odobravanjeController.LabAssayEvalSingle = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     var datum = new Date(
@@ -197,26 +195,26 @@ odobravanjeController.LabAssayEvalSingle = function(req, res) {
     uslov = {
       created_at: {
         $gt: new Date(from.setHours(2)),
-        $lt: new Date(to.setHours(25, 59, 59))
+        $lt: new Date(to.setHours(25, 59, 59)),
       },
-      site: mongoose.Types.ObjectId(req.query.site)
+      site: mongoose.Types.ObjectId(req.query.site),
     };
 
     Results.find(uslov)
       .populate("patient")
-      .exec(function(err, results) {
+      .exec(function (err, results) {
         if (err) {
           console.log("Greška:", err);
           res.json({
             success: false,
-            message: err
+            message: err,
           });
         } else {
           if (results.length) {
             var count = 0;
             var Results = [];
 
-            results.forEach(element => {
+            results.forEach((element) => {
               count++;
               if (element.verificiran) {
                 Results.push(element);
@@ -226,7 +224,7 @@ odobravanjeController.LabAssayEvalSingle = function(req, res) {
                 res.json({
                   success: true,
                   message: "Success.",
-                  Results
+                  Results,
                 });
               }
             });
@@ -235,7 +233,7 @@ odobravanjeController.LabAssayEvalSingle = function(req, res) {
             res.json({
               success: false,
               message: "Nema podataka.",
-              Results
+              Results,
             });
           }
         }
@@ -243,33 +241,33 @@ odobravanjeController.LabAssayEvalSingle = function(req, res) {
   }
 };
 
-odobravanjeController.EvaluationMulti = function(req, res) {
+odobravanjeController.EvaluationMulti = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     Results.find({
       patient: mongoose.Types.ObjectId(req.query.patient),
-      site: mongoose.Types.ObjectId(req.query.site)
+      site: mongoose.Types.ObjectId(req.query.site),
     })
       .populate("patient")
-      .exec(function(err, results) {
+      .exec(function (err, results) {
         if (err) {
           console.log("Greška:", err);
           res.json({
             success: false,
-            message: err
+            message: err,
           });
         } else {
           if (results.length) {
             var count = 0;
             var Multi = [];
 
-            results.forEach(element => {
+            results.forEach((element) => {
               count++;
-              element.rezultati.forEach(rez => {
+              element.rezultati.forEach((rez) => {
                 if (
                   rez.labassay == req.query.labassay &&
                   element.verificiran &&
@@ -277,11 +275,11 @@ odobravanjeController.EvaluationMulti = function(req, res) {
                 ) {
                   var obj = {
                     rezultat: [],
-                    multi: []
+                    multi: [],
                   };
                   obj.rezultat = rez;
 
-                  element.multi.forEach(multi => {
+                  element.multi.forEach((multi) => {
                     if (multi[0].labtest == req.query.labassay) {
                       obj.multi = multi;
                     }
@@ -295,7 +293,7 @@ odobravanjeController.EvaluationMulti = function(req, res) {
                 res.json({
                   success: true,
                   message: "Success.",
-                  Multi
+                  Multi,
                 });
               }
             });
@@ -304,7 +302,7 @@ odobravanjeController.EvaluationMulti = function(req, res) {
             res.json({
               success: false,
               message: "Nema podataka.",
-              Multi
+              Multi,
             });
           }
         }
@@ -312,11 +310,11 @@ odobravanjeController.EvaluationMulti = function(req, res) {
   }
 };
 
-odobravanjeController.LabAssayEvalMulti = function(req, res) {
+odobravanjeController.LabAssayEvalMulti = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     var datum = new Date(
@@ -361,28 +359,28 @@ odobravanjeController.LabAssayEvalMulti = function(req, res) {
     uslov = {
       created_at: {
         $gt: new Date(from.setHours(2)),
-        $lt: new Date(to.setHours(25, 59, 59))
+        $lt: new Date(to.setHours(25, 59, 59)),
       },
-      site: mongoose.Types.ObjectId(req.query.site)
+      site: mongoose.Types.ObjectId(req.query.site),
     };
 
     Results.find(uslov)
       .populate("patient")
-      .exec(function(err, results) {
+      .exec(function (err, results) {
         if (err) {
           console.log("Greška:", err);
           res.json({
             success: false,
-            message: err
+            message: err,
           });
         } else {
           if (results.length) {
             var count = 0;
             var Multi = [];
 
-            results.forEach(element => {
+            results.forEach((element) => {
               count++;
-              element.rezultati.forEach(rez => {
+              element.rezultati.forEach((rez) => {
                 if (
                   rez.labassay == req.query.labassay &&
                   element.verificiran &&
@@ -390,11 +388,11 @@ odobravanjeController.LabAssayEvalMulti = function(req, res) {
                 ) {
                   var obj = {
                     rezultat: [],
-                    multi: []
+                    multi: [],
                   };
                   obj.rezultat = rez;
 
-                  element.multi.forEach(multi => {
+                  element.multi.forEach((multi) => {
                     if (multi[0].labtest == req.query.labassay) {
                       obj.multi = multi;
                     }
@@ -408,7 +406,7 @@ odobravanjeController.LabAssayEvalMulti = function(req, res) {
                 res.json({
                   success: true,
                   message: "Success.",
-                  Multi
+                  Multi,
                 });
               }
             });
@@ -417,7 +415,7 @@ odobravanjeController.LabAssayEvalMulti = function(req, res) {
             res.json({
               success: false,
               message: "Nema podataka.",
-              Multi
+              Multi,
             });
           }
         }
@@ -425,39 +423,39 @@ odobravanjeController.LabAssayEvalMulti = function(req, res) {
   }
 };
 
-odobravanjeController.GetAnalysers = function(req, res) {
+odobravanjeController.GetAnalysers = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     AnaAssays.find({
-      test: mongoose.Types.ObjectId(req.query.test)
+      test: mongoose.Types.ObjectId(req.query.test),
     })
       .populate("aparat test site")
-      .exec(function(err, anaassays) {
+      .exec(function (err, anaassays) {
         if (err) {
           console.log("Greška:", err);
           res.json({
             success: false,
-            message: err
+            message: err,
           });
         } else {
           res.json({
             success: true,
             message: "Success.",
-            anaassays
+            anaassays,
           });
         }
       });
   }
 };
 
-odobravanjeController.PreviousNext = function(req, res) {
+odobravanjeController.PreviousNext = function (req, res) {
   function Unique(arr, key = "pid") {
     const map = new Map();
-    arr.map(el => {
+    arr.map((el) => {
       if (!map.has(el[key])) {
         map.set(el[key], el);
       }
@@ -473,9 +471,9 @@ odobravanjeController.PreviousNext = function(req, res) {
   uslov = {
     created_at: {
       $gt: new Date(from.setHours(2)),
-      $lt: new Date(to.setHours(25, 59, 59))
+      $lt: new Date(to.setHours(25, 59, 59)),
     },
-    site: mongoose.Types.ObjectId(req.query.site)
+    site: mongoose.Types.ObjectId(req.query.site),
   };
 
   // console.log(uslov)
@@ -484,25 +482,25 @@ odobravanjeController.PreviousNext = function(req, res) {
   Results.find(uslov)
     .populate("sample patient")
     .sort({
-      created_at: 1
+      created_at: 1,
     })
-    .exec(function(err, rezultati) {
+    .exec(function (err, rezultati) {
       if (err) {
         console.log("Greška:", err);
       } else {
         if (rezultati.length) {
           var Rezultati = [];
           var Length = [];
-          rezultati.forEach(element => {
+          rezultati.forEach((element) => {
             Length.push({
               pid: element.sample.pid,
               patient: element.patient._id,
-              date: element.created_at
+              date: element.created_at,
             });
 
             if (
               !Rezultati.filter(
-                rezultat =>
+                (rezultat) =>
                   rezultat.id === element.sample.pid &&
                   JSON.stringify(rezultat.date).substring(1, 11) ===
                     JSON.stringify(element.created_at).substring(1, 11)
@@ -516,7 +514,7 @@ odobravanjeController.PreviousNext = function(req, res) {
                 Rezultati.push({
                   pid: element.sample.pid,
                   patient: element.patient._id,
-                  date: element.created_at
+                  date: element.created_at,
                 });
               }
             }
@@ -530,28 +528,28 @@ odobravanjeController.PreviousNext = function(req, res) {
         } else {
           res.json({
             success: false,
-            message: "Nema pronađenih rezultata"
+            message: "Nema pronađenih rezultata",
           });
         }
       }
     });
 };
 
-odobravanjeController.GetAllResults = function(req, res) {
+odobravanjeController.GetAllResults = function (req, res) {
   Results.findOne({
-    id: req.body.id
+    id: req.body.id,
   })
     .populate("rezultati.labassay rezultati.rezultat.anaassay")
-    .exec(function(err, rezultat) {
+    .exec(function (err, rezultat) {
       if (err) {
         console.log("Greška:", err);
         res.json({
           success: false,
-          message: err
+          message: err,
         });
       } else {
         if (rezultat) {
-          rezultat.rezultati.forEach(element => {
+          rezultat.rezultati.forEach((element) => {
             if (
               element.labassay.equals(
                 mongoose.Types.ObjectId(req.body.labassay)
@@ -559,15 +557,15 @@ odobravanjeController.GetAllResults = function(req, res) {
             ) {
               var i = 0;
               var duzina = element.rezultat.length;
-              element.rezultat.forEach(rez => {
+              element.rezultat.forEach((rez) => {
                 Analyser.findOne({
-                  _id: mongoose.Types.ObjectId(rez.anaassay.aparat)
-                }).exec(function(err, aparat) {
+                  _id: mongoose.Types.ObjectId(rez.anaassay.aparat),
+                }).exec(function (err, aparat) {
                   if (err) {
                     console.log("Greška:", err);
                     res.json({
                       success: false,
-                      message: err
+                      message: err,
                     });
                   } else {
                     rez.anaassay.aparat = aparat;
@@ -576,7 +574,7 @@ odobravanjeController.GetAllResults = function(req, res) {
                       res.json({
                         success: true,
                         message: "Rezultati u prilogu.",
-                        element
+                        element,
                       });
                     }
                   }
@@ -589,12 +587,12 @@ odobravanjeController.GetAllResults = function(req, res) {
     });
 };
 
-odobravanjeController.ChooseResult = function(req, res) {
+odobravanjeController.ChooseResult = function (req, res) {
   Results.findOne({
-    id: req.body.id
+    id: req.body.id,
   })
     .populate("patient rezultati.labassay rezultati.rezultat.anaassay")
-    .exec(function(err, rezultat) {
+    .exec(function (err, rezultat) {
       if (err) {
         console.log("Greška:", err);
       } else {
@@ -602,15 +600,15 @@ odobravanjeController.ChooseResult = function(req, res) {
         var test = {};
         var Audit_Rez = new Audit_Rezultati({
           id: rezultat.id,
-          rezultati: rezultat.rezultati
+          rezultati: rezultat.rezultati,
         });
         Audit_Rez.save();
         if (rezultat) {
-          rezultat.rezultati.forEach(result => {
+          rezultat.rezultati.forEach((result) => {
             if (
               result.labassay.equals(mongoose.Types.ObjectId(req.body.labassay))
             ) {
-              result.rezultat.forEach(element => {
+              result.rezultat.forEach((element) => {
                 if (
                   element._id.equals(mongoose.Types.ObjectId(req.body.picked))
                 ) {
@@ -623,14 +621,14 @@ odobravanjeController.ChooseResult = function(req, res) {
               });
               noviRezultati.push(test);
               result.rezultat = noviRezultati;
-              rezultat.save(function(err, rez) {
+              rezultat.save(function (err, rez) {
                 if (err) {
                   console.log("Greška:", err);
                 } else {
                   res.json({
                     success: true,
                     message: "Rezultati sortirani.",
-                    rez
+                    rez,
                   });
                 }
               });
@@ -639,18 +637,18 @@ odobravanjeController.ChooseResult = function(req, res) {
         } else {
           res.json({
             success: false,
-            message: "Rezultat nije pronađen."
+            message: "Rezultat nije pronađen.",
           });
         }
       }
     });
 };
 
-odobravanjeController.ChooseMulti = function(req, res) {
+odobravanjeController.ChooseMulti = function (req, res) {
   console.log("odobravanjeController.ChooseMulti = function(req, res) {");
   res.json({
     success: true,
-    message: "Success."
+    message: "Success.",
   });
 
   // Results.findOne({
@@ -713,26 +711,26 @@ odobravanjeController.ChooseMulti = function(req, res) {
 };
 
 // Set References, Salko Islamović (15.04.2019)
-odobravanjeController.SetReferences = function(req, res) {
+odobravanjeController.SetReferences = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     // console.log(req.body.analyser._id);
     // console.log(req.body.analiza.labassay_id);
     AnaAssays.findOne({
       aparat: mongoose.Types.ObjectId(req.body.analyser._id),
-      test: mongoose.Types.ObjectId(req.body.analiza.labassay_id)
+      test: mongoose.Types.ObjectId(req.body.analiza.labassay_id),
     })
       .populate("test")
-      .exec(function(err, anaassay) {
+      .exec(function (err, anaassay) {
         if (err) {
           console.log("Greška:", err);
           res.json({
             success: false,
-            message: err
+            message: err,
           });
         } else {
           if (anaassay) {
@@ -743,31 +741,30 @@ odobravanjeController.SetReferences = function(req, res) {
 
             let set = {};
 
-            anaassay.reference = anaassay.reference.sort(function(a, b) {
+            anaassay.reference = anaassay.reference.sort(function (a, b) {
               return a.dDob.localeCompare(b.dDob, undefined, {
                 numeric: true,
-                sensitivity: "base"
+                sensitivity: "base",
               });
             });
 
             Results.findOne({
               id: req.body.id,
-              site: req.body.site
-            }).exec(function(err, result) {
+              site: req.body.site,
+            }).exec(function (err, result) {
               if (err) {
                 console.log("Greška:", err);
               } else {
                 if (result) {
-                  result.rezultati.forEach(element => {
+                  result.rezultati.forEach((element) => {
                     if (
                       JSON.stringify(element.labassay) ===
                       JSON.stringify(req.body.analiza.labassay_id)
                     ) {
-                      element.rezultat[
-                        element.rezultat.length - 1
-                      ].anaassay = mongoose.Types.ObjectId(anaassay._id);
+                      element.rezultat[element.rezultat.length - 1].anaassay =
+                        mongoose.Types.ObjectId(anaassay._id);
 
-                      anaassay.reference.forEach(ref => {
+                      anaassay.reference.forEach((ref) => {
                         set = reference.get(
                           anaassay.test.naziv,
                           "",
@@ -803,25 +800,25 @@ odobravanjeController.SetReferences = function(req, res) {
                   result.updated_at = Date.now();
                   result.updated_by = req.body.decoded.user;
 
-                  result.save(function(err) {
+                  result.save(function (err) {
                     if (err) {
                       console.log("Greška:", err);
                       res.json({
                         success: false,
-                        message: err
+                        message: err,
                       });
                     } else {
                       res.json({
                         success: true,
                         rezultat: result,
-                        message: "Success."
+                        message: "Success.",
                       });
                     }
                   });
                 } else {
                   res.json({
                     success: false,
-                    message: "Rezultat nije pronađen."
+                    message: "Rezultat nije pronađen.",
                   });
                 }
               }
@@ -829,7 +826,7 @@ odobravanjeController.SetReferences = function(req, res) {
           } else {
             res.json({
               success: false,
-              message: "Assay nije pronađen."
+              message: "Assay nije pronađen.",
             });
           }
         }
@@ -837,7 +834,7 @@ odobravanjeController.SetReferences = function(req, res) {
   }
 }; // End of Set References
 
-odobravanjeController.GetSamples = function(req, res) {
+odobravanjeController.GetSamples = function (req, res) {
   // console.log(">> odobravanjeController.GetSamples = function(req, res) {");
   var datum = JSON.stringify(req.query.date).substring(1, 11);
 
@@ -851,40 +848,40 @@ odobravanjeController.GetSamples = function(req, res) {
   uslov = {
     created_at: {
       $gt: from,
-      $lt: to
+      $lt: to,
     },
     site: mongoose.Types.ObjectId(req.query.site),
-    patient: mongoose.Types.ObjectId(req.params.patient)
+    patient: mongoose.Types.ObjectId(req.params.patient),
   };
 
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     Results.find(uslov)
       .populate("patient sample rezultati.labassay rezultati.rezultat.anaassay")
       .lean()
-      .exec(function(err, results) {
+      .exec(function (err, results) {
         if (err) {
           console.log("Greška:", err);
         } else {
           if (results.length) {
-            results = results.filter(function(rezultat) {
+            results = results.filter(function (rezultat) {
               return rezultat.sample.pid === req.params.id;
             });
 
             Lokacija.findOne({
-              _id: mongoose.Types.ObjectId(results[0].sample.lokacija)
-            }).exec(function(err, lokacija) {
+              _id: mongoose.Types.ObjectId(results[0].sample.lokacija),
+            }).exec(function (err, lokacija) {
               if (err) {
                 console.log("Greška:", err);
               } else {
                 if (!lokacija) {
                   res.json({
                     success: false,
-                    message: "Lokacija nije pronađena."
+                    message: "Lokacija nije pronađena.",
                   });
                 } else {
                   var pdf = config.nalaz_path + "samples/";
@@ -892,7 +889,7 @@ odobravanjeController.GetSamples = function(req, res) {
                     config.nalaz_path + results[0].timestamp + ".pdf";
                   let final = false;
 
-                  results.forEach(element => {
+                  results.forEach((element) => {
                     let file = pdf + element.id + ".pdf";
 
                     try {
@@ -921,7 +918,7 @@ odobravanjeController.GetSamples = function(req, res) {
                     message: "Rezultati za pacijenta pronađeni.",
                     results: results,
                     lokacija: lokacija,
-                    final_pdf: final
+                    final_pdf: final,
                   });
                 }
               }
@@ -929,7 +926,7 @@ odobravanjeController.GetSamples = function(req, res) {
           } else {
             res.json({
               success: false,
-              message: "Rezultati nisu pronađeni."
+              message: "Rezultati nisu pronađeni.",
             });
           }
         }
@@ -938,23 +935,22 @@ odobravanjeController.GetSamples = function(req, res) {
 };
 
 // Status nalaza, Salko Islamović (18.03.2019)
-odobravanjeController.StatusNalaza = function(req, res) {
+odobravanjeController.StatusNalaza = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     Nalazi.findOne({
       timestamp: req.body.timestamp,
       location: req.body.location,
-      naziv: req.body.naziv
-    }).exec(function(err, nalaz) {
+      naziv: req.body.naziv,
+    }).exec(function (err, nalaz) {
       if (err) {
         console.log("Greška:", err);
       } else {
         if (nalaz) {
-
           /*
 
           var bftStartDt = "01-07-2007"; // This is a string with value "01-Jul-2007"
@@ -974,23 +970,27 @@ odobravanjeController.StatusNalaza = function(req, res) {
 
           */
 
-          nalaz.status = req.body.status;
-          nalaz.updated_at = new Date(
-            new Date().getTime() -
-              new Date().getTimezoneOffset() *
-              60000
+          if (nalaz.migrated === true) {
+            nalaz.status = req.body.status;
+            console.log("Kopija nalaza - DO NOT CHANGE PARAMETAR \"updated_at\"");
+          } else {
+            nalaz.status = req.body.status;
+            nalaz.updated_at = new Date(
+              new Date().getTime() - new Date().getTimezoneOffset() * 60000
             );
-          // console.log(nalaz.updated_at)
-          nalaz.updated_by = req.body.decoded.user;
+            // console.log(nalaz.updated_at)
+            nalaz.updated_by = req.body.decoded.user;
+          }
+
           nalaz.save();
           res.json({
             success: true,
-            message: "Status nalaza uspješno izmjenjen."
+            message: "Status nalaza uspješno izmjenjen.",
           });
         } else {
           res.json({
             success: false,
-            message: "Nalaz nije pronađen."
+            message: "Nalaz nije pronađen.",
           });
         }
       }
@@ -999,16 +999,16 @@ odobravanjeController.StatusNalaza = function(req, res) {
 }; // End of Status nalaza
 
 // Obrada, Salko Islamović (13.03.2019)
-odobravanjeController.verifikacija = function(req, res) {
+odobravanjeController.verifikacija = function (req, res) {
   if (mongoose.connection.readyState != 1) {
     res.json({
       success: false,
-      message: "Greška prilikom konekcije na MongoDB."
+      message: "Greška prilikom konekcije na MongoDB.",
     });
   } else {
     Results.findOne({
-      id: req.params.id
-    }).exec(function(err, rezultat) {
+      id: req.params.id,
+    }).exec(function (err, rezultat) {
       if (err) {
         console.log("Greška:", err);
       } else {
@@ -1017,12 +1017,12 @@ odobravanjeController.verifikacija = function(req, res) {
           rezultat.save();
           res.json({
             success: true,
-            message: "Ok!"
+            message: "Ok!",
           });
         } else {
           res.json({
             success: false,
-            message: "Greška."
+            message: "Greška.",
           });
         }
       }
@@ -1031,12 +1031,12 @@ odobravanjeController.verifikacija = function(req, res) {
 };
 // End of Obrada
 
-odobravanjeController.OdobriSve = function(req, res) {
+odobravanjeController.OdobriSve = function (req, res) {
   var kompletiran = true;
 
   Results.findOne({
-    id: req.params.id
-  }).exec(function(err, rezultat) {
+    id: req.params.id,
+  }).exec(function (err, rezultat) {
     if (err) {
       console.log("Greška:", err);
     } else {
@@ -1049,8 +1049,8 @@ odobravanjeController.OdobriSve = function(req, res) {
       var i = 0;
       var j = 0;
 
-      rezultat.rezultati.forEach(test => {
-        test.rezultat.forEach(element => {
+      rezultat.rezultati.forEach((test) => {
+        test.rezultat.forEach((element) => {
           element.odobren = true;
           element.odobren_by = req.body.decoded.user;
           element.odobren_at = Date.now();
@@ -1063,7 +1063,7 @@ odobravanjeController.OdobriSve = function(req, res) {
       });
 
       if (i === rezultat.rezultati.length) {
-        rezultat.rezultati.forEach(test => {
+        rezultat.rezultati.forEach((test) => {
           if (test.status != "ODOBREN") {
             kompletiran = false;
           }
@@ -1077,10 +1077,10 @@ odobravanjeController.OdobriSve = function(req, res) {
         j === rezultat.rezultati.length
       ) {
         Samples.findOne({
-          id: rezultat.id
+          id: rezultat.id,
         })
           .populate("tests.labassay")
-          .exec(function(err, uzorak) {
+          .exec(function (err, uzorak) {
             if (err) {
               console.log("Greška:", err);
             } else {
@@ -1089,25 +1089,25 @@ odobravanjeController.OdobriSve = function(req, res) {
               var io = req.app.get("socketio");
               // io.emit('odobren', rezultat.id, rezultat.site, uzorak.tests[0].labassay.sekcija)
 
-              uzorak.tests.forEach(element => {
+              uzorak.tests.forEach((element) => {
                 element.status_r = false;
                 element.status_t = "ODOBREN";
               });
 
               rezultat.status = "ODOBREN";
 
-              uzorak.save(function(err) {
+              uzorak.save(function (err) {
                 if (err) {
                   console.log("Greška:", err);
                   res.json({
                     success: false,
-                    message: err
+                    message: err,
                   });
                 } else {
                   rezultat.save();
                   res.json({
                     success: true,
-                    message: "Uzorak odobren."
+                    message: "Uzorak odobren.",
                   });
                 }
               });
@@ -1118,15 +1118,15 @@ odobravanjeController.OdobriSve = function(req, res) {
   });
 };
 
-odobravanjeController.UkloniOdobrenje = function(req, res) {
+odobravanjeController.UkloniOdobrenje = function (req, res) {
   var kompletiran = true;
 
   var zaprimljen = 0;
   var realizovan = 0;
 
   Results.findOne({
-    id: req.params.id
-  }).exec(function(err, rezultat) {
+    id: req.params.id,
+  }).exec(function (err, rezultat) {
     if (err) {
       console.log("Greška:", err);
     } else {
@@ -1139,8 +1139,8 @@ odobravanjeController.UkloniOdobrenje = function(req, res) {
       var i = 0;
       var j = 0;
 
-      rezultat.rezultati.forEach(test => {
-        test.rezultat.forEach(element => {
+      rezultat.rezultati.forEach((test) => {
+        test.rezultat.forEach((element) => {
           element.odobren = false;
           element.odobren_by = req.body.decoded.user;
           element.odobren_at = Date.now();
@@ -1160,7 +1160,7 @@ odobravanjeController.UkloniOdobrenje = function(req, res) {
       });
 
       if (i === rezultat.rezultati.length) {
-        rezultat.rezultati.forEach(test => {
+        rezultat.rezultati.forEach((test) => {
           if (test.status === "ODOBREN") {
             kompletiran = false;
           }
@@ -1174,10 +1174,10 @@ odobravanjeController.UkloniOdobrenje = function(req, res) {
         j === rezultat.rezultati.length
       ) {
         Samples.findOne({
-          id: rezultat.id
+          id: rezultat.id,
         })
           .populate("tests.labassay")
-          .exec(function(err, uzorak) {
+          .exec(function (err, uzorak) {
             if (err) {
               console.log("Greška:", err);
             } else {
@@ -1197,23 +1197,23 @@ odobravanjeController.UkloniOdobrenje = function(req, res) {
               var io = req.app.get("socketio");
               // io.emit('odobren', rezultat.id, rezultat.site, uzorak.tests[0].labassay.sekcija)
 
-              uzorak.tests.forEach(element => {
+              uzorak.tests.forEach((element) => {
                 element.status_r = false;
                 element.status_t = "REALIZOVAN";
               });
 
-              uzorak.save(function(err) {
+              uzorak.save(function (err) {
                 if (err) {
                   console.log("Greška:", err);
                   res.json({
                     success: false,
-                    message: err
+                    message: err,
                   });
                 } else {
                   rezultat.save();
                   res.json({
                     success: true,
-                    message: "Uzorak odobren."
+                    message: "Uzorak odobren.",
                   });
                 }
               });
@@ -1224,33 +1224,33 @@ odobravanjeController.UkloniOdobrenje = function(req, res) {
   });
 };
 
-odobravanjeController.RetestActivate = function(req, res) {
-  console.log('Retest Activate')
+odobravanjeController.RetestActivate = function (req, res) {
+  console.log("Retest Activate");
   Results.findOne({
-    id: req.body.id_u
+    id: req.body.id_u,
   })
     .populate("patient rezultati.labassay rezultati.rezultat.anaassay")
-    .exec(function(err, rezultat) {
+    .exec(function (err, rezultat) {
       if (err) {
         console.log("Greška:", err);
       } else {
-        rezultat.rezultati.forEach(test => {
+        rezultat.rezultati.forEach((test) => {
           if (req.body.id_t === test.labassay.sifra) {
             test.retest = true;
           }
         });
         Samples.findOne({
-          id: req.body.id_u
+          id: req.body.id_u,
         })
           .populate("tests.labassay")
-          .exec(function(err, uzorak) {
+          .exec(function (err, uzorak) {
             if (err) {
               console.log("Greška:", err);
             } else {
-              uzorak.tests.forEach(element => {
+              uzorak.tests.forEach((element) => {
                 if (element.labassay.sifra === req.body.id_t) {
                   element.status_r = true;
-                  console.log('aktiviran retest:'+req.body.id_t)
+                  console.log("aktiviran retest:" + req.body.id_t);
                 }
               });
               uzorak.save();
@@ -1258,7 +1258,7 @@ odobravanjeController.RetestActivate = function(req, res) {
 
               res.json({
                 success: true,
-                message: "Retest activated."
+                message: "Retest activated.",
               });
             }
           });
@@ -1266,29 +1266,29 @@ odobravanjeController.RetestActivate = function(req, res) {
     });
 };
 
-odobravanjeController.RetestDeactivate = function(req, res) {
+odobravanjeController.RetestDeactivate = function (req, res) {
   Results.findOne({
-    id: req.body.id_u
+    id: req.body.id_u,
   })
     .populate("patient rezultati.labassay rezultati.rezultat.anaassay")
-    .exec(function(err, rezultat) {
+    .exec(function (err, rezultat) {
       if (err) {
         console.log("Greška:", err);
       } else {
-        rezultat.rezultati.forEach(test => {
+        rezultat.rezultati.forEach((test) => {
           if (req.body.id_t === test.labassay.sifra) {
             test.retest = false;
           }
         });
         Samples.findOne({
-          id: req.body.id_u
+          id: req.body.id_u,
         })
           .populate("tests.labassay")
-          .exec(function(err, uzorak) {
+          .exec(function (err, uzorak) {
             if (err) {
               console.log("Greška:", err);
             } else {
-              uzorak.tests.forEach(element => {
+              uzorak.tests.forEach((element) => {
                 if (element.labassay.sifra === req.body.id_t) {
                   element.status_r = false;
                 }
@@ -1298,7 +1298,7 @@ odobravanjeController.RetestDeactivate = function(req, res) {
 
               res.json({
                 success: true,
-                message: "Retest deactivated."
+                message: "Retest deactivated.",
               });
             }
           });
@@ -1306,54 +1306,47 @@ odobravanjeController.RetestDeactivate = function(req, res) {
     });
 };
 
-odobravanjeController.RetestSave = function(req, res) {
+odobravanjeController.RetestSave = function (req, res) {
   Results.findOne({
-    id: req.body.sid
+    id: req.body.sid,
   })
     .populate("patient rezultati.labassay rezultati.rezultat.anaassay")
-    .exec(function(err, rezultat) {
+    .exec(function (err, rezultat) {
       if (err) {
         console.log("Greška:", err);
       } else {
-
-        req.body.rezultati.forEach(rez => {
-
-          rezultat.rezultati.forEach(test => {
+        req.body.rezultati.forEach((rez) => {
+          rezultat.rezultati.forEach((test) => {
             if (rez.test === test.labassay.sifra) {
               test.retest = rez.retest;
-              // console.log("r - " + rez.ime + " / " + rez.retest) 
+              // console.log("r - " + rez.ime + " / " + rez.retest)
             }
           });
-
         });
 
-
         Samples.findOne({
-          id: req.body.sid
+          id: req.body.sid,
         })
           .populate("tests.labassay")
-          .exec(function(err, uzorak) {
+          .exec(function (err, uzorak) {
             if (err) {
               console.log("Greška:", err);
             } else {
-
-              req.body.rezultati.forEach(rez => {
-
-                uzorak.tests.forEach(element => {
+              req.body.rezultati.forEach((rez) => {
+                uzorak.tests.forEach((element) => {
                   if (element.labassay.sifra === rez.test) {
                     element.status_r = rez.retest;
-                    // console.log("s - " + rez.ime + " / " + rez.retest) 
+                    // console.log("s - " + rez.ime + " / " + rez.retest)
                   }
                 });
               });
 
-              
               uzorak.save();
               rezultat.save();
 
               res.json({
                 success: true,
-                message: "Retest saved."
+                message: "Retest saved.",
               });
             }
           });
@@ -1361,7 +1354,7 @@ odobravanjeController.RetestSave = function(req, res) {
     });
 };
 
-odobravanjeController.Calculate = function(req, res) {
+odobravanjeController.Calculate = function (req, res) {
   // console.log("odobravanjeController.Calculate");
   // console.log(req.params.id);
 
@@ -1383,26 +1376,26 @@ odobravanjeController.Calculate = function(req, res) {
 
   Results.find({
     id: {
-      $regex: query
-    }
+      $regex: query,
+    },
   })
     .populate("rezultati.labassay sample patient")
-    .exec(function(err, rezultati) {
+    .exec(function (err, rezultati) {
       if (err) {
         console.log("Greška:", err);
       } else {
         if (rezultati.length) {
           LabAssays.findOne({
-            _id: req.body._id
-          }).exec(function(err, labassay) {
+            _id: req.body._id,
+          }).exec(function (err, labassay) {
             if (err) {
               console.log("Greška:", err);
             } else {
               if (labassay) {
-                labassay.calculatedTests.forEach(kalkulirani => {
-                  rezultati.forEach(rezultat => {
+                labassay.calculatedTests.forEach((kalkulirani) => {
+                  rezultati.forEach((rezultat) => {
                     if (req.body.pid === rezultat.sample.pid) {
-                      rezultat.rezultati.forEach(result => {
+                      rezultat.rezultati.forEach((result) => {
                         if (
                           result.labassay.equals(
                             mongoose.Types.ObjectId(kalkulirani.labassay)
@@ -1417,9 +1410,9 @@ odobravanjeController.Calculate = function(req, res) {
 
                 formula.forEach((clan, i, array) => {
                   if (clan.length > 20) {
-                    rezultati.forEach(result => {
+                    rezultati.forEach((result) => {
                       if (req.body.pid === result.sample.pid) {
-                        result.rezultati.forEach(element => {
+                        result.rezultati.forEach((element) => {
                           if (
                             element.labassay._id.equals(
                               mongoose.Types.ObjectId(clan)
@@ -1440,7 +1433,7 @@ odobravanjeController.Calculate = function(req, res) {
                 var count = 0;
                 realizovano = true;
 
-                formula.forEach(broj => {
+                formula.forEach((broj) => {
                   count++;
                   final += broj;
                   if (broj.length > 20 || broj === "") {
@@ -1451,10 +1444,10 @@ odobravanjeController.Calculate = function(req, res) {
                 if (realizovano && count === formula.length) {
                   // console.log(final);
                   AnaAssays.findOne({
-                    test: req.body._id
+                    test: req.body._id,
                   })
                     .populate("aparat")
-                    .exec(function(err, testap) {
+                    .exec(function (err, testap) {
                       if (err) {
                         console.log("Greška:", err);
                       } else {
@@ -1467,19 +1460,15 @@ odobravanjeController.Calculate = function(req, res) {
                         } finally {
                           if (!greska) {
                             // console.log(final);
-                            if (
-                              eval(final)
-                                .toString()
-                                .includes(".")
-                            ) {
+                            if (eval(final).toString().includes(".")) {
                               var calculated = eval(final).toFixed(2);
                             } else {
                               var calculated = eval(final);
                             }
 
-                            rezultati.forEach(rezultat => {
+                            rezultati.forEach((rezultat) => {
                               if (req.body.pid === rezultat.sample.pid) {
-                                rezultat.rezultati.forEach(result => {
+                                rezultat.rezultati.forEach((result) => {
                                   if (
                                     result.labassay.equals(
                                       mongoose.Types.ObjectId(req.body._id)
@@ -1506,20 +1495,20 @@ odobravanjeController.Calculate = function(req, res) {
                                       created_at: Date.now(),
                                       updated_at: null,
                                       created_by: req.body.decoded.user,
-                                      updated_by: null
+                                      updated_by: null,
                                     });
 
-                                    rezultat.save(function(err) {
+                                    rezultat.save(function (err) {
                                       if (err) {
                                         console.log("Greška:", err);
                                         res.json({
                                           success: false,
-                                          message: err
+                                          message: err,
                                         });
                                       } else {
                                         res.json({
                                           success: true,
-                                          message: "Calculated..."
+                                          message: "Calculated...",
                                         });
                                       }
                                     });
@@ -1530,7 +1519,7 @@ odobravanjeController.Calculate = function(req, res) {
                           } else {
                             res.json({
                               success: false,
-                              message: "Greška..."
+                              message: "Greška...",
                             });
                           }
                         }
@@ -1545,10 +1534,10 @@ odobravanjeController.Calculate = function(req, res) {
     });
 };
 
-odobravanjeController.SacuvajRezultate = function(req, res) {
+odobravanjeController.SacuvajRezultate = function (req, res) {
   Results.findOne({
-    id: req.params.id
-  }).exec(function(err, rezultat) {
+    id: req.params.id,
+  }).exec(function (err, rezultat) {
     if (err) {
       console.log("Greška:", err);
     } else {
@@ -1560,10 +1549,10 @@ odobravanjeController.SacuvajRezultate = function(req, res) {
         var Audit_Rez = new Audit_Rezultati(audit);
         Audit_Rez.save();
 
-        rezultat.rezultati.forEach(element => {
-          req.body.rezultati.forEach(rez => {
+        rezultat.rezultati.forEach((element) => {
+          req.body.rezultati.forEach((rez) => {
             if (element._id.equals(mongoose.Types.ObjectId(rez.IDE))) {
-              element.rezultat.forEach(test => {
+              element.rezultat.forEach((test) => {
                 if (test._id.equals(mongoose.Types.ObjectId(rez.id))) {
                   test.rezultat_f = rez.rezultat;
                   // console.log(rez.rezultat_m)
@@ -1576,15 +1565,15 @@ odobravanjeController.SacuvajRezultate = function(req, res) {
         });
 
         Samples.findOne({
-          id: req.params.id
+          id: req.params.id,
         })
           .populate("tests.labassay")
-          .exec(function(err, sample) {
+          .exec(function (err, sample) {
             if (err) {
               console.log("Greška:", err);
             } else {
-              sample.tests.forEach(element => {
-                req.body.rezultati.forEach(rez => {
+              sample.tests.forEach((element) => {
+                req.body.rezultati.forEach((rez) => {
                   if (
                     element.labassay.equals(
                       mongoose.Types.ObjectId(rez.laIDE)
@@ -1598,36 +1587,36 @@ odobravanjeController.SacuvajRezultate = function(req, res) {
               sample.save();
             }
           });
-        rezultat.save(function(err) {
+        rezultat.save(function (err) {
           if (err) {
             console.log("Greška:", err);
             res.json({
               success: false,
-              message: err
+              message: err,
             });
           } else {
             res.json({
               success: true,
-              message: "Rezultati sačuvani."
+              message: "Rezultati sačuvani.",
             });
           }
         });
       } else {
         res.json({
           success: true,
-          message: "Nije pronadjen rezultat"
+          message: "Nije pronadjen rezultat",
         });
       }
     }
   });
 };
 
-odobravanjeController.SacuvajAnalite = function(req, res) {
+odobravanjeController.SacuvajAnalite = function (req, res) {
   Results.findOne({
-    id: req.params.id
+    id: req.params.id,
   })
     .populate("sample")
-    .exec(function(err, rezultat) {
+    .exec(function (err, rezultat) {
       if (err) {
         console.log("Greška:", err);
       } else {
@@ -1643,10 +1632,10 @@ odobravanjeController.SacuvajAnalite = function(req, res) {
           var j = 0;
           var empty = true;
 
-          rezultat.multi.forEach(instance => {
+          rezultat.multi.forEach((instance) => {
             i++;
-            instance.forEach(multirez => {
-              req.body.analiti.forEach(analit => {
+            instance.forEach((multirez) => {
+              req.body.analiti.forEach((analit) => {
                 if (
                   multirez.labtest.equals(
                     mongoose.Types.ObjectId(analit.labID)
@@ -1667,7 +1656,7 @@ odobravanjeController.SacuvajAnalite = function(req, res) {
           });
 
           if (i === rezultat.multi.length) {
-            rezultat.rezultati.forEach(element => {
+            rezultat.rezultati.forEach((element) => {
               j++;
               if (
                 element.labassay.equals(
@@ -1691,19 +1680,19 @@ odobravanjeController.SacuvajAnalite = function(req, res) {
           res.json({
             success: true,
             message: "Analiti sačuvani.",
-            sekcija: rezultat.sample.sekcija
+            sekcija: rezultat.sample.sekcija,
           });
         } else {
           res.json({
             success: true,
-            message: "Nije pronađen rezultat."
+            message: "Nije pronađen rezultat.",
           });
         }
       }
     });
 };
 
-odobravanjeController.GetBarcodes = function(req, res) {
+odobravanjeController.GetBarcodes = function (req, res) {
   // console.log("barcodes route");
   // console.log(req.query);
   // console.log(req.params);
@@ -1720,42 +1709,42 @@ odobravanjeController.GetBarcodes = function(req, res) {
   uslov = {
     created_at: {
       $gt: from,
-      $lt: to
+      $lt: to,
     },
     site: mongoose.Types.ObjectId(req.query.site),
-    id: req.params.patient
+    id: req.params.patient,
   };
 
   Results.find(uslov)
     .populate("patient sample rezultati.labassay rezultati.rezultat.anaassay")
     .lean()
-    .exec(function(err, results) {
+    .exec(function (err, results) {
       if (err) {
         console.log("Greška:", err);
       } else {
         if (results.length) {
-          results = results.filter(function(rezultat) {
+          results = results.filter(function (rezultat) {
             return rezultat.sample.pid === req.params.id;
           });
           res.json({
             success: true,
             message: "Rezultati za pacijenta pronađeni.",
-            results: results
+            results: results,
           });
         } else {
           res.json({
             success: false,
-            message: "Rezultati nisu pronađeni."
+            message: "Rezultati nisu pronađeni.",
           });
         }
       }
     });
 };
 
-odobravanjeController.Reference = function(req, res) {
+odobravanjeController.Reference = function (req, res) {
   Results.findOne({
-    id: req.body.reference.sample
-  }).exec(function(err, rezultat) {
+    id: req.body.reference.sample,
+  }).exec(function (err, rezultat) {
     if (err) {
       console.log("Greška:", err);
     } else {
@@ -1767,7 +1756,7 @@ odobravanjeController.Reference = function(req, res) {
         var Audit_Rez = new Audit_Rezultati(audit);
         Audit_Rez.save();
 
-        rezultat.rezultati.forEach(element => {
+        rezultat.rezultati.forEach((element) => {
           if (
             element.labassay.equals(
               mongoose.Types.ObjectId(req.body.reference.labassay)
@@ -1785,24 +1774,24 @@ odobravanjeController.Reference = function(req, res) {
         rezultat.updated_by = req.body.decoded.user;
         rezultat.updated_at = Date.now();
 
-        rezultat.save(function(err) {
+        rezultat.save(function (err) {
           if (err) {
             console.log("Greška:", err);
             res.json({
               success: false,
-              message: err
+              message: err,
             });
           } else {
             res.json({
               success: true,
-              message: "Referentne vrijednosti sačuvane."
+              message: "Referentne vrijednosti sačuvane.",
             });
           }
         });
       } else {
         res.json({
           success: true,
-          message: "Nije pronađen rezultat"
+          message: "Nije pronađen rezultat",
         });
       }
     }

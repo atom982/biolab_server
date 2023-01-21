@@ -1419,11 +1419,21 @@ nalazController.Nalaz = function(req, res) {
 											
 					  
 										  } else {
-											console.log("Nalaz nije stariji od 0 dana.")
+											
 											console.log(total_days)
 					  
 											Data.copy = false
 					  
+										  }
+
+										  if(nalaz.migrated === true){
+
+											console.log("Kreiranje kopije nalaza...")
+											Data.copy = true
+											
+										  }else{
+											
+											Data.copy = false
 										  }
 
 										report_template.create_report(
