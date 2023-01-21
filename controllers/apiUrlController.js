@@ -348,8 +348,10 @@ apiUrlController.apiUrlObradaPregled = function (req, res) {
       $lt: new Date(to.setHours(25, 59, 59)),
     },
     site: mongoose.Types.ObjectId(req.query.site),
-    migrated: false,
   };
+
+  console.log("Obrada")
+  console.log(uslov)
 
   if (!req.query.filter) {
     req.query.filter = "";
