@@ -345,7 +345,6 @@ apiUrlController.apiUrlObradaPregled = function (req, res) {
   uslov = {
     created_at: {
       $gt: new Date(from.setHours(1)),
-      $lt: new Date(to.setHours(24, 59, 59)),
     },
     site: mongoose.Types.ObjectId(req.query.site),
   };
@@ -743,7 +742,6 @@ apiUrlController.apiUrlNalaziPregled = function (req, res) {
 
       updated_at: {
         $gt: new Date(from.setHours(1)),
-        $lt: new Date(to.setHours(24, 59, 59)),
       },
       
       status: true,
