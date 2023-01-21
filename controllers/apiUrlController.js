@@ -367,8 +367,8 @@ apiUrlController.apiUrlObradaPregled = function (req, res) {
       to = new Date(req.query.dateRangeMax + "T23:59:59");
       uslov = {
         created_at: {
-          $gt: new Date(from.setHours(2)),
-          $lt: new Date(to.setHours(25, 59, 59)),
+          $gt: new Date(from.setHours(1)),
+          $lt: new Date(to.setHours(1)),
         },
         site: mongoose.Types.ObjectId(req.query.site),
       };
