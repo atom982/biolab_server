@@ -1416,7 +1416,9 @@ nalazController.Nalaz = function(req, res) {
 											  "." +
 											  JSON.stringify(nalaz.created_at).slice(1, 5);
 											
-											var korekcija = new Date(nalaz.created_at.setHours(1))
+											var korekcija = new Date(
+												new Date(nalaz.created_at).getTime() - new Date(nalaz.created_at).getTimezoneOffset() * 60000
+											  );
 											Data.vrijeme = JSON.stringify(korekcija).substring(12, 17);
 											Data.copy = true
 
