@@ -1410,12 +1410,12 @@ nalazController.Nalaz = function(req, res) {
 											// .setHours(1)
 
 											Data.datum =
-											  JSON.stringify(nalaz.created_at.setHours(1)).slice(9, 11) +
+											  JSON.stringify(nalaz.created_at).slice(9, 11) +
 											  "." +
-											  JSON.stringify(nalaz.created_at.setHours(1)).slice(6, 8) +
+											  JSON.stringify(nalaz.created_at).slice(6, 8) +
 											  "." +
-											  JSON.stringify(nalaz.created_at.setHours(1)).slice(1, 5);
-											Data.vrijeme = JSON.stringify(nalaz.created_at.setHours(1)).substring(12, 17);
+											  JSON.stringify(nalaz.created_at).slice(1, 5);
+											Data.vrijeme = JSON.stringify(nalaz.created_at).substring(12, 17);
 											Data.copy = true
 
 											console.log("Kreiranje kopije nalaza...")
