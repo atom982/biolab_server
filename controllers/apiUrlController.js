@@ -373,8 +373,8 @@ apiUrlController.apiUrlObradaPregled = function (req, res) {
     }
   }
 
-  console.log("Obrada")
-  console.log(uslov)
+  // console.log("Obrada")
+  // console.log(uslov)
 
   Results.find(uslov)
     .populate("sample patient rezultati.labassay posiljaoc narucioc")
@@ -740,10 +740,12 @@ apiUrlController.apiUrlNalaziPregled = function (req, res) {
       .trim();
     var uslov = {};
     uslov = {
+
       updated_at: {
-        $gt: from,
-        $lt: to,
+        $gt: new Date(from.setHours(1)),
+        $lt: new Date(to.setHours(24, 59, 59)),
       },
+      
       status: true,
       site: mongoose.Types.ObjectId(req.query.site),
     };
@@ -762,14 +764,17 @@ apiUrlController.apiUrlNalaziPregled = function (req, res) {
         to = new Date(req.query.dateRangeMax + "T23:59:59");
         uslov = {
           created_at: {
-            $gt: new Date(from.setHours(2)),
-            $lt: new Date(to.setHours(25, 59, 59)),
+            $gt: new Date(from.setHours(1)),
+            $lt: new Date(to.setHours(24, 59, 59)),
           },
           status: true,
           site: mongoose.Types.ObjectId(req.query.site),
         };
       }
     }
+
+  console.log("Nalazi")
+  console.log(uslov)
 
     Nalazi.find(uslov)
       .populate("patient")
