@@ -344,14 +344,11 @@ apiUrlController.apiUrlObradaPregled = function (req, res) {
 
   uslov = {
     created_at: {
-      $gt: new Date(from.setHours(2)),
-      $lt: new Date(to.setHours(25, 59, 59)),
+      $gt: new Date(from.setHours(1)),
+      $lt: new Date(to.setHours(24, 59, 59)),
     },
     site: mongoose.Types.ObjectId(req.query.site),
   };
-
-  console.log("Obrada")
-  console.log(uslov)
 
   if (!req.query.filter) {
     req.query.filter = "";
@@ -375,6 +372,9 @@ apiUrlController.apiUrlObradaPregled = function (req, res) {
       req.query.datum = "Svi Rezultati";
     }
   }
+
+  console.log("Obrada")
+  console.log(uslov)
 
   Results.find(uslov)
     .populate("sample patient rezultati.labassay posiljaoc narucioc")
