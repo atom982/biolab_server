@@ -489,6 +489,7 @@ var SchemaSettings = mongoose.Schema({
   lab_tipovi: { type: Array, default: [] },
   kategorije: { type: Array, default: [] },
   entryorders: { type: Array, default: [] },
+  support: { type: String, default: "Nema podataka" },
 });
 
 var SchemaUzorci = mongoose.Schema({
