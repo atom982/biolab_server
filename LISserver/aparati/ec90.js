@@ -66,7 +66,7 @@ module.exports = {
             break;
           case 'P':
             var order = element.split("|");
-            sid = order[2].trim(); // 'S001C90406'
+            sid = order[3].trim(); // 'S001C90406'
             sid = sid.toUpperCase()
             console.log("SID: " + sid);
             break;
