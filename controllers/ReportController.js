@@ -328,7 +328,7 @@ reportController.KProtokol = function (req, res) {
 
               doct = nalaz.patient.adresa
 
-              var uzo = new Date(nalaz.uzorkovano.getTime() - nalaz.uzorkovano.getTimezoneOffset() * 60000).toISOString()
+              var uzo = new Date(new Date(nalaz.uzorkovano).getTime() - new Date(nalaz.uzorkovano).getTimezoneOffset() * 60000).toISOString()
 
               console.log(uzo)
 
