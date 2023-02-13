@@ -65,10 +65,10 @@ module.exports = {
             //console.log("Vrijeme prenosa: " + vrijeme_prijenosa);
             break;
           case 'P':
-            // console.log("Patient: ");
-            // var patient = element.split("|");
-            // gender = patient[8];
-            // console.log("Gender: " + gender);
+            var order = element.split("|");
+            sid = order[2].trim(); // 'S001C90406'
+            sid = sid.toUpperCase()
+            console.log("SID: " + sid);
             break;
           case 'R':
             console.log("Order: ");
@@ -78,10 +78,7 @@ module.exports = {
             console.log("SID: " + sid);
             break;
           case 'O':
-            var order = element.split("|");
-            sid = order[2].trim(); // 'S001C90406'
-            sid = sid.toUpperCase()
-            console.log("SID: " + sid);
+
             var result = element.split("|");
             var sifra_p = result[4]
             console.log("Kod: "+sifra_p);
