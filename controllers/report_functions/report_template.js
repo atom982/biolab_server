@@ -1,18 +1,123 @@
+const { image } = require("pdfkit");
+const QRCode = require("qrcode");
+
 module.exports = {
   create_report: function (report, config, data, legenda, sekcijeniz, napomena,
     res, specificni, type, naziv, lokacija, site, site_data) {
+
+      var text1 = data.prezime
+
+      if(data.roditelj != ""){
+        text1 = data.prezime + " (" + data.roditelj + ")"
+      }
+
+    // QR Code
+
+    var qrcodeText =
+    text1 +
+    " " +
+    data.ime +
+    ", " +
+    data.godiste +
+    "\n" +
+    data.datum +
+    " " +
+    data.vrijeme.substring(0, 5) +
+    "\n" +
+    data.protokol;
+
+
+
+
+
+    QRCode.toFile(
+      config.QRCodes + report._id + ".png",
+      qrcodeText,
+      {
+        width: 90,
+        height: 90,
+        color: {
+          dark: "#000000",
+          light: "#FFFFFF",
+        },
+      },
+      function (err) {
 
     let code = "";
     let adresa_x = 0;
     let adresa = "";
 
     code = site_data.sifra;
-    adresa_x = 68;
-    adresa = "Zmaja od Bosne broj 63, 71000 Sarajevo, tel: +38733645845, email: info@bio-lab.ba, web: www.bio-lab.ba"
+
+    var Analiza = "";
+    var Rezultat = "";
+    var nazofarings = false;
+    var EN = false;
+    var DE = false;
+
+    if(sekcijeniz.length === 1){
+      sekcijeniz.forEach(element => {
+        Rezultat = element[0].rezultat[1].rezultat;
+        element.forEach(test => {
+          if (!test.hasOwnProperty("multi")) {  
+            switch (test.rezultat[0].slice(3).trim()) {
+
+              case "Antigen SARS-CoV-2":
+                Analiza = "Antigen SARS-CoV-2";
+                nazofarings = true;
+                break;
+
+              default:
+                break;
+            }
+
+          } else {
+
+          }
+        });    
+      });
+    }
+
+    if(Analiza != ""){
+      if(Rezultat === "negative" || Rezultat === "positive"){
+        // console.log("Kreirati nalaz na Engleskom jeziku.")
+        // console.log(Analiza + ": " + Rezultat)
+        EN = true
+        DE = false
+      } else if(Rezultat === "Negativ" || Rezultat === "Positiv"){
+        // console.log("Kreirati nalaz na Njemačkom jeziku.")
+        // console.log(Analiza + ": " + Rezultat)
+        EN = false
+        DE = true
+      } else{
+        // console.log("Kreirati nalaz na Bosanskom jeziku.")
+        // console.log(Analiza + ": " + Rezultat)
+        EN = false
+        DE = false
+      }  
+    }else{
+      
+    }
+
+    adresa_x = 162.5;
+    adresa = "Ovaj dokument je validan u elektronskoj formi bez potpisa i pečata."
+    
     var fs = require("fs");
     PDFDocument = require("pdfkit");
     const PDFDocumentWithTables = require("./pdf_class");
+
     var rowsno = "Rezultati laboratorijskih analiza";
+
+    if(EN == true){
+      rowsno = "Results of Laboratory Analysis";
+      adresa = "This document is valid without a signature or a seal."
+    } else if(DE == true){
+      rowsno = "Ergebnisse von Laboranalysen";
+      adresa = "Dieses Dokument ist gültig ohne Unterschrift oder Siegel."
+    }else{
+      rowsno = "Rezultati laboratorijskih pretraga";
+      adresa = "Ovaj dokument je validan u elektronskoj formi bez potpisa i pečata."
+    }
 
     var rows = [];
     var temp = [];
@@ -60,10 +165,87 @@ module.exports = {
 
     doc.registerFont("PTSansRegular", config.nalaz_ptsansregular);
     doc.registerFont("PTSansBold", config.nalaz_ptsansbold);
-    doc.image(config.nalaz_logo + code + ".jpg", 28, 10, { fit: [240, 70], align: "center", valign: "center" });
+
+    
 
     // doc.font("PTSansRegular").fontSize(13).fillColor("#7B8186").text("RIQAS certificirana eksterna kontrola kvaliteta", 308, 40);
-    doc.font("PTSansRegular").fontSize(12).fillColor("black").text("Prezime i ime: ", 50, nvisina);
+    switch (code) {
+
+      case "B": // BIOLAB
+
+      doc.image(config.nalaz_logo + code + ".jpg", 30, 10, { fit: [240, 70], align: "center", valign: "center" });
+
+      // doc.font("PTSansRegular").fontSize(10.5).fillColor("black").text("Medicinsko Biohemijski Laboratorij - BIOLAB", 350, 20 - 12.5 - 7);
+      doc.font("PTSansRegular").fontSize(10.5).fillColor("black").text("Medicinsko Biohemijski Laboratorij - BIOLAB", 350, 32.5 - 12.5 - 7);
+      doc.font("PTSansRegular").fontSize(10.5).fillColor("black").text("Zmaja od Bosne broj 63, 71000 Sarajevo", 350, 45 - 12.5 - 7);
+      doc.font("PTSansRegular").fontSize(10.5).fillColor("black").text("Tel: 033/645-845; Mob: Nema podataka", 350, 57.5 - 12.5 - 7);
+      doc.font("PTSansRegular").fontSize(10.5).fillColor("black").text("Web:", 350, 70 - 12.5 - 7).fillColor("#0000EE").text("www.bio-lab.ba", 414 - 38, 70 - 12.5 - 7);
+      doc.font("PTSansRegular").fontSize(10.5).fillColor("black").text("E-mail:", 350, 82.5  - 12.5 - 7).fillColor("#0000EE").text("info@bio-lab.ba", 423 - 38, 82.5  - 12.5 - 7);
+        
+        break;
+
+      case "S": // SiNLAB
+      doc.image(config.nalaz_logo + code + ".jpg", 55, 5, { width: 180, keepAspectRatio: true });
+
+      // doc.font("PTSansRegular").fontSize(10.5).fillColor("black").text("Medicinsko Biohemijski Laboratorij - SiNLAB", 350, 20 - 12.5 - 7);
+      doc.font("PTSansRegular").fontSize(10.5).fillColor("black").text("Medicinsko Biohemijski Laboratorij - SiNLAB", 350, 32.5 - 12.5 - 7);
+      doc.font("PTSansRegular").fontSize(10.5).fillColor("black").text("Trg Barcelone broj 1, 71000 Sarajevo", 350, 45 - 12.5 - 7);
+      doc.font("PTSansRegular").fontSize(10.5).fillColor("black").text("Tel: 033/498-676; Mob: 062/454-418", 350, 57.5 - 12.5 - 7);
+      doc.font("PTSansRegular").fontSize(10.5).fillColor("black").text("Web:", 350, 70 - 12.5 - 7).fillColor("#0000EE").text("www.sinlab.com", 414 - 38, 70 - 12.5 - 7);
+      doc.font("PTSansRegular").fontSize(10.5).fillColor("black").text("E-mail:", 350, 82.5  - 12.5 - 7).fillColor("#0000EE").text("info@sinlab.ba", 423 - 38, 82.5  - 12.5 - 7);
+        
+        break;
+    
+      default:
+        break;
+    }
+
+    doc.fontSize(9).fillColor("#7B8186").moveTo(0, 85)                      
+    .lineTo(650, 85)
+    .lineWidth(0.7)
+    .opacity(0.5)
+    .fillAndStroke("#7B8186", "#7B8186")
+    .opacity(1);
+
+
+     //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+
+
+
+
+
+    if(EN == true) {
+      //
+    } else if (DE == true) {
+      //
+    } else {
+      //
+    }
+
+
+
+
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+
+      doc.font("PTSansRegular").fontSize(12).fillColor("black").text("Prezime i ime: ", 50, nvisina);
 
     if(data.roditelj.trim() == ""){
       doc.font("PTSansBold").fontSize(14).text(" " + data.prezime.toUpperCase() + " " + data.ime.toUpperCase(), 142 - 17, nvisina - 2);
@@ -74,10 +256,13 @@ module.exports = {
     
 
     if (datRodjenja.includes("01.01") && data.godiste == "1920") {
+      var pacijent = text1.toUpperCase() + " " + data.ime.toUpperCase()
       doc.font("PTSansRegular").fontSize(12).text("Datum rođenja:", 50, nvisina + 16).text("Nema podataka", 150 - 17, nvisina + 16);
     } else if (!datRodjenja.includes("00.00")) {
+      var pacijent = text1.toUpperCase() + " " + data.ime.toUpperCase() + ", " + data.godiste + "."
       doc.font("PTSansRegular").fontSize(12).text("Datum rođenja:", 50, nvisina + 16).text(datRodjenja + data.godiste + ".", 150 - 17, nvisina + 16);
     } else {
+      var pacijent = text1.toUpperCase() + " " + data.ime.toUpperCase() + ", " + data.godiste + "."
       doc.font("PTSansRegular").fontSize(12).text("Godište:", 50, nvisina + 16).text(data.godiste + ".", 150 - 56, nvisina + 16);
     }
 
@@ -91,6 +276,9 @@ module.exports = {
     }
 
     var uzorkovan = JSON.stringify(report.uzorkovano).substring(1, 11).split("-");
+
+    doc.image(config.QRCodes + report._id + ".png", 330, nvisina + 13, { width: 87, keepAspectRatio: true });
+      
 
     doc.font("PTSansRegular").fontSize(10).text("Izdavanje nalaza:", 444.5 + 10, nvisina + 3 + 15 + 3 - 25);
       doc.font("PTSansBold").fontSize(10).text(data.datum + " " + data.vrijeme.substring(0, 5), 444.5 + 10, nvisina + 3 + 15 + 3 + 15 - 25);
@@ -503,46 +691,45 @@ module.exports = {
 
     for (let i = range.start; i < range.start + range.count; i++) {
       doc.switchToPage(i);
+      doc.font("PTSansRegular").fontSize(10).fillColor("#7B8186").text(adresa, 50, 740, { lineBreak: false });
+      doc.fontSize(9).fillColor("#7B8186").moveTo(0, 756)                      
+      .lineTo(650, 756)
+      .lineWidth(0.7)
+   .opacity(0.5)
+   .fillAndStroke("#7B8186", "#7B8186")
+   .opacity(1);
 
-      doc
-        .fontSize(8)
-        .fillColor("#7B8186")
-        .moveTo(0, 754 - 15)
-        .lineTo(612, 754 - 15)
-        .fillAndStroke("#7B8186", "#7B8186");
+   // doc.font("PTSansRegular").fontSize(9).fillColor("black").text("Pacijent: " + pacijent, 50, 760, { lineBreak: false });
 
-      // NAPOMENA: Ovaj dokument je validan u elektronskoj formi bez potpisa i pečata.
-      doc
-        .font("PTSansBold")
-        .fontSize(8)
-        .fillColor("black")
-        .text(
-          "NAPOMENA: Ovaj dokument je validan u elektronskoj formi bez potpisa i pečata.",
-          50,
-          770 - 30 - 15,
-          { lineBreak: false }
-        );
+   if (EN == true) {
+    doc.font("PTSansRegular").fontSize(9).fillColor("black").text("Patient: " + pacijent, 50, 760, { lineBreak: false });
+   }else if (DE == true) {
+    doc.font("PTSansRegular").fontSize(9).fillColor("black").text("Patient: " + pacijent, 50, 760, { lineBreak: false });
+   } else{
+    doc.font("PTSansRegular").fontSize(9).fillColor("black").text("Pacijent: " + pacijent, 50, 760, { lineBreak: false });
+   }
 
-        if(data.copy == true){
-          doc
-        .font("PTSansBold")
-        .fontSize(8)
-        .fillColor("#7B8186")
-        .text("Kopija nalaza", 50, 760 - 20, {
-          lineBreak: false,
-        });
-        }
+   doc.font("PTSansBold").fontSize(8).fillColor("#7B8186").text("ATOM Laboratory Software", 470, 760, { lineBreak: false });
+   doc.font("PTSansRegular").fontSize(8).fillColor("#7B8186").text("by", 470, 770, { lineBreak: false });   
+   doc.font("PTSansBold").fontSize(8).fillColor("#7B8186").text("iLab d.o.o. Sarajevo", 480, 770, { lineBreak: false });
+ 
 
-      doc
-        .font("PTSansBold")
-        .fontSize(8)
-        .fillColor("#7B8186")
-        .text("ATOM Laboratory Software", 470, 760 - 20, {
-          lineBreak: false,
-        });
-     
-      doc.font("PTSansRegular").fontSize(10).fillColor("#7B8186").text(adresa, adresa_x, 758, { lineBreak: false }).fontSize(8).fillColor("black").text(`Stranica ${i + 1} od ${range.count}`, doc.page.width / 2 - 25, doc.page.height - 18, { lineBreak: false });
+      // doc.font("PTSansRegular").fontSize(8).fillColor("black").text(`Stranica ${i + 1} od ${range.count}`, doc.page.width / 2 - 25, doc.page.height - 18, { lineBreak: false });
+      if (EN == true) {
+        doc.font("PTSansRegular").fontSize(8).fillColor("black").text(`Page ${i + 1} of ${range.count}`, doc.page.width / 2 - 25, doc.page.height - 18, { lineBreak: false });
+       } else if (DE == true) {
+        doc.font("PTSansRegular").fontSize(8).fillColor("black").text(`Seite ${i + 1} von ${range.count}`, doc.page.width / 2 - 25, doc.page.height - 18, { lineBreak: false });
+       } else {
+        doc.font("PTSansRegular").fontSize(8).fillColor("black").text(`Stranica ${i + 1} od ${range.count}`, doc.page.width / 2 - 25, doc.page.height - 18, { lineBreak: false });
+       }
+
+
     }
     doc.end();
   }
+  );
+
+
+}
 };
+
