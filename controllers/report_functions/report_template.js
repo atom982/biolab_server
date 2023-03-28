@@ -686,7 +686,7 @@ module.exports = {
 
     }else{
 
-      memo = doc.y + 50;
+      memo = doc.y + 150;
 
     }
 

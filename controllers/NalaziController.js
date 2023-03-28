@@ -294,7 +294,10 @@ nalazController.setHeight = function(req, res) {
 							message: 'Nalaz nije pronađen.'
 						});
 					} else {
+						
 						nalaz.height = req.body.height;
+						console.log(nalaz.heigh + " Height Set.")
+						
 						nalaz.save();
 						res.json({
 							success: true,
