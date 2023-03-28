@@ -140,7 +140,7 @@ module.exports = {
     }
 
     const doc = new PDFDocumentWithTables({ bufferPages: true, margins: { top: 80, bottom: 50, left: 50, right: 50 } });
-    
+
     doc.pipe(fs.createWriteStream(nalazPath + imeFile + ".pdf").on("finish", function () {
       res.json({
         success: true,
@@ -680,7 +680,17 @@ module.exports = {
       }
     }
 
-    memo = doc.y;
+    if(alergije === true){
+
+      memo = doc.y;
+
+    }else{
+
+      memo = doc.y + 50;
+
+    }
+
+    
 
     doc.font("PTSansRegular").fontSize(10).text("_______________________________", 390).text("       Voditelj laboratorija");
 
