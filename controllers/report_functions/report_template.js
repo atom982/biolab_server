@@ -120,7 +120,6 @@ module.exports = {
     }
 
     var rows = [];
-    var temp = [];
 
     var pid = report.pid
 
@@ -141,6 +140,7 @@ module.exports = {
     }
 
     const doc = new PDFDocumentWithTables({ bufferPages: true, margins: { top: 80, bottom: 50, left: 50, right: 50 } });
+    
     doc.pipe(fs.createWriteStream(nalazPath + imeFile + ".pdf").on("finish", function () {
       res.json({
         success: true,
@@ -153,7 +153,7 @@ module.exports = {
     );
 
     var memo = 0;
-    var temp = 0;
+
     var nvisina = 90;
     var adjust = nvisina - 70;
     var nalazMemorandum = true;
@@ -639,14 +639,10 @@ module.exports = {
           doc.moveDown(1);
         }
       }
-
-      temp = 60;
-      
+    
       doc.image(config.nalaz_references + "Alergije.png", 50, doc.y + 5, { width: 510, keepAspectRatio: true, lineBreak: false });
       doc.moveDown(7);
     }else{
-
-      temp = 0;
 
     }
 
@@ -683,7 +679,8 @@ module.exports = {
         doc.moveDown(1);
       }
     }
-    memo = doc.y - temp;
+
+    memo = doc.y;
 
     doc.font("PTSansRegular").fontSize(10).text("_______________________________", 390).text("       Voditelj laboratorija");
 
