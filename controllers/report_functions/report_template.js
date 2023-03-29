@@ -306,6 +306,7 @@ module.exports = {
     var reset = 0;
 
     var alergije = false;
+    var sperm = false;
     var Inhalation30 = ""
     var Food30 = ""
 
@@ -375,6 +376,10 @@ module.exports = {
 
               if (mul.naslov.slice(4).toLowerCase().includes("alergo test")) {
                 alergije = true;
+              } 
+
+              if (mul.naslov.slice(4).toLowerCase().includes("spermiogram")) {
+                sperm = true;
               } 
 
               if (mul.naslov.slice(4).includes("INHALATORNI ALERGO TEST (IgE) - 30 alergena")) {
@@ -666,10 +671,17 @@ module.exports = {
 
     }
 
-    if (napomena.length) {
+    if (napomena.length  && sperm == false) {
       doc.moveDown(0.3);
       doc.fontSize(12).text("Komentar:", 50);
-    }
+    } else if (napomena.length  && sperm == true) {
+      doc.addPage();
+      doc.fontSize(12).text("Komentar:", 50);
+    } 
+
+
+
+
     doc.font("PTSansRegular");
     eachLine = napomena.split("\n");
 
