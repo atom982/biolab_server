@@ -682,11 +682,11 @@ module.exports = {
 
     if(alergije === true){
 
-      memo = doc.y;
+      memo = doc.y + 150;
 
     }else{
 
-      memo = doc.y + 150;
+      memo = doc.y;
 
     }
 
