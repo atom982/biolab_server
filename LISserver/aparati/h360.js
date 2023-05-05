@@ -151,7 +151,28 @@ module.exports = {
                                                 analit_rez:obx[5],
                                                 analit_status:''
                                             })
-                                        break;                              
+                                        break;  
+                                        case "RDW-CV":
+                                          rezultati.push({
+                                              analit:"RDW",
+                                              analit_rez:obx[5],
+                                              analit_status:''
+                                          })
+                                      break;  
+                                        case "MID%":
+                                        rezultati.push({
+                                            analit:"MON%",
+                                            analit_rez:obx[5],
+                                            analit_status:''
+                                        })
+                                    break;  
+                                      case "MID#":
+                                      rezultati.push({
+                                          analit:"MON",
+                                          analit_rez:obx[5],
+                                          analit_status:''
+                                      })
+                                  break;                             
                                         default:
                                             rezultati.push({
                                                 analit:obx[3].split("^")[1],
@@ -164,7 +185,15 @@ module.exports = {
                                 }
 
                                 //----------------------------------------------------
-
+                                if(obx[3]=== "MID%"){
+                                  obx[3]="MON%"
+                              }
+                              if(obx[3]=== "MID#"){
+                                  obx[3]="MON"
+                              }
+                              if(obx[3]=== "RDW-CV"){
+                                  obx[3]="RDW"
+                              }
                                 
                                 if( parseFloat(obx[1]) === 28){
                                     console.log(rezultati)
