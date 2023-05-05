@@ -140,7 +140,7 @@ module.exports = {
                                             break;    
                                         case "MID#":
                                                 rezultati.push({
-                                                    analit:"MID",
+                                                    analit:"MON",
                                                     analit_rez:obx[5],
                                                     analit_status:''
                                                 })
@@ -165,14 +165,7 @@ module.exports = {
                                             analit_rez:obx[5],
                                             analit_status:''
                                         })
-                                    break;  
-                                      case "MID#":
-                                      rezultati.push({
-                                          analit:"MON",
-                                          analit_rez:obx[5],
-                                          analit_status:''
-                                      })
-                                  break;                             
+                                    break;                             
                                         default:
                                             rezultati.push({
                                                 analit:obx[3].split("^")[1],
