@@ -119,6 +119,16 @@ module.exports = {
                                 if( parseFloat(obx[1]) < 27){
                                     //console.log("segment:"+obx[1])
                                     //console.log(parseFloat(obx[1]))
+                                    if(obx[3]=== "MID%"){
+                                        obx[3]="MON%"
+                                    }
+                                    if(obx[3]=== "MID#"){
+                                        obx[3]="MON"
+                                    }
+                                    if(obx[3]=== "RDW-CV"){
+                                        obx[3]="RDW"
+                                    }
+                                    
                                     rezultati.push({
                                         analit:obx[3],
                                         analit_rez:obx[5],
