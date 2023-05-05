@@ -221,67 +221,63 @@ class lisServer {
           //console.log(frame.toString('hex'))
           //console.log(frame.toString())
           //console.log(JSON.stringify(data))
-         
-          if (data.includes('\u001a')) { //ENQ primljen
-            lisserver.poruka.push("H|\\^&|||D-Cell60^1.00^RJ-1C110261^H1R1L1|||||||P|1|")
-            lisserver.poruka.push("R|"+frame)
-            funkcija.parsaj_rezultat(lisserver.poruka, io);
-            frame = ''
-            lisserver.poruka = [] 
-          }
           
           if (data.charCodeAt(data.length - 1) === 3 ) {
-               //------------END OF Dimension xpand BLOCK
-               //lisserver.broadcast('\u0006', client)
-               //socket.write('\u0006');
-
+            // AU 400 START
             if(frame.indexOf("\u0002") >= 0 && !frame.includes('|')){
-
-
-              if(frame.indexOf("\u0003") >= 0 ){
-                //console.log('Check if poll,message or query')
-                //console.log(JSON.stringify(frame))
-                if(frame !='\u0002R1\u0003'){
-                  if (frame.includes('X')) { //ACK primljen
-                      console.log('odgovor ILAB 650:'+JSON.stringify(frame))
-                      frame = ''
-                      lisserver.poruka = [] 
-                  } else{
-                    console.log('Parsam rezultat ILAB 650:'+JSON.stringify(frame))
-                    lisserver.poruka.push("H|\\^&|||iLab650^1.00^U10714300027^H1R1L1|||||||P|1|")
-                    lisserver.poruka.push("R|"+frame)
-                    funkcija.parsaj_rezultat(lisserver.poruka, io);
-                    lisserver.broadcast('\u0002E18\u0003', client)
-                    frame = ''
-                    lisserver.poruka = [] 
-                  }  
-
-                }else{
-                  var temp_rec = [];
-                  //console.log('Parsam query ILAB 650:')
-                  temp_rec.push("H|\\^&|||iLab650^1.00^U10714300027^H1R1L1|||||||P|1|")
-                  temp_rec.push("L|1")
-                  funkcija.parsaj_query(temp_rec, function (poruka) {
-                    poruka.forEach(element => {
-                      if(element !="\u0002E18\u0003"){
-                        console.log('Šaljem order za ILAB 650:'+JSON.stringify(element))
-                      }
-                      
-                      lisserver.broadcast(element, client)
-                    });
-                    frame = ''
-                    lisserver.poruka = [] 
-                    lisserver.counter = 0;
-                  });
-                  //lisserver.broadcast('\u0002E18\u0003', client)
-                  
-                  //lisserver.broadcast('\u0002W10000S003S91006  0S003S91006      1910061130150111001000010011002\u0003', client)
-                }
-                
+              console.log('ulazak jer STX postoji')
+              if(frame.substring(frame.indexOf("\u0002")+1,frame.indexOf("\u0003"))==='RE' ){
+                frame = ''
+                data = ''
+                lisserver.poruka = []   
               }
-            } 
-            frame = ''
-          } 
+              if(frame.substring(frame.indexOf("\u0002")+1,frame.indexOf("\u0003"))==='DE' ){
+                frame = ''
+                data = ''
+                lisserver.poruka = []   
+              }
+              if(frame.substring(frame.indexOf("\u0002")+1,frame.indexOf("\u0003"))==='DB' ){
+                frame = ''
+                data = ''
+                lisserver.poruka = []   
+              }
+              console.log(frame.substring(frame.indexOf("\u0002")+1,frame.indexOf("\u0003")))
+              if(frame.substring(frame.indexOf("\u0002")+1,frame.indexOf("\u0003"))==='RB' || frame.substring(frame.indexOf("\u0002")+1,frame.indexOf("\u0003"))==='DB'){
+                lisserver.poruka.push(frame.substring(frame.indexOf("\u0002")+1,frame.indexOf("\u0003")));
+                frame = ''
+                data = ''
+              }
+              else if(frame.substring(frame.indexOf("\u0002")+1,frame.indexOf("\u0003")+1).includes('R 0')){
+                lisserver.poruka.push(frame.substring(frame.indexOf("\u0002")+1,frame.indexOf("\u0003")));
+                frame = ''
+                data = ''
+                console.log('Query');
+                lisserver.poruka.unshift("H|\\^&|||AU400^1.00^0055487^H1R1L1|||||||P|1|");
+                funkcija.parsaj_query(lisserver.poruka, function (poruka) {
+                  socket.write('\u0002'+poruka+'\u0003'); 
+                  console.log('Poruka za slanje: ');
+                  console.log(poruka);
+                  lisserver.counter = 0;
+                  lisserver.poruka = [] 
+                });
+              
+                if(frame.substring(frame.indexOf("\u0002")+1,frame.indexOf("\u0003"))==='RE' ){
+                  console.log(lisserver.poruka)
+                  lisserver.poruka = []   
+                }
+              }else if(frame.substring(frame.indexOf("\u0002")+1,frame.indexOf("\u0003")+1).includes('D ') ||frame.substring(frame.indexOf("\u0002")+1,frame.indexOf("\u0003")+1).includes('DQ') ){
+                lisserver.poruka.push(frame.substring(frame.indexOf("\u0002")+1,frame.indexOf("\u0003")));
+                frame = ''
+                data = ''
+                console.log('Result');
+                lisserver.poruka.unshift("H|\\^&|||AU400^1.00^0055487^H1R1L1|||||||P|1|");
+                funkcija.parsaj_rezultat(lisserver.poruka, io);
+                lisserver.poruka = []  
+                // AU400 END
+              }
+            }
+            
+          }
           
         } else {
           console.log('ELMIR - frame analysis checkpoint')
