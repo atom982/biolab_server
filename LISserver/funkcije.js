@@ -205,6 +205,8 @@ parsaj_rezultat: function (record, io) {
   var Access2 = require("./aparati/access2");
   var ecl105 = require("./aparati/ecl105");
   var ec90 = require("./aparati/ec90");
+  var h360 = require("./aparati/h360");
+  var au480 = require("./aparati/au480");
 
   console.log("Parsanje rezultata...");
   //console.log(record)
@@ -272,6 +274,16 @@ console.log(sn)
       console.log("Urilyzer 100 Pro");
       urilyzer100pro.parsaj_rezultat(record, io);
       break;
+      case "SY15854":
+        console.log("PARSAJ REZULTAT H 360");
+        var serijski = '60040923f5e7ce7d39d4c24d'
+        h360.parsaj_rezultat(record, io,serijski);
+        break;
+      case '0055487': // sinlab au 480
+        console.log("AU480");
+        serijski = '600408ddf5e7ce7d39d4c1f3' // - done
+        au480.parsaj_rezultat(record,io,serijski);
+        break;
 
     default:
       console.log("Nije definisan aparat sa serijskim brojem: " + sn);
@@ -293,6 +305,8 @@ parsaj_query: function (record, callback) {
   var Urilyzer100Pro = require("./aparati/urilyzer100pro");
   var ErbaECL105 = require("./aparati/erbaxl200");
   var Access2 = require("./aparati/access2");
+  var h360 = require("./aparati/h360");
+  var au480 = require("./aparati/au480");
   //console.log(record)
 
   var header = record[0].split("|");
@@ -323,6 +337,12 @@ parsaj_query: function (record, callback) {
         callback(poruka);
       });
       break;
+      case "0055487": // AU 480
+      console.log("Query Parsing: AU 480");
+      au480.parsaj_query(record, function (poruka) {
+        callback(poruka);
+      });
+      break;
     default:
       console.log("Nije definisan aparat sa serijskim brojem: " + sn);
   }
@@ -333,54 +353,70 @@ parsaj_hl7: function(record,callback){
   //-------definicija protocola za aparat
   var alinity = require('./aparati/alinity')
   const net = require('net');
+  var hemolyzer5 = require("./aparati/hemolyzer5");
+  var h360 = require("./aparati/h360");
   //-------------------------------------
 
   console.log("Parsam HL7... funkcije");
-  console.log(JSON.stringify(record))
+  //console.log(JSON.stringify(record))
+
+  //console.log(Segments)
   var Parts = record.split("|");
   var Type = Parts[8].split("^")
   var Segments = record.split("\r")
+  var sn = ""
   console.log(Segments)
-
   var sn = Type[0]
-  // • Order Query
-  // • Results Upload
-  // • Test Status Update
-  // • Sample Status Update
-  // • Connection Test
-  // • Assay Availability
+  var type = Parts[8].split("$")[0]
+  if(record.includes('2.3.1')){
+    sn = "H360"
+  }else{
+    sn = Type[0]
+  }
   switch(sn){
-
-    case 'NMD':  // Connection Test
-                        alinity.connection_test(record,function(poruka){
-                        console.log("Kreirano: ");
-                        console.log(poruka);
-                        callback(poruka);
-                        });
-                        break;          
-    case 'QBP':  // Order Query Message Profile
-                      alinity.order_query(record,function(poruka){
-                        console.log("Kreirano: ");
-                        console.log(poruka);
-                        callback(poruka);
-                        });
-                        break; 
-    case 'ORL':  // Order Query Message Profile
-                        alinity.order_query_resp(record,function(poruka){
-                          console.log("Kreirano: ");
-                          console.log(poruka);
-                          callback(poruka);
-                          });
-                          break; 
-    case 'OUL':  // Order Query Message Profile
-                        alinity.specimen_result(record,function(poruka){
-                          //console.log("Kreirano: ");
-                          //console.log(poruka);
-                          callback(poruka);
-                          });
-                          break; 
+ 
+    case 'HEMOLYZER_5':  // BC 5390 Mindray HL7
+                              var serijski = "60040923f5e7ce7d39d4c24d"
+                              console.log(type)
+                              //order_query
+                              if(type==="ORU"){
+                                hemolyzer5.specimen_result(record,serijski,function(poruka){
+                                  callback(poruka);
+                                  });
+                              }
+                              if(type==="ORM"){
+                                hemolyzer5.order_query(record,serijski,function(poruka){
+                                  console.log('order created')
+                                  var tmp = poruka.split('\u000d')
+                                  console.log(tmp)
+                                  callback(poruka);
+                                  });
+                              }
+                                  break;
+     case 'H360':  // CL 900 HL7
+                                  var serijski = "600408cef5e7ce7d39d4c1cd"
+                                  console.log(Type[0])
+                                  console.log("parsam H360")
+                                  //order_query
+                                 
+                                  if(Type[0]==="ORU"){
+                                    
+                                    h360.specimen_result(record,serijski,function(poruka){
+                                      callback(poruka);
+                                      });
+                                  }
+                                  if(Type[0]==="ORM"){
+                                    h360.order_query(record,serijski,function(poruka){
+                                      console.log('order created')
+                                      var tmp = poruka.split('\u000d')
+                                      console.log(tmp)
+                                      callback(poruka);
+                                      });
+                                  }
+                                      break; 
                         default:
             console.log("U LIS -u nije definisan aparat, sa serijskim brojem: "+sn);
+            break; 
   }
 
 },

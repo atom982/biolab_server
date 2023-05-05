@@ -65,6 +65,9 @@ lisserver.start(io, 5032, ">> MYTHIC 18 - BIOLAB Laboratorij Sarajevo");
 lisserver.start(io, 5033, ">> Access 2 - BIOLAB Laboratorij Sarajevo");
 lisserver.start(io, 5034, ">> Erba ECL 105 ili minividas- BIOLAB Laboratorij Sarajevo");
 lisserver.start(io, 5035, ">> Erba EC 90 - BIOLAB Laboratorij Sarajevo");
+lisserver.start(io,5015,">> SINLAB: Olympus AU 480");
+lisserver.start(io,5016,">> SINLAB: Hematologija H 360 ");
+lisserver.start(io,5017,">> SINLAB: Slobodan port");
 
 /*
  * Listen on provided port, on all network interfaces.
