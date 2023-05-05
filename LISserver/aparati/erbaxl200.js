@@ -17,7 +17,8 @@ module.exports = {
   
   
       var calculated = require("../../funkcije/calculated/calculated");
-      
+      var starost = require("../../funkcije/shared/starostReferentne")
+      var reference = require("../../funkcije/shared/set_references")
   
       var sn='';
       var sifra_p='';
@@ -152,7 +153,52 @@ module.exports = {
                                                               result.rezultati.forEach(element => {
                                                                 counter++
                                                                 if((element.labassay.sifra ===test.test.sifra) && (element.retest = true)){
-                                                                  
+                                                                                                          // UPDATE REFERENCE*****************************
+                                        //var reference = require("../../funkcije/shared/set_references")
+                                       // var starost = require("../../funkcije/shared/starostReferentne")
+
+                                        //************************************************** */
+                                        let set = {}
+                                        var age = starost.get(result.patient.jmbg)
+                                        console.log('age: ' + age)
+                                        test.reference = test.reference.sort(function (a, b) {
+                                          return a.dDob.localeCompare(b.dDob, undefined, {
+                                            numeric: true,
+                                            sensitivity: 'base'
+                                          })
+                                        })
+                                        test.reference.forEach(ref => {
+                                          set = reference.get(
+                                            test.test.naziv, 
+                                            "", 
+                                            ref.grupa, 
+                                            ref.spol,
+                                            result.patient.spol,
+                                            ref.refd, 
+                                            ref.refg, 
+                                            ref.interp,
+                                            ref.extend,
+                                            "", 
+                                            "",
+                                            "",
+                                            "", 
+                                            "", 
+                                            age, 
+                                            ref.dDob,
+                                            ref.gDob,
+                                            result.patient.jmbg                           
+                                          )
+                                          console.log('update set: ' + test.kod)
+                                          console.log(set)
+
+                                          if (set.hasOwnProperty('grupa')) {
+                                            element.interp = set.interp
+                                            element.extend = set.extend
+                                            element.refd = set.refd
+                                            element.refg  = set.refg
+                                          }
+                                        })
+                                        //************************************************** */
                                                                   element.retest = false // ne postavljati ovdje, nego kada dodje rezultat
                                                                   result.updated_at = Date.now()
                                                                   element.rezultat.push(rezultat) 
