@@ -339,7 +339,8 @@ parsaj_query: function (record, callback) {
       break;
       case "0055487": // AU 480
       console.log("Query Parsing: AU 480");
-      au480.parsaj_query(record, function (poruka) {
+      aparat="600408ddf5e7ce7d39d4c1f3"
+      au480.parsaj_query(record, aparat,function (poruka) {
         callback(poruka);
       });
       break;
