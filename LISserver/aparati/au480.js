@@ -613,7 +613,7 @@ module.exports = {
                                   break;   
                                 case "K":
                                         sample_type =" "
-                                        tests += "055"
+                                        tests += "055056"
                                   break;                         
                                 default:
                                         sample_type ="N"
