@@ -296,7 +296,7 @@ nalazController.setHeight = function(req, res) {
 					} else {
 						
 						nalaz.height = req.body.height;
-						console.log(nalaz.heigh + " Height Set.")
+						console.log(nalaz.height + " Height Set.")
 						
 						nalaz.save();
 						res.json({
