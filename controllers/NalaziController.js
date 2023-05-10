@@ -129,33 +129,89 @@ nalazController.Mail = function(req, res) {
 
 								var html = require('../mailtemplate/mail_template');
 
-								var template = html.MailTemplate(
-									nalaz.site.naziv,
-									nalaz.site.sifra,
-									nalaz.site.web,
-									naslov,
-									text,
-									nalaz.site.opis,
-									nalaz.site.adresa,
-									nalaz.site.email,
-									nalaz.site.telefon
-								);
+								switch (nalaz.site.sifra) {
+
+									
+									case "S":
+
+										var from = "SiNLAB Laboratorij"
+
+										var template = html.MailTemplate(
+											nalaz.site.naziv,
+											nalaz.site.sifra,
+											nalaz.site.web,
+											naslov,
+											text,
+											nalaz.site.opis,
+											nalaz.site.adresa,
+											nalaz.site.email,
+											nalaz.site.telefon
+										);
+										
+										break;
+								
+									default:
+
+										var from = "BIOLAB Laboratorij"
+
+										var template = html.MailTemplate(
+											nalaz.site.naziv,
+											nalaz.site.sifra,
+											nalaz.site.web,
+											naslov,
+											text,
+											nalaz.site.opis,
+											nalaz.site.adresa,
+											nalaz.site.email,
+											nalaz.site.telefon
+										);
+
+										break;
+								}
+
+								switch (nalaz.site.sifra) {
+									case "S":
+
+										var smtpConfig = {
+											pool: true,
+											host: process.env.MAIL_HOST,
+											port: process.env.MAIL_PORT,
+											secure: true,
+											auth: {
+											  user: "sinlablaboratorij@gmail.com",
+											  pass: "ktbcfacejdfpsjdy"
+											},
+											tls: {
+											  rejectUnauthorized: false
+											}
+										  };
+		
+										
+										break;
+								
+									default:
+
+										var smtpConfig = {
+											pool: true,
+											host: process.env.MAIL_HOST,
+											port: process.env.MAIL_PORT,
+											secure: true,
+											auth: {
+											  user: process.env.MAIL_USER,
+											  pass: process.env.MAIL_PASSWORD
+											},
+											tls: {
+											  rejectUnauthorized: false
+											}
+										  };
+		
+										break;
+								}
+
+								
 
 
-								var smtpConfig = {
-									pool: true,
-									host: process.env.MAIL_HOST,
-									port: process.env.MAIL_PORT,
-									secure: true,
-									auth: {
-									  user: process.env.MAIL_USER,
-									  pass: process.env.MAIL_PASSWORD
-									},
-									tls: {
-									  rejectUnauthorized: false
-									}
-								  };
-
+								
 								
 
 								var transporter = nodemailer.createTransport(smtpConfig);
@@ -165,7 +221,7 @@ nalazController.Mail = function(req, res) {
 
 								var mailOptions = {
 									from:
-										'"' + nalaz.site.opis.toUpperCase() + '"' + ' <' + process.env.MAIL_USER + '>',
+										'"' + from + '"' + ' <' + process.env.MAIL_USER + '>',
 									to: req.body.email + ',' + cc,
 									replyTo: nalaz.site.email,
 									subject: 'Nalaz za pacijenta: ' + nalaz.patient.ime + ' ' + nalaz.patient.prezime,
