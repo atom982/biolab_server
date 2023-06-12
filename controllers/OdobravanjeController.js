@@ -1378,6 +1378,7 @@ odobravanjeController.Calculate = function (req, res) {
     id: {
       $regex: query,
     },
+    site: mongoose.Types.ObjectId(req.query.site),
   })
     .populate("rezultati.labassay sample patient")
     .exec(function (err, rezultati) {
