@@ -1459,7 +1459,7 @@ odobravanjeController.Calculate = function (req, res) {
                           greska = true;
                         } finally {
                           if (!greska) {
-                            // console.log(final);
+                            console.log(final);
                             if (eval(final).toString().includes(".")) {
                               var calculated = eval(final).toFixed(2);
                             } else {
