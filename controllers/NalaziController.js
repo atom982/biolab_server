@@ -179,7 +179,7 @@ nalazController.Mail = function(req, res) {
 											secure: true,
 											auth: {
 											  user: "sinlablaboratorij@gmail.com",
-											  pass: "ktbcfacejdfpsjdy"
+											  pass: "sinlab2021" // "ktbcfacejdfpsjdy"
 											},
 											tls: {
 											  rejectUnauthorized: false
