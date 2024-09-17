@@ -1576,9 +1576,10 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
               sample.tests.forEach((element) => {
 
                 console.log(element.labassay)
-                console.log(rez.laIDE)
+                
 
                 req.body.rezultati.forEach((rez) => {
+                  console.log(rez.laIDE)
                   if (mongoose.Types.ObjectId(element.labassay) === mongoose.Types.ObjectId(rez.laIDE) && rez.rezultat.trim() != "") {
                     element.status_t = "REALIZOVAN";
                   }
