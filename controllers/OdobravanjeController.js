@@ -1590,7 +1590,7 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
 
                   rezultat.rezultati.forEach((elementi) => {
                     req.body.rezultati.forEach((rez) => {
-                      if (elementi.labassay.equals(mongoose.Types.ObjectId(rez.labassay)) && rez.rezultat != "") {
+                      if (elementi.labassay.equals(mongoose.Types.ObjectId(rez.id)) && rez.rezultat != "") {
                         console.log(elementi.labassay + " | " + rez.rezultat)
                       }
                     });
