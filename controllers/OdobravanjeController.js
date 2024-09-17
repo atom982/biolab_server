@@ -1576,16 +1576,17 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
               sample.tests.forEach((element) => {
                 req.body.rezultati.forEach((rez) => {
 
-                  console.log(rez.labassay_id)  // - Ovo je undefined, iz toga razloga se uslov ne ispunjava
-                  console.log(element.labassay)
-                  // if (
-                  //   element.labassay_id.equals(
-                  //     mongoose.Types.ObjectId(rez.laIDE)
-                  //   ) &&
-                  //   rez.rezultat != ""
-                  // ) {
-                  //   element.status_t = "REALIZOVAN";
-                  // }
+                  // console.log(rez.labassay_id)  
+                  // - Ovo je undefined, iz toga razloga se uslov ne ispunjava
+                  // console.log(element.labassay_id)
+                  if (
+                    element.labassay_id.equals(
+                      mongoose.Types.ObjectId(rez.labassay_id)
+                    ) &&
+                    rez.rezultat != ""
+                  ) {
+                    element.status_t = "REALIZOVAN";
+                  }
 
                 });
               });
