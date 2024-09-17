@@ -1591,6 +1591,19 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
                   console.log("----------------------------------------------------------------")  
                   }
 
+                  if (
+                    (element.labassay._id.equals(mongoose.Types.ObjectId(rez.labassay_id))
+                      
+                    ) &&
+                    rez.rezultat.trim() === ""
+                  ) {
+                    element.status_t = "ZAPRIMLJEN";
+                    console.log(rez.labassay_id) 
+                  console.log(element.labassay._id) 
+                  console.log("----------------------------------------------------------------")  
+                  }
+
+
                 });
               });
               sample.save(function (err) {
