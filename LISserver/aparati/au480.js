@@ -145,15 +145,10 @@ module.exports = {
   
                                 if (
                                   (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "U OBRADI") ||
-                                  // (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "ZAPRIMLJEN")  ||
-                                  (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_r === true) ||
-                                  (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "REALIZOVAN" && elementu.status_r === true) ||
-                                  (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "ZAPRIMLJEN" && elementu.status_r === true)
+                                  (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "ZAPRIMLJEN" && test.status_r === true)  ||
+                                  (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_r)
                                 ) {
-                                  console.log('Match Found - Sinlab')
-                                  console.log(elementu.labassay.sifra.trim() + " / " + test.test.sifra.trim())
-                                  console.log(elementu.status_t)
-                                  console.log(elementu.status_r)
+                                  console.log('Match Found')
                                   // console.log(elementu)
                                   elementu.status_t = "REALIZOVAN"
                                   elementu.status_r = false
