@@ -1576,8 +1576,8 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
               sample.tests.forEach((element) => {
                 req.body.rezultati.forEach((rez) => {
 
-                  console.log(rez.laIDE)  // - Ovo je undefined, iz toga razloga se uslov ne ispunjava
-
+                  console.log(rez)  // - Ovo je undefined, iz toga razloga se uslov ne ispunjava
+                  console.log(elementi.labassay)
                   // if (
                   //   element.labassay.equals(
                   //     mongoose.Types.ObjectId(rez.laIDE)
