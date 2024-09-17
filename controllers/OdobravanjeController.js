@@ -1577,12 +1577,12 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
                 req.body.rezultati.forEach((rez) => {
 
                   console.log(rez.labassay_id) 
-                  console.log(element.labassay) 
+                  console.log(element.labassay._id) 
                   console.log("----------------------------------------------------------------")  
                   // - Ovo je undefined, iz toga razloga se uslov ne ispunjava
                   // console.log(element.labassay_id)
                   if (
-                    (element.labassay ==
+                    (element.labassay._id ==
                       mongoose.Types.ObjectId(rez.labassay_id)
                     ) &&
                     rez.rezultat != ""
