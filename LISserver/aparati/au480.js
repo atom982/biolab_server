@@ -148,7 +148,7 @@ module.exports = {
                                   // (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "ZAPRIMLJEN")  ||
                                   (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_r === true) ||
                                   (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "REALIZOVAN" && elementu.status_r === true) ||
-                                  (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "ZAPRIMLJEN" && elementu.status_r === true) ||
+                                  (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "ZAPRIMLJEN" && elementu.status_r === true)
                                 ) {
                                   console.log('Match Found - Sinlab')
                                   console.log(elementu.labassay.sifra.trim() + " / " + test.test.sifra.trim())
