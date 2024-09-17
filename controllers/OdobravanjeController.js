@@ -1578,14 +1578,24 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
 
                   console.log(rez.laIDE)  // - Ovo je undefined, iz toga razloga se uslov ne ispunjava
 
-                  if (
-                    element.labassay.equals(
-                      mongoose.Types.ObjectId(rez.laIDE)
-                    ) &&
-                    rez.rezultat != ""
-                  ) {
-                    element.status_t = "REALIZOVAN";
-                  }
+                  // if (
+                  //   element.labassay.equals(
+                  //     mongoose.Types.ObjectId(rez.laIDE)
+                  //   ) &&
+                  //   rez.rezultat != ""
+                  // ) {
+                  //   element.status_t = "REALIZOVAN";
+                  // }
+
+
+                  rezultat.rezultati.forEach((elementi) => {
+                    req.body.rezultati.forEach((rez) => {
+                      if (elementi._id.equals(mongoose.Types.ObjectId(rez.IDE)) && rez.rezultat != "") {
+                        console.log(elementi._id + " | " + rez.rezultat)
+                      }
+                    });
+                  });
+
                 });
               });
               sample.save(function (err) {
