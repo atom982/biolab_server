@@ -1574,13 +1574,13 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
               console.log("Greška:", err);
             } else {
               sample.tests.forEach((element) => {
-
-                console.log(element.labassay)
-                
-
                 req.body.rezultati.forEach((rez) => {
-                  console.log(rez.laIDE)
-                  if (mongoose.Types.ObjectId(element.labassay) === mongoose.Types.ObjectId(rez.laIDE) && rez.rezultat.trim() != "") {
+                  if (
+                    element.labassay.equals(
+                      mongoose.Types.ObjectId(rez.laIDE)
+                    ) &&
+                    rez.rezultat != ""
+                  ) {
                     element.status_t = "REALIZOVAN";
                   }
                 });
@@ -1594,19 +1594,19 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
                   });
                 } else {
                   rezultat.save(function (err) {
-                    if (err) {
-                      console.log("Greška:", err);
-                      res.json({
-                        success: false,
-                        message: err,
-                      });
-                    } else {
-                      res.json({
-                        success: true,
-                        message: "Rezultati sačuvani.",
-                      });
-                    }
-                  });
+          if (err) {
+            console.log("Greška:", err);
+            res.json({
+              success: false,
+              message: err,
+            });
+          } else {
+            res.json({
+              success: true,
+              message: "Rezultati sačuvani.",
+            });
+          }
+        });
                 }
               }
 
