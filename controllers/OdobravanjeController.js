@@ -1574,13 +1574,12 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
               console.log("Greška:", err);
             } else {
               sample.tests.forEach((element) => {
+
+                console.log(element.labassay)
+                console.log(rez.laIDE)
+
                 req.body.rezultati.forEach((rez) => {
-                  if (
-                    element.labassay.equals(
-                      mongoose.Types.ObjectId(rez.laIDE)
-                    ) &&
-                    rez.rezultat != ""
-                  ) {
+                  if (mongoose.Types.ObjectId(element.labassay) === mongoose.Types.ObjectId(rez.laIDE) && rez.rezultat.trim() != "") {
                     element.status_t = "REALIZOVAN";
                   }
                 });
