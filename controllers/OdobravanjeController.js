@@ -1575,6 +1575,9 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
             } else {
               sample.tests.forEach((element) => {
                 req.body.rezultati.forEach((rez) => {
+
+                  console.log(rez.laIDE)
+                  
                   if (
                     element.labassay.equals(
                       mongoose.Types.ObjectId(rez.laIDE)
