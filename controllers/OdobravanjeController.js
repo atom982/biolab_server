@@ -1576,18 +1576,19 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
               sample.tests.forEach((element) => {
                 req.body.rezultati.forEach((rez) => {
 
-                  console.log(rez.labassay_id) 
-                  console.log(element.labassay._id) 
-                  console.log("----------------------------------------------------------------")  
+                  
                   // - Ovo je undefined, iz toga razloga se uslov ne ispunjava
                   // console.log(element.labassay_id)
                   if (
-                    (element.labassay._id ==
-                      mongoose.Types.ObjectId(rez.labassay_id)
+                    (element.labassay._id.equals(mongoose.Types.ObjectId(rez.labassay_id))
+                      
                     ) &&
                     rez.rezultat != ""
                   ) {
                     element.status_t = "REALIZOVAN";
+                    console.log(rez.labassay_id) 
+                  console.log(element.labassay._id) 
+                  console.log("----------------------------------------------------------------")  
                   }
 
                 });
