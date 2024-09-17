@@ -145,7 +145,7 @@ module.exports = {
   
                                 if (
                                   (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "U OBRADI") ||
-                                  (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "ZAPRIMLJEN" && test.status_r === true)  ||
+                                  (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_t === "ZAPRIMLJEN")  ||
                                   (elementu.labassay.sifra.trim() === test.test.sifra.trim() && elementu.status_r)
                                 ) {
                                   console.log('Match Found')
