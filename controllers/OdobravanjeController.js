@@ -1581,7 +1581,7 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
                   // console.log(element.labassay_id)
                   if (
                     element.labassay_id.equals(
-                      mongoose.Types.ObjectId(rez._id)
+                      mongoose.Types.ObjectId(rez.labassay)
                     ) &&
                     rez.rezultat != ""
                   ) {
