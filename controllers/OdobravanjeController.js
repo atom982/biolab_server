@@ -1576,7 +1576,8 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
               sample.tests.forEach((element) => {
                 req.body.rezultati.forEach((rez) => {
 
-                  console.log(rez.labassay_id)  
+                  console.log(rez.labassay_id) 
+                  console.log(element.labassay_id) 
                   console.log("----------------------------------------------------------------")  
                   // - Ovo je undefined, iz toga razloga se uslov ne ispunjava
                   // console.log(element.labassay_id)
