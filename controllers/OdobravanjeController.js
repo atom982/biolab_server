@@ -1577,8 +1577,7 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
                 req.body.rezultati.forEach((rez) => {
 
                   
-                  // - Ovo je undefined, iz toga razloga se uslov ne ispunjava
-                  // console.log(element.labassay_id)
+                 
                   if (
                     (element.labassay._id.equals(mongoose.Types.ObjectId(rez.labassay_id))
                       
@@ -1586,9 +1585,7 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
                     rez.rezultat != ""
                   ) {
                     element.status_t = "REALIZOVAN";
-                    console.log(rez.labassay_id) 
-                  console.log(element.labassay._id) 
-                  console.log("----------------------------------------------------------------")  
+                   
                   }
 
                   if (
@@ -1598,9 +1595,7 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
                     rez.rezultat.trim() === ""
                   ) {
                     element.status_t = "ZAPRIMLJEN";
-                    console.log(rez.labassay_id) 
-                  console.log(element.labassay._id) 
-                  console.log("----------------------------------------------------------------")  
+                   
                   }
 
 
