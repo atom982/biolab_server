@@ -1576,7 +1576,7 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
               sample.tests.forEach((element) => {
                 req.body.rezultati.forEach((rez) => {
 
-                  console.log(rez)  // - Ovo je undefined, iz toga razloga se uslov ne ispunjava
+                  console.log(rez.labassay_id)  // - Ovo je undefined, iz toga razloga se uslov ne ispunjava
                   console.log(element.labassay)
                   // if (
                   //   element.labassay_id.equals(
@@ -1586,15 +1586,6 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
                   // ) {
                   //   element.status_t = "REALIZOVAN";
                   // }
-
-
-                  rezultat.rezultati.forEach((elementi) => {
-                    req.body.rezultati.forEach((rez) => {
-                      if (elementi.labassay.equals(mongoose.Types.ObjectId(rez.id)) && rez.rezultat != "") {
-                        console.log(elementi.labassay + " | " + rez.rezultat)
-                      }
-                    });
-                  });
 
                 });
               });
