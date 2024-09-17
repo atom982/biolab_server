@@ -1585,23 +1585,46 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
                   }
                 });
               });
-              sample.save();
+              sample.save(function (err) {
+                if (err) {
+                  console.log("Greška:", err);
+                  res.json({
+                    success: false,
+                    message: err,
+                  });
+                } else {
+                  rezultat.save(function (err) {
+                    if (err) {
+                      console.log("Greška:", err);
+                      res.json({
+                        success: false,
+                        message: err,
+                      });
+                    } else {
+                      res.json({
+                        success: true,
+                        message: "Rezultati sačuvani.",
+                      });
+                    }
+                  });
+                }
+              }
+
+
+
+
+
+
+              );
             }
           });
-        rezultat.save(function (err) {
-          if (err) {
-            console.log("Greška:", err);
-            res.json({
-              success: false,
-              message: err,
-            });
-          } else {
-            res.json({
-              success: true,
-              message: "Rezultati sačuvani.",
-            });
-          }
-        });
+
+
+
+        
+
+
+
       } else {
         res.json({
           success: true,
