@@ -1581,7 +1581,7 @@ odobravanjeController.SacuvajRezultate = function (req, res) {
                   // - Ovo je undefined, iz toga razloga se uslov ne ispunjava
                   // console.log(element.labassay_id)
                   if (
-                    element.labassay_id.equals(
+                    (element.labassay_id ==
                       mongoose.Types.ObjectId(rez.labassay_id)
                     ) &&
                     rez.rezultat != ""
