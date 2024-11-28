@@ -1387,6 +1387,7 @@ nalazController.Nalaz = function(req, res) {
 										baseConfig.nalaz_references = config.nalaz_references;
 										baseConfig.nalaz_footer = config.nalaz_footer;
 										baseConfig.user = req.body.decoded.user;
+										baseConfig.QRCodes = config.QRCodes;
 
 										report_template.create_report(
 											report,
@@ -1455,6 +1456,8 @@ nalazController.Nalaz = function(req, res) {
 										baseConfig.nalaz_references = config.nalaz_references;
 										baseConfig.nalaz_footer = config.nalaz_footer;
 										baseConfig.user = req.body.decoded.user;
+										baseConfig.QRCodes = config.QRCodes;
+
 
 										// LINE 941: OdobravanjeController.js
 
