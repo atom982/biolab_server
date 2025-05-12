@@ -1860,6 +1860,15 @@ apiUrlController.apiUrlAnaAssays = function (req, res) {
 
             default:
               results = results.filter(function (result) {
+
+                if(result.test === null || result.test === undefined){
+                  console.log(result)
+                }
+
+
+
+
+
                 return (
                   (result.test.naziv
                     .toLowerCase()
