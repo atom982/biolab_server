@@ -79,6 +79,7 @@ server.listen(port, err => {
   }
 
   console.log(`HTTP server running || PORT: ${port}`);
+  console.log("https://github.com/atom982/biolab_server.git");
 });
 //server.listen(port);
 
