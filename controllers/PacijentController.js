@@ -183,4 +183,172 @@ pacijentController.PacijentUpdate = function (req, res) {
   }
 };
 
+// 17.09.2025. godine
+// Islamović Salko
+// Pretraga pacijenata - DATUM I VRIJEME IZDAVANJA NALAZA
+
+var fs = require("fs");
+
+pacijentController.Pretraga = function (req, res) {
+  if (mongoose.connection.readyState != 1) {
+    res.json({
+      success: false,
+      message: "Greška prilikom konekcije na MongoDB.",
+    });
+  } else {
+    var uslov = {
+      site: mongoose.Types.ObjectId(req.body.site),
+      ime: { $regex: req.body.ime.toUpperCase().trim() },
+      prezime: { $regex: req.body.prezime.toUpperCase().trim() },
+    };
+
+    Patients.find(uslov).exec(function (err, patients) {
+      if (err) {
+        console.log("Greška:", err);
+        res.json({
+          success: false,
+          message: "Greška prilikom pretraživanja baze.",
+          pacijenti: [],
+        });
+      } else {
+        var pacijenti = [];
+        var Data = {};
+        var godiste = "";
+
+        patients.forEach((element) => {
+          if (
+            element.ime.includes(req.body.ime.toUpperCase().trim()) &&
+            element.prezime.includes(req.body.prezime.toUpperCase().trim())
+          ) {
+            Data = {};
+            godiste = "";
+
+            godiste = element.jmbg.substring(4, 7);
+            switch (godiste[0]) {
+              case "9":
+                godiste = "1" + godiste + "";
+                break;
+              case "0":
+                godiste = "2" + godiste + "";
+                break;
+              default:
+                godiste = "";
+                break;
+            }
+
+            if (godiste == "1920") {
+              var godisteTemp = "Nema podataka";
+            } else {
+              var godisteTemp = godiste;
+            }
+
+            Data._id = element._id;
+            Data.ime = element.ime;
+            Data.prezime = element.prezime;
+            Data.jmbg = element.jmbg;
+            Data.godiste = godisteTemp;
+            Data.active = false;
+
+            pacijenti.push(Data);
+          }
+        });
+
+        if (pacijenti.length > 0) {
+          res.json({
+            success: true,
+            message: "Pacijenti u prilogu.",
+            pacijenti: pacijenti,
+          });
+        } else {
+          res.json({
+            success: false,
+            message: "Nema podataka.",
+            pacijenti: [],
+          });
+        }
+      }
+    });
+  }
+};
+
+pacijentController.PretragaNalaza = function (req, res) {
+  var uslov = {
+    status: true,
+    site: mongoose.Types.ObjectId(req.body.site),
+    patient: mongoose.Types.ObjectId(req.body._id),
+  };
+
+  Nalazi.find(uslov)
+    .populate("patient lokacija")
+    .exec(function (err, nalazi) {
+      if (err) {
+        console.log("Greška:", err);
+        res.json({
+          success: false,
+          message: "Greška prilikom pretraživanja baze.",
+          rezultati: [],
+        });
+      } else {
+        // console.log(nalazi.length);
+
+        if (nalazi.length > 0) {
+          var rezultati = nalazi;
+          var Data = {};
+
+          res.json({
+            success: true,
+            message: "Pacijenti postoje.",
+            rezultati: rezultati,
+          });
+        } else {
+          res.json({
+            success: false,
+            message: "Nema podataka",
+            rezultati: [],
+          });
+        }
+      }
+    });
+};
+
+pacijentController.timestampNalazDownload = function (req, res) {
+  var exists = false;
+
+  var file_path = config.nalaz_path + req.query.timestamp + ".pdf";
+
+  try {
+    if (fs.existsSync(file_path)) {
+      exists = true;
+      res.setHeader("Content-Type", "writeTheType");
+      res.setHeader(
+        "Content-Disposition",
+        "attachment; filename=" + req.query.timestamp + ".pdf"
+      );
+      fs.createReadStream(file_path).pipe(res);
+    } else {
+      exists = false;
+      file_path = config.nalaz_path + "archived/1695550538930" + ".pdf";
+
+      res.setHeader("Content-Type", "writeTheType");
+      res.setHeader(
+        "Content-Disposition",
+        "attachment; filename=" + req.query.timestamp + ".pdf"
+      );
+      fs.createReadStream(file_path).pipe(res);
+    }
+  } catch (err) {
+    console.error(err);
+
+    exists = false;
+    file_path = config.nalaz_path + "archived/1695550538930" + ".pdf";
+
+    res.setHeader("Content-Type", "writeTheType");
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=" + req.query.timestamp + ".pdf"
+    );
+    fs.createReadStream(file_path).pipe(res);
+  }
+};
+
 module.exports = pacijentController;
